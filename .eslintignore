@@ -1,0 +1,4 @@
+# .eslintignore
+
+# exclude public
+public/*

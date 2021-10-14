@@ -1,0 +1,26 @@
+{
+  "name": "teamwork-ds",
+  "version": "0.0.1",
+  "description": "simple project and teamwork webapp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "teamwork",
+    "ticket",
+    "kanban",
+    "scrum"
+  ],
+  "author": "Daniel Stegen",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "bs-custom-file-input": "^1.3.4",
+    "jquery": "^3.6.0",
+    "jquery-ui-dist": "^1.12.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
+    "webapputils-ds": "^0.5.1"
+  }
+}

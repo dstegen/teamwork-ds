@@ -1,0 +1,18 @@
+# server config and user data
+data*
+*backup*
+
+# macOS files
+.DS_Store
+
+# archives
+*.zip
+*.tgz
+
+# internal files
+roadmap.md
+sessionids.json
+serverconf.json
+
+# external modules
+node_modules
