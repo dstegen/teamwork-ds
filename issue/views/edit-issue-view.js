@@ -51,6 +51,8 @@ function helperIssueForm (issue) {
         returnHtml += formTextArea(issue[key], key, 'required', '') + '<div class="col-3"></div>';
       } else if (key === 'status') {
         returnHtml += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+      } else if (key === 'type') {
+        returnHtml += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'projectId' && issue[key] !== '') {
