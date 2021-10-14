@@ -31,6 +31,7 @@ function getPrivateMessages (userId) {
 
 function getLatestMessages (userId) {
   let allMessages = [];
+  /*
   try {
     allMessages = loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true).filter(
       item => item.chatMates.includes(userId)
@@ -45,6 +46,8 @@ function getLatestMessages (userId) {
     console.log('- ERROR reading private messages file: '+e);
     return [];
   }
+  */
+  return [];
 }
 
 function getMessagesCount () {

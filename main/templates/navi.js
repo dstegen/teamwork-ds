@@ -17,17 +17,7 @@ function navi (naviObj, loggedIn, history) {
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-        ${naviObj.menuItems.map(helperMenuItem).join('')}
-        <div class="nav-item">
-          <form action="/logout" method="post" enctype="application/x-www-form-urlencoded" name="logout-form">
-          <input type="text" readonly class="d-none form_action" id="action" name="action" value="logout">
-          <button type="submit" class="nav-link navi-onoff">
-            <svg width="20" height="20">
-              <circle cx="10" cy="10" r="6" stroke="rgba(255,255,255,0.8)" stroke-width="2" fill="none" />
-              <rect x="8" y="0" width="4" height="10" style="fill:rgba(255,255,255,0.8);stroke-width:2;stroke:teal" />
-            </svg>
-          </button>
-          </form>
+          ${naviObj.menuItems.map(helperMenuItem).join('')}
         </div>
       </div>
     </div>
@@ -71,10 +61,17 @@ function helperMenuItem (item) {
   if (item.dropdown) {
     returnHtml += `
       <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">${item.name}</a>
+        <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown">${item.name}</a>
         <div class="dropdown-menu">
           ${item.dropdownItems.map(helperDropdown).join('')}
         </div>
+      </div>
+    `;
+  } else if (item.buttonType) {
+    let onClick = 'onclick="alert()"';
+    returnHtml += `
+      <div class="nav-item">
+        <button class="btn btn-light btn-sm mt-1 mx-3 text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" ${onClick}>${item.name}</button>
       </div>
     `;
   } else {

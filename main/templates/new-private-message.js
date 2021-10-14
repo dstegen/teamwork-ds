@@ -17,11 +17,11 @@ function newPrivateMessage (userId='', chatMateId='') {
   const user = getUserById(userId);
   let allUsers = [];
   let allOptions = '';
-  if (user.role === 'teacher') {
+  if (user.role === 'member') {
     allUsers = getAllUsers().filter( item => user.group.includes(item.group));
     allOptions = allUsers.map( item => { return `<option value="${item.id}" ${item.id === Number(chatMateId) ? 'selected' : ''}>${getTitleNameById(item.id)}</option>` }).join('');
   } else if (user.role === 'student') {
-    allUsers = getAllUsers().filter( item => (item.group.includes(user.group) && item.role === 'teacher'));
+    allUsers = getAllUsers().filter( item => (item.group.includes(user.group) && item.role === 'member'));
     allOptions = allUsers.map( item => { return '<option value="'+item.id+'">'+getTitleNameById(item.id, true)+'</option>' }).join('');
   }
   return `

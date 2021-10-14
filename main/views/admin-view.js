@@ -38,7 +38,7 @@ function adminView (user) {
         <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
             <h4>Statistics:</h4>
-            ${helperCounts('Teachers', getAllUsers().filter( item => item.role === 'teacher' ).length)}
+            ${helperCounts('Teachers', getAllUsers().filter( item => item.role === 'member' ).length)}
             ${helperCounts('Students', getAllUsers().filter( item => item.role === 'student' ).length)}
             ${helperCounts('Classes', config.classes.length)}
             <hr />

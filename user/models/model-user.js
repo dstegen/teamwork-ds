@@ -109,11 +109,11 @@ function updateUser (fields) {
     let tmpObj = users.filter( user => user.id === Number(fields.id))[0];
     Object.keys(fields).forEach( key => {
       if (key !== 'id' && key !== 'password' && fields[key] !== '') {
-        if (key === 'group' && fields.role === 'teacher' && typeof(fields.group) === 'string') {
+        if (key === 'group' && fields.role === 'member' && typeof(fields.group) === 'string') {
           tmpObj.group = fields.group.split(',');
-        } else if (key === 'courses' && fields.role === 'teacher' && typeof(fields.courses) === 'string') {
+        } else if (key === 'courses' && fields.role === 'member' && typeof(fields.courses) === 'string') {
           tmpObj.courses = fields.courses.split(',');
-        } else if (key === 'leader' && fields.role === 'teacher' && typeof(fields.leader) === 'string') {
+        } else if (key === 'leader' && fields.role === 'member' && typeof(fields.leader) === 'string') {
           tmpObj.leader = fields.leader.split(',');
         } else {
           tmpObj[key] = fields[key];
@@ -131,9 +131,9 @@ function updateUser (fields) {
       id: getNewId(users),
       password: bcrypt.hashSync(myPassword),
       role: fields.role,
-      group: fields.role === 'teacher' ? fields.group.split(',') : fields.group,
-      leader: fields.role === 'teacher' ? fields.leader.split(',') : fields.leader,
-      courses: fields.role === 'teacher' ? fields.courses.split(',') : '',
+      group: fields.role === 'member' ? fields.group.split(',') : fields.group,
+      leader: fields.role === 'member' ? fields.leader.split(',') : fields.leader,
+      courses: fields.role === 'member' ? fields.courses.split(',') : '',
       fname: fields.fname,
       lname: fields.lname,
       email: fields.email,
@@ -159,7 +159,7 @@ function advanceUsers (fields) {
   allUsers.filter( user => user.role === 'student' && user.group === fields.oldGroup).forEach( item => {
     item.group = fields.newGroup;
   });
-  allUsers.filter( user => user.role === 'teacher' && user.group.includes(fields.oldGroup)).forEach( item => {
+  allUsers.filter( user => user.role === 'member' && user.group.includes(fields.oldGroup)).forEach( item => {
     item.group.push(fields.newGroup);
     item.group = item.group.filter(item => item !== fields.oldGroup);
     if (item.leader.includes(fields.oldGroup)) {

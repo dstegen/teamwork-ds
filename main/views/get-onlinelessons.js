@@ -17,7 +17,7 @@ const { getLessons } = require('../../lesson/models/model-lessons');
 function getOnlinelessons (user, weekOffset) {
   let returnHtml = '';
   let allLessons = [];
-  if (user.role === 'teacher') {
+  if (user.role === 'member') {
     user.group.forEach( group => {
       allLessons = allLessons.concat(getLessons(group).filter(item => item.lessonType === 'onlinelesson' && isActualWeek(item.validFrom, item.validUntil, thisWeek()+weekOffset) && (user.courses.includes(item.lesson) || user.leader.includes(group))));
       allLessons.forEach( item => {
@@ -35,7 +35,7 @@ function getOnlinelessons (user, weekOffset) {
       allLessons.filter(item => item.weekdays.includes(wd)).forEach( item => {
         returnHtml += '<div class="mb-2">'
         returnHtml += '<strong>' + item.time + ' ' + locale.lessons.oclock[config.lang] + '</strong>: ';
-        if (user.role === 'teacher') {
+        if (user.role === 'member') {
           returnHtml += '<a href="/lessons/show/'+item.group+'/'+item.id+'">' + item.lesson + ': ' + item.chapter + '</a>';
           returnHtml += ' (' + item.group + ')';
         } else {

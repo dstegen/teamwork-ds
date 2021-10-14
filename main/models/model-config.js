@@ -25,7 +25,7 @@ function updateSettings (fields) {
       myConfig[key] = fields[key];
     }
   });
-  saveFile(path.join(__dirname, '../../data/school'), 'config.json', myConfig);
+  saveFile(path.join(__dirname, '../../data'), 'config.json', myConfig);
   console.log('+ Updated schools config sucessfully!');
 }
 

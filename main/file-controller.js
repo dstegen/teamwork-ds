@@ -47,7 +47,7 @@ function fileUploadAction (request, response, user) {
           }
           finishLesson(addFields);
         }
-      } else if (user.role === 'teacher') {
+      } else if (user.role === 'member') {
         filePath = path.join('courses', data.fields.course, data.fields.courseId, 'material');
         if (fileUpload(data.fields, data.files, filePath)) {
           let addFields = {
@@ -72,11 +72,11 @@ function fileDeleteAction (request, response, user) {
     data => {
       urlPath = data.fields.urlPath;
       if (fileDelete(data.fields)) {
-        if (data.fields.section === 'cards' && user.role === 'teacher') {
+        if (data.fields.section === 'cards' && user.role === 'member') {
           //deleteFileFromCard(data.fields);
         } else if (data.fields.studentId && data.fields.studentId !== '') {
           deleteFileFromLessonFinished(data.fields.group, Number(data.fields.lessonId), Number(data.fields.studentId), data.fields.filePath);
-        } else if (user.role === 'teacher') {
+        } else if (user.role === 'member') {
           deleteFileFromLesson(data.fields.group, Number(data.fields.lessonId), data.fields.filePath);
         }
       }

@@ -44,7 +44,7 @@ function helperInputs (value, prop, classes, user) {
     let courses = [];
     switch (prop) {
       case 'role':
-        return formSelect(['','teacher','student'], value, prop);
+        return formSelect(['','member','student'], value, prop);
       case 'gender':
         return formSelect(['','male','female'], value, prop);
       case 'group':
