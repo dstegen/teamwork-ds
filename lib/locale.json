@@ -1,0 +1,448 @@
+{
+  "headlines": {
+    "navi_communication": {
+      "en": "Communication",
+      "de": "Chat & Nachrichten"
+    },
+    "navi_classes": {
+      "en": "My classes",
+      "de": "Klassen"
+    },
+    "navi_lessons": {
+      "en": "Lessons",
+      "de": "Stunden"
+    },
+    "navi_overview": {
+      "en": "Overview",
+      "de": "Alle Stunden"
+    },
+    "navi_new_class": {
+      "en": "New lesson",
+      "de": "neue Stunde"
+    },
+    "navi_today": {
+      "en": "Today",
+      "de": "Heute"
+    },
+    "navi_this_week": {
+      "en": "This week",
+      "de": "Diese Woche"
+    },
+    "navi_teacher": {
+      "en": "Teacher",
+      "de": "Lehrer/in"
+    },
+    "navi_student": {
+      "en": "Student",
+      "de": "Schüler/in"
+    },
+    "class": {
+      "en": "Class",
+      "de": "Klasse"
+    },
+    "group_chat": {
+      "en": "Group chat",
+      "de": "Klassen Chat"
+    },
+    "private_chat_with": {
+      "en": "Private chat with",
+      "de": "Unterhaltung mit"
+    },
+    "send_message_to": {
+      "en": "Send private message to",
+      "de": "Neue Unterhaltung mit"
+    },
+    "returned_homework": {
+      "en": "Returned homework",
+      "de": "Abgegebene Hausaufgaben"
+    },
+    "students_online": {
+      "en": "Students online",
+      "de": "Schüler online"
+    },
+    "timetable": {
+      "en": "Timetable",
+      "de": "Stundenplan"
+    },
+    "archived_lessons": {
+      "en": "Archived lessons",
+      "de": "Abgelaufene Stunden"
+    },
+    "th_no": {
+      "en": "No.",
+      "de": "Nr."
+    },
+    "th_fname": {
+      "en": "First name",
+      "de": "Vorname"
+    },
+    "th_lname": {
+      "en": "Last name",
+      "de": "Nachname"
+    },
+    "th_name": {
+      "en": "Name",
+      "de": "Name"
+    },
+    "th_uploads": {
+      "en": "Uploads",
+      "de": "Hochgeladene Dateien"
+    },
+    "th_finished": {
+      "en": "Finished",
+      "de": "Beendet  "
+    },
+    "week": {
+      "en": "Week",
+      "de": "Woche"
+    },
+    "add_edit_lesson": {
+      "en": "New lesson for class",
+      "de": "Neue Stunde für die Klasse"
+    },
+    "please_login": {
+      "en": "Please login",
+      "de": "Bitte anmelden"
+    },
+    "title_mr": {
+      "en": "Mr.",
+      "de": "Herr"
+    },
+    "title_mr_n": {
+      "en": "Mr.",
+      "de": "Herrn"
+    },
+    "title_ms": {
+      "en": "Ms.",
+      "de": "Frau"
+    },
+    "title_div": {
+      "en": "Mr./Ms.",
+      "de": "Herr/Frau"
+    },
+    "set_new_password": {
+      "en": "Set new password",
+      "de": "Neues Passwort vergeben"
+    },
+    "board": {
+      "en": "Class board",
+      "de": "Klassen Board"
+    },
+    "attachment_files": {
+      "en": "Attachments",
+      "de": "Anhänge"
+    },
+    "navi_classroom": {
+      "en": "Classroom",
+      "de": "Classroom"
+    },
+    "classroom": {
+      "en": "Online lesson",
+      "de": "Online Unterricht"
+    },
+    "start_onlinelesson": {
+      "en": "Start online lesson",
+      "de": "Eine Online-Unterrichtsstunde starten"
+    },
+    "chose_onlinelesson": {
+      "en": "Chose",
+      "de": "Auswählen"
+    },
+    "create_onlinelesson": {
+      "en": "Create new",
+      "de": "Neue erstellen"
+    },
+    "no_lesson_yet": {
+      "en": "No online lesson at the moment!",
+      "de": "Zurzeit ist kein Online-Unterrichtsstunde!"
+    },
+    "chalkboard": {
+      "en": "Chalkboard",
+      "de": "Tafel"
+    },
+    "docs": {
+      "en": "Doc",
+      "de": "Dokument"
+    },
+    "youtube": {
+      "en": "Video",
+      "de": "Film"
+    },
+    "jitsi": {
+      "en": "Jitsi",
+      "de": "Jitsi"
+    },
+    "schedule": {
+      "en": "Schedule",
+      "de": "Termin/e"
+    },
+    "scheduledOnlinelessons": {
+      "en": "Scheduled online lessons",
+      "de": "Anstehende Online-Stunden"
+    },
+    "thisWeek": {
+      "en": "This week",
+      "de": "Diese Woche"
+    },
+    "nextWeek": {
+      "en": "Next week",
+      "de": "Nächste Woche"
+    }
+  },
+  "buttons": {
+    "send": {
+      "en": "Send",
+      "de": "Senden"
+    },
+    "send_message": {
+      "en": "Send message",
+      "de": "Nachricht"
+    },
+    "edit": {
+      "en": "Edit",
+      "de": "Bearbeiten"
+    },
+    "homework": {
+      "en": "Homework",
+      "de": "Hausaufgaben"
+    },
+    "details": {
+      "en": "Details",
+      "de": "Details"
+    },
+    "add_lesson": {
+      "en": "Add lesson",
+      "de": "Stunde hinzufügen"
+    },
+    "delete": {
+      "en": "Delete",
+      "de": "Löschen"
+    },
+    "cancle": {
+      "en": "Cancle",
+      "de": "Abbrechen"
+    },
+    "add_update": {
+      "en": "Add/Update",
+      "de": "Hinzufügen/Ändern"
+    },
+    "update": {
+      "en": "Update",
+      "de": "Ändern"
+    },
+    "add": {
+      "en": "Add",
+      "de": "Hinzufügen"
+    },
+    "add_column": {
+      "en": "add column",
+      "de": "Spalte hinzufügen"
+    },
+    "upload": {
+      "en": "Upload",
+      "de": "Hochladen"
+    },
+    "login": {
+      "en": "Login",
+      "de": "Einloggen"
+    },
+    "finish_lesson": {
+      "en": "Lesson finished",
+      "de": "Fertig"
+    },
+    "start_onlinelesson": {
+      "en": "Start lesson",
+      "de": "Online Unterricht beginnen"
+    },
+    "request_access": {
+      "en": "Request access",
+      "de": "Zugang anfragen"
+    },
+    "end_onelinelesson": {
+      "en": "End online lesson",
+      "de": "Online-Unterricht beenden"
+    },
+    "to_onelinelesson": {
+      "en": "Onlinelesson",
+      "de": "zum Online-Unterricht"
+    },
+    "clean_chalkboard": {
+      "en": "Clean chalkboard",
+      "de": "Tafel säubern"
+    },
+    "exit_onlinelesson": {
+      "en": "Exit online lesson",
+      "de": "Online-Unterricht verlassen"
+    }
+  },
+  "placeholder": {
+    "write_message": {
+      "en": "Write message...",
+      "de": "Schreib etwas..."
+    },
+    "write_something": {
+      "en": "write something...",
+      "de": "schreib etwas..."
+    },
+    "email": {
+      "en": "Email",
+      "de": "E-Mail"
+    },
+    "password": {
+      "en": "Password",
+      "de": "Passwort"
+    },
+    "old_password": {
+      "en": "Old password",
+      "de": "Altes Passwort"
+    },
+    "new_password": {
+      "en": "New password",
+      "de": "Neues Passwort"
+    },
+    "retype_password": {
+      "en": "Repeat new password",
+      "de": "Neues Passwort wiederholen"
+    },
+    "choose_file": {
+      "en": "Choose file",
+      "de": "Datei wählen"
+    },
+    "attachment": {
+      "en": "File",
+      "de": "Datei"
+    },
+    "invalid_feedback": {
+      "en": "Oops, an error occured",
+      "de": "Ups, da gab es einen Fehler"
+    }
+  },
+  "tooltips": {
+    "youtubeId": {
+      "en": "YouTube IDs only, separate by comma",
+      "de": "nur YouTube IDs, mehrere mit Komma getrennt"
+    },
+    "filetoupload": {
+      "en": "PDF,JPG,PNG",
+      "de": "PDF,JPG,PNG"
+    },
+    "chalkboardBg": {
+      "en": "JPG,PNG - 16:9",
+      "de": "JPG,PNG - Format 16:9"
+    }
+  },
+  "teacher": {
+    "welcome_morning": {
+      "en": "Good morning",
+      "de": "Guten Morgen"
+    },
+    "welcome_afternoon": {
+      "en": "Good day",
+      "de": "Guten Tag"
+    },
+    "welcome_evening": {
+      "en": "Good evening",
+      "de": "Guten Abend"
+    },
+    "today_is": {
+      "en": "today is",
+      "de": "heute ist"
+    },
+    "you_have": {
+      "en": "and you've got",
+      "de": "und Sie haben"
+    },
+    "new_messages": {
+      "en": "new messages",
+      "de": "neue Nachrichten"
+    }
+  },
+  "lessons": {
+    "amount": {
+      "en": "Amount",
+      "de": "Umfang"
+    },
+    "hours": {
+      "en": "hrs",
+      "de": "Std."
+    },
+    "oclock": {
+      "en": "",
+      "de": "Uhr"
+    }
+  },
+  "student": {
+    "welcome": {
+      "en": "Hello",
+      "de": "Hallo"
+    },
+    "today_is": {
+      "en": "today is",
+      "de": "heute ist"
+    },
+    "and_you_have": {
+      "en": "and you've got",
+      "de": "und du hast"
+    },
+    "lessons": {
+      "en": "lesson/s",
+      "de": "Stunde/n"
+    },
+    "you_have": {
+      "en": "You've got",
+      "de": "Du hast"
+    },
+    "lessons_not_finished": {
+      "en": "lesson/s not yet finished",
+      "de": "Stunde/n noch nicht abgeschlossen"
+    },
+    "return_date": {
+      "en": "Return date",
+      "de": "Abgabe"
+    },
+    "no_lessons": {
+      "en": "no lessons",
+      "de": "kein Unterricht"
+    },
+    "not_finished_lessons": {
+      "en": "Lessons not finished yet",
+      "de": "Noch nicht abgeschlossene Stunden"
+    },
+    "exercise": {
+      "en": "Exercise details",
+      "de": "Aufgabe"
+    },
+    "downloads": {
+      "en": "Downloads",
+      "de": "Materialien"
+    },
+    "uploads": {
+      "en": "Uploads",
+      "de": "Hochgeladene Dateien"
+    }
+  },
+  "login": {
+    "email_address": {
+      "en": "Your email address",
+      "de": "E-Mail-Adresse"
+    },
+    "password": {
+      "en": "Your Password",
+      "de": "Passwort"
+    },
+    "update_password_sucessfully": {
+      "en": "Password updated sucessfully!",
+      "de": "Passwort wurde aktualisiert!"
+    }
+  },
+  "errors": {
+    "passwords_not_match": {
+      "en": "Passwords doesn't match!",
+      "de": "Das neue Passworter und die Wiederholung sind nicht gleich!"
+    },
+    "old_password_wrong": {
+      "en": "Wrong password!",
+      "de": "Das Passwort ist falsch!"
+    }
+  }
+}
