@@ -11,13 +11,16 @@
 const locale = require('../../lib/locale');
 const config = require('../models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
+const { createIssue, getAllIssues, editIssue, deleteIssue } = require('../../issue/models/model-issue');
 
 
 function mainView (lessonsTodayList, curWeek, user={}, wsport) {
   return `
-    <div id="dashboard" class="none">
-      <div class="p-3" style="height: 500px;">
-        hello world
+    <div id="dashboard" class="p-3" style="min-height: 500px;">
+      <h1 class="mb-5">Dashboard</h1>
+      <h5>List of issues:</h5>
+      <div class="list-group">
+        ${getAllIssues().map( item => { return '<a href="/issue/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
       </div>
     </div>
     <script>

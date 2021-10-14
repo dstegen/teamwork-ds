@@ -45,7 +45,6 @@ function fileUploadAction (request, response, user) {
             studentId: user.id,
             file: path.join('/data/classes', data.fields.group, filePath, data.files.filetoupload.name)
           }
-          finishLesson(addFields);
         }
       } else if (user.role === 'member') {
         filePath = path.join('courses', data.fields.course, data.fields.courseId, 'material');
@@ -55,7 +54,6 @@ function fileUploadAction (request, response, user) {
             id: data.fields.courseId,
             files: path.join('/data/classes', data.fields.group, filePath, data.files.filetoupload.name)
           }
-          updateLesson(addFields);
         }
       }
       uniSend(new SendObj(302, [], '', urlPath), response);
@@ -71,15 +69,6 @@ function fileDeleteAction (request, response, user) {
   getFormObj(request).then(
     data => {
       urlPath = data.fields.urlPath;
-      if (fileDelete(data.fields)) {
-        if (data.fields.section === 'cards' && user.role === 'member') {
-          //deleteFileFromCard(data.fields);
-        } else if (data.fields.studentId && data.fields.studentId !== '') {
-          deleteFileFromLessonFinished(data.fields.group, Number(data.fields.lessonId), Number(data.fields.studentId), data.fields.filePath);
-        } else if (user.role === 'member') {
-          deleteFileFromLesson(data.fields.group, Number(data.fields.lessonId), data.fields.filePath);
-        }
-      }
       uniSend(new SendObj(302, [], '', urlPath), response);
     }
   ).catch(

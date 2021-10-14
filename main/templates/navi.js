@@ -68,10 +68,10 @@ function helperMenuItem (item) {
       </div>
     `;
   } else if (item.buttonType) {
-    let onClick = 'onclick="alert()"';
+    let onClick = '';
     returnHtml += `
       <div class="nav-item">
-        <button class="btn btn-light btn-sm mt-1 mx-3 text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" ${onClick}>${item.name}</button>
+        <a href="/issue" class="btn btn-light btn-sm mt-1 mx-3 text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" ${onClick}>${item.name}</a>
       </div>
     `;
   } else {
