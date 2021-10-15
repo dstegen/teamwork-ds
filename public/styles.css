@@ -16,7 +16,7 @@ a {
 
 a:focus, a:hover {
   color: var(--color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 a.orange, a.orange:focus, a.orange:hover {

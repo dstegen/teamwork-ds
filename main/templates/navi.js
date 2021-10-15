@@ -34,10 +34,6 @@ function navi (naviObj, loggedIn, history) {
         </a>
         ${loggedInHtml}
       </div>
-      <div class="d-none container-fluid py-0 my-0 text-white justify-content-between">
-        <small>${naviObj.school}</small>
-        <a href="/setpassword" class="small text-white">${naviObj.loginname}</a>
-      </div>
     </nav>
     <div id="feedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm ">

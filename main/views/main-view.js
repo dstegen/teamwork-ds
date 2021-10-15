@@ -13,11 +13,21 @@ const { getAllIssues } = require('../../issue/models/model-issue');
 
 function mainView (lessonsTodayList, curWeek, user={}, wsport) {
   return `
-    <div id="dashboard" class="p-3" style="min-height: 500px;">
-      <h1 class="mb-5">Dashboard</h1>
-      <h5>List of issues:</h5>
-      <div class="list-group">
-        ${getAllIssues().map( item => { return '<a href="/issue/edit/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
+    <div id="dashboard" class="container-fluid p-3" style="min-height: 500px;">
+      <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
+        Dashboard
+        <span id="clock" class="d-none d-md-block">&nbsp;</span>
+      </h2>
+      <div class="row py-2 px-3">
+        <div class="col-12 col-md-6 p-3 border">
+          <h5>List of issues:</h5>
+          <div class="list-group">
+            ${getAllIssues().map( item => { return '<a href="/issue/edit/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-3 border">
+
+        </div>
       </div>
     </div>
     <script>

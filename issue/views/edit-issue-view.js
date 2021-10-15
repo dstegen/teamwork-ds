@@ -16,7 +16,6 @@ const formSelect = require('../../main/templates/form-select');
 
 function editIssueView (issue) {
   let allUserObj = getAllUsers().map( item => { return {id: item.id, name: item.fname+' '+item.lname}; });
-  console.log(allUserObj);
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
