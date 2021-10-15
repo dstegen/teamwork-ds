@@ -71,7 +71,7 @@ function helperMenuItem (item) {
     let onClick = '';
     returnHtml += `
       <div class="nav-item">
-        <a href="/issue" class="btn btn-light btn-sm mt-1 mx-3 text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" ${onClick}>${item.name}</a>
+        <a href="${item.link}" class="btn btn-light btn-sm mt-1 mx-3 text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" ${onClick}>${item.name}</a>
       </div>
     `;
   } else {

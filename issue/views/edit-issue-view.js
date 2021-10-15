@@ -23,8 +23,8 @@ function editIssueView (issue, user) {
         Edit issue: ${issue.name} [${issue.id}]
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
-      <div class="py-2 px-3 my-3 border">
-        <form id="issue-form-${issue.id}" action="/issue/${issue.id}" method="post">
+      <div class="p-3 my-3 border">
+        <form id="issue-form-${issue.id}" action="/issue/update/${issue.id}" method="post">
           <input type="text" name="issueId" class="d-none" hidden value="${issue.id}" />
           <input type="text" name="userId" class="d-none" hidden value="${user.id}" />
           <div class="form-group row mb-1">
@@ -45,14 +45,17 @@ function editIssueView (issue, user) {
 function helperIssueForm (issue) {
   let returnHtml = '';
   let allUserList = getAllUsers().map( item => { return [item.id, item.fname+' '+item.lname]; });
+  allUserList.unshift([0,'']);
   Object.keys(issue).forEach((key, i) => {
     if (key !== 'id') {
       if (key === 'description') {
-        returnHtml += formTextArea(issue[key], key, 'required', '') + '<div class="col-3"></div>';
+        returnHtml += formTextArea(issue[key], key, '', '') + '<div class="col-3"></div>';
       } else if (key === 'status') {
         returnHtml += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'type') {
         returnHtml += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+      } else if (key === 'priority') {
+        returnHtml += formSelect (['blocker','high','medium','low'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'projectId' && issue[key] !== '') {

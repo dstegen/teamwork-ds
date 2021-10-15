@@ -13,20 +13,20 @@ const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const loadFile = require('../utils/load-file');
 const view = require('../main/views/base-view');
-const { createIssue, getAllIssues, getIssue, editIssue, deleteIssue } = require('./models/model-issue');
+const { createIssue, getAllIssues, getIssue, updateIssue, deleteIssue } = require('./models/model-issue');
 const editIssueView = require('./views/edit-issue-view');
 
 
 function issueController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
-  let issue = getIssue(Number(route.split('/')[1]));
+  //console.log(route);
+  let issue = getIssue(Number(route.split('/')[2]));
   let naviObj = getNaviObj(user);
-  if (route.split('/')[1] == undefined) {
-    let newIssue = loadFile(path.join(__dirname, './models/blueprint-issue.json'));
-    newIssue.id = 9999;
-    newIssue.startDate = new Date();
-    newIssue.lastEditDate = new Date();
-    uniSend(view(wsport, naviObj, editIssueView(newIssue, user)), response);
+  if (route.startsWith('issue/create')) {
+    uniSend(view(wsport, naviObj, editIssueView(createIssue(), user)), response);
+  } else if (route.startsWith('issue/update')) {
+    //updateIssue
+    uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
   } else {
     uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
   }

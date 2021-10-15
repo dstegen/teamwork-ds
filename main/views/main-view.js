@@ -20,7 +20,7 @@ function mainView (lessonsTodayList, curWeek, user={}, wsport) {
       <h1 class="mb-5">Dashboard</h1>
       <h5>List of issues:</h5>
       <div class="list-group">
-        ${getAllIssues().map( item => { return '<a href="/issue/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
+        ${getAllIssues().map( item => { return '<a href="/issue/edit/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
       </div>
     </div>
     <script>
