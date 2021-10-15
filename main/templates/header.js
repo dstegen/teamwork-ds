@@ -17,6 +17,7 @@ function header () {
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
           <!-- Bootstrap, jquery and trumbowyg CSS -->
             <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/node_modules/tokenfield/dist/tokenfield.css">
             <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.min.css">
           <!-- Css Theme -->
             <link rel="stylesheet" href="/public/styles.css">

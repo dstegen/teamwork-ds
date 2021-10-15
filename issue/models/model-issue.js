@@ -11,6 +11,7 @@
 const path = require('path');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
+const sani = require('../../utils/sanitizer');
 
 
 function createIssue () {
@@ -37,14 +38,47 @@ function getIssue (id) {
   return issue;
 }
 
-function updateIssue (issue) {
+function updateIssue (fields) {
+  console.log(fields);
+  let issue = {};
+  let tagArray = [];
+  let watchersArray = [];
+  Object.keys(fields).forEach( key => {
+    if (['id','reporter','assignee','projectId'].includes(key)) {
+      issue[key] = Number(sani(fields[key]));
+    } else if (key === 'tags' || key === 'watchers') {
+      // do nothing!
+    } else if (key.startsWith('tagsItems')) {
+      // For tokenfield
+      if (fields[key] != '') tagArray.push(sani(fields[key]));
+    } else if (key.startsWith('watchersItems')) {
+      // For tokenfield
+      if (fields[key] != '') watchersArray.push(sani(fields[key]));
+    } else {
+      issue[key] = sani(fields[key]);
+    }
+  });
+  // For tokenfield
+  if (tagArray.length > 0) {
+    issue['tags'] = tagArray.toString();
+  }
+  if (watchersArray.length > 0) {
+    issue['watchers'] = watchersArray.toString();
+  }
   let allIssues = getAllIssues();
-  if (allIssues.filter().length > 0) {
+  if (allIssues.filter( item => item.id === issue.id).length > 0) {
     // update
+    Object.keys(issue).forEach( key => {
+      if (key !== 'id') {
+        allIssues.filter( item => item.id === issue.id)[0][key] = issue[key];
+      }
+    });
+    allIssues.filter( item => item.id === issue.id)[0]['lastEditDate'] = new Date();
   } else {
     //add
     allIssues.push(issue);
   }
+  console.log(issue);
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 

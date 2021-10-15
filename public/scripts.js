@@ -17,36 +17,57 @@ $(document).ready(function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   });
-  // Chat & chat-windows
-  initChat();
-  // Add/Update lesson
-  if (document.location.toString().includes('lessons/add')) {
-    changeAddLessonsFormView('homelesson');
-    calcValidFrom(moment().isoWeek());
-  }
-  if (document.location.toString().includes('lessons/show')) {
-    if ($('form [name=lessonType]')[1].checked === true) {
-      changeAddLessonsFormView('onlinelesson');
-    } else {
-      changeAddLessonsFormView('homelesson');
-    }
-  }
-  // blackboard
-  if (document.location.toString().includes('classroom')) {
-    let done = false;
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      //e.target // newly activated tab
-      //e.relatedTarget // previous active tab
-      if (done === false) resizeBlackboard();
-      done = true;
-    })
-    initBlackboard();
-  }
-  // Open targetted lessonBig
-  if (document.location.pathname.includes('day') && document.location.pathname.split('/')[4] !== undefined) {
-    $('#lessonbig-details-'+document.location.pathname.split('/').pop()).collapse('toggle');
-  }
+  // init Tokenfield
+  initTokenfield()
 });
+
+// *** Tokenfield ***//
+var myTags = [
+  {
+    "id": "important",
+    "name": "important"
+  },
+  {
+    "id": "frontend",
+    "name": "frontend"
+  },
+  {
+    "id": "backend",
+    "name": "backend"
+  }
+]
+
+function initTokenfield () {
+  let tfTags = new Tokenfield({
+    el: document.querySelector('#tags-field'),
+    items: myTags,
+    delimiters: [','],
+    itemName: "tagsItems",
+    newItems: false
+  });
+  let tagsArray = [];
+  $('#tags-field').val().split(',').forEach( item => {
+    if (item != '') {
+      tagsArray.push({ id: item, name: item });
+    }
+  });
+  tfTags.setItems(tagsArray);
+  let tfWatchers = new Tokenfield({
+    el: document.querySelector('#watchers-field'),
+    items: watchersArray,
+    delimiters: [','],
+    itemName: "watchersItems",
+    newItems: false
+  });
+  let curWatchersArray = [];
+  $('#watchers-field').val().split(',').forEach( id => {
+    if (id != '') {
+      curWatchersArray.push({ id: id, name: watchersArray.filter( entry => entry.id === Number(id))[0].name });
+    }
+  });
+  tfWatchers.setItems(curWatchersArray);
+}
+
 
 
 //+++ START Chat functions +++//
@@ -139,50 +160,6 @@ function fileDelete (formId) {
 
 
 //--- Lessons scripts ---//
-
-// Filter lessons on all-lessons-view
-function filterLessons (lesson) {
-  let allLessonsList = document.getElementsByClassName('lesson-box');
-  if (lesson !== 'Filter...') {
-    for (let i=0; i<allLessonsList.length; i++) {
-      allLessonsList[i].hidden = true;
-    }
-  } else {
-    for (let i=0; i<allLessonsList.length; i++) {
-      allLessonsList[i].hidden = false;
-    }
-  }
-  let allShowLessons = document.getElementsByClassName('details-box-'+lesson);
-  for (let i=0; i<allShowLessons.length; i++) {
-    allShowLessons[i].hidden = false;
-  }
-}
-
-// Lessons view
-function changeAddLessonsFormView (view) {
-  if (view === 'homelesson') {
-    ['time'].forEach( item => {
-      $('.form-'+item).hide();
-    });
-    ['returnHomework','amount'].forEach( item => {
-      $('.form-'+item).show();
-    });
-    for (var i=0; i<6; i++) {
-      $('form [name=weekdays]')[i].type = 'checkbox';
-    }
-  } else if (view === 'onlinelesson') {
-    ['returnHomework','amount'].forEach( item => {
-      $('.form-'+item).hide();
-    });
-    ['time'].forEach( item => {
-      $('.form-'+item).show();
-    });
-    for (var i=0; i<6; i++) {
-      $('form [name=weekdays]')[i].type = 'radio';
-    }
-    $('#time-field').attr('required', 'required');
-  }
-}
 
 function calcValidFrom (startWeek) {
   let endWeek = startWeek;
@@ -284,210 +261,3 @@ $(".sortable").on("sortupdate", function(event, ui) {
   $("#feedback").modal('show');
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );
-
-
-
-//+++ Blackboard functions +++///
-
-function requestClassroomAccess () {
-  window.location.replace('/classroom/requestaccess');
-}
-
-let myCanvas = '';
-let context = '';
-
-function resizeBlackboard () {
-  var heightRatio = 9/16;
-  $('#studentChalkboard').height($('#studentChalkboard').width() * heightRatio);
-  //myCanvas = document.getElementById('myBlackboard');
-  myCanvas.width = $('#chalkboard').width();
-  myCanvas.style.width = myCanvas.width+'px';
-  myCanvas.height = myCanvas.width * heightRatio;
-  myCanvas.style.height = myCanvas.width * heightRatio+'px';
-  //context = myCanvas.getContext('2d');
-  //context.strokeStyle = 'white';
-}
-
-function initBlackboard () {
-  // When true, moving the mouse draws on the canvas
-  let isDrawing = false;
-  let x = 0;
-  let y = 0;
-  try {
-    var heightRatio = 9/16;
-    $('#studentChalkboard').height($('#studentChalkboard').width() * heightRatio);
-    myCanvas = document.getElementById('myBlackboard');
-    myCanvas.width = $('#chalkboard').width();
-    myCanvas.style.width = myCanvas.width+'px';
-    myCanvas.height = myCanvas.width * heightRatio;
-    myCanvas.style.height = myCanvas.width * heightRatio+'px';
-    context = myCanvas.getContext('2d');
-    chalkboardChangeColor('white');
-    /*
-    var background = new Image();
-    var group = document.getElementById('myBlackboard').className;
-    $.ajax({
-      url:'/data/classes/'+group+'/onlinelesson.png',
-      type:'HEAD',
-      error: function () {
-          background.src = "/public/blackboard.jpg";
-      },
-      success: function () {
-          background.src = "/data/classes/"+group+"/onlinelesson.png";
-      }
-    });
-    background.onload = function () {
-      context.drawImage(background,0,0);
-    }
-    */
-    var timeoutHandle = '';
-
-    // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
-
-    // Add the event listeners for mousedown, mousemove, and mouseup
-    myCanvas.addEventListener('mousedown', e => {
-      window.clearTimeout(timeoutHandle);
-      x = e.offsetX;
-      y = e.offsetY;
-      isDrawing = true;
-    });
-
-    myCanvas.addEventListener('touchstart', e => {
-      window.clearTimeout(timeoutHandle);
-      x = e.offsetX;
-      y = e.offsetY;
-      isDrawing = true;
-    });
-
-    myCanvas.addEventListener('mousemove', e => {
-      if (isDrawing === true) {
-        drawLine(context, x, y, e.offsetX, e.offsetY);
-        x = e.offsetX;
-        y = e.offsetY;
-      }
-    });
-
-    myCanvas.addEventListener('touchmove', e => {
-      if (isDrawing === true) {
-        drawLine(context, x, y, e.offsetX, e.offsetY);
-        x = e.offsetX;
-        y = e.offsetY;
-      }
-    });
-
-    window.addEventListener('mouseup', e => {
-      if (isDrawing === true) {
-        drawLine(context, x, y, e.offsetX, e.offsetY);
-        x = 0;
-        y = 0;
-        isDrawing = false;
-        // start timer, after 10sec transmit as long as isDrawing === false, reset on isDrawing === true
-        timeoutHandle = window.setTimeout(function() {
-          transmitBlackboard(myCanvas, context);
-        }, 5000);
-      }
-    });
-
-    window.addEventListener('touchend', e => {
-      if (isDrawing === true) {
-        drawLine(context, x, y, e.offsetX, e.offsetY);
-        x = 0;
-        y = 0;
-        isDrawing = false;
-        // start timer, after 10sec transmit as long as isDrawing === false, reset on isDrawing === true
-        timeoutHandle = window.setTimeout(function() {
-          transmitBlackboard(myCanvas, context);
-        }, 5000);
-      }
-    });
-
-  } catch (e) {
-    //console.log(e);
-  }
-}
-
-function drawLine(context, x1, y1, x2, y2) {
-  context.beginPath();
-  //context.strokeStyle = 'white';
-  context.lineWidth = 3;
-  context.moveTo(x1, y1);
-  context.lineTo(x2, y2);
-  context.stroke();
-  context.closePath();
-}
-
-function chalkboardChangeColor (myColor) {
-  context.strokeStyle = myColor;
-}
-
-function transmitBlackboard (myCanvas, context) {
-  var curContent = context.getImageData(0,0,1110,625);
-  var chalkboardImg = myCanvas.toDataURL("image/png");
-  var curGroup = window.location.pathname.split('/')[2];
-  $.ajax({
-    url: '/classroom/'+curGroup+'/updatechalkboard/', // url where to submit the request
-    type : "POST", // type of action POST || GET
-    dataType : 'json', // data type
-    data : {"group": curGroup, "data": chalkboardImg},
-    success : function(result) {
-        console.log(result);
-    }
-  });
-}
-
-function cleanChalkboard (group) {
-  $.ajax({
-    url: '/classroom/'+group+'/cleanchalkboard', // url where to submit the request
-    type : "POST", // type of action POST || GET
-    dataType : 'json', // data type
-    data : {"group": group, "action": 'cleanchalkboard'}
-  });
-  initBlackboard();
-}
-
-//--- ENDE Blackboard functions ---///
-
-
-function signalTeacher (group, userId) {
-  $.ajax({
-    url: '/classroom/signal', // url where to submit the request
-    type : "POST", // type of action POST || GET
-    dataType : 'json', // data type
-    data : {"group": group, "userId": userId},
-    success : function(result) {
-        console.log(result);
-    }
-  });
-}
-
-function signal (id) {
-  $('#'+id+' svg').addClass('d-block');
-  $('#'+id+' div').addClass('pl-3');
-  $('#'+id+' small').addClass('font-weight-bold')
-}
-
-function closeClassroom (group) {
-  //window.location.replace('/classroom/'+group+'/endlesson');
-  try {
-    const pList = api.getParticipantsInfo();
-    for (var i=0; i<pList.length; i++) {
-      api.executeCommand('kickParticipant', pList[i].participantId);
-    }
-    api.executeCommand('hangup');
-    //api.dispose();
-  } catch (e) {
-    //console.log(e);
-  } finally {
-    window.location.replace('/classroom/'+group+'/endlesson');
-  }
-}
-
-function exitClassroom () {
-  try {
-    api.executeCommand('hangup');
-  } catch (e) {
-    //console.log(e);
-  } finally {
-    window.location.replace('/classroom/exitaccess');
-  }
-}

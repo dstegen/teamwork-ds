@@ -25,8 +25,18 @@ function issueController (request, response, wss, wsport, user) {
   if (route.startsWith('issue/create')) {
     uniSend(view(wsport, naviObj, editIssueView(createIssue(), user)), response);
   } else if (route.startsWith('issue/update')) {
-    //updateIssue
-    uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
+    //add/updateIssue
+    getFormObj(request).then(
+      data => {
+        let urlPath = '/issue/edit/'+data.fields.id;
+        updateIssue(data.fields);
+        uniSend(new SendObj(302, [], '', '/issue/edit/'+data.fields.id), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t update/add: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
   } else {
     uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
   }

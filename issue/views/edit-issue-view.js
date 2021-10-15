@@ -17,6 +17,8 @@ const formSelect = require('../../main/templates/form-select');
 
 
 function editIssueView (issue, user) {
+  let allUserObj = getAllUsers().map( item => { return {id: item.id, name: item.fname+' '+item.lname}; });
+  console.log(allUserObj);
   return `
     <div id="dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -25,8 +27,7 @@ function editIssueView (issue, user) {
       </h2>
       <div class="p-3 my-3 border">
         <form id="issue-form-${issue.id}" action="/issue/update/${issue.id}" method="post">
-          <input type="text" name="issueId" class="d-none" hidden value="${issue.id}" />
-          <input type="text" name="userId" class="d-none" hidden value="${user.id}" />
+          <input type="text" name="id" class="d-none" hidden value="${issue.id}" />
           <div class="form-group row mb-1">
             ${helperIssueForm (issue)}
           </div>
@@ -35,6 +36,9 @@ function editIssueView (issue, user) {
           </div>
         </form>
       </div>
+      <script>
+        var watchersArray = ${JSON.stringify(allUserObj)};
+      </script>
     </div>
   `;
 }
@@ -60,14 +64,8 @@ function helperIssueForm (issue) {
         returnHtml += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'projectId' && issue[key] !== '') {
         returnHtml += formTextInput(issue[key], key, 'required', '', 'disabled') + '<div class="col-3"></div>';
-      } else if (key === 'watchers') {
-        let watchersList = [];
-          issue[key].forEach( item => {
-            watchersList.push(getUserById(item).fname + ' ' + getUserById(item).lname);
-          });
-        returnHtml += formTextInput(watchersList, key, 'required', '') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
-        returnHtml += formTextInput(issue[key], key, 'required', '', 'disabled') + '<div class="col-3"></div>';
+        returnHtml += formTextInput(issue[key], key, 'required', '', 'readonly') + '<div class="col-3"></div>';
       } else {
         returnHtml += formTextInput(issue[key], key, 'required', '') + '<div class="col-3"></div>';
       }
