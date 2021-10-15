@@ -8,15 +8,13 @@
 'use strict';
 
 // Required modules
-const locale = require('../../lib/locale');
-const config = require('../../main/models/model-config').getConfig();
-const { getAllUsers, getUserById } = require('../../user/models/model-user');
+const { getAllUsers } = require('../../user/models/model-user');
 const formTextInput = require('../../main/templates/form-textinput');
 const formTextArea = require('../../main/templates/form-textarea');
 const formSelect = require('../../main/templates/form-select');
 
 
-function editIssueView (issue, user) {
+function editIssueView (issue) {
   let allUserObj = getAllUsers().map( item => { return {id: item.id, name: item.fname+' '+item.lname}; });
   console.log(allUserObj);
   return `
@@ -32,7 +30,7 @@ function editIssueView (issue, user) {
             ${helperIssueForm (issue)}
           </div>
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-sm btn-primary mt-3">${locale.buttons.send[config.lang]}</button>
+            <button type="submit" class="btn btn-sm btn-primary mt-3">Create/Update</button>
           </div>
         </form>
       </div>
@@ -50,7 +48,7 @@ function helperIssueForm (issue) {
   let returnHtml = '';
   let allUserList = getAllUsers().map( item => { return [item.id, item.fname+' '+item.lname]; });
   allUserList.unshift([0,'']);
-  Object.keys(issue).forEach((key, i) => {
+  Object.keys(issue).forEach( key => {
     if (key !== 'id') {
       if (key === 'description') {
         returnHtml += formTextArea(issue[key], key, '', '') + '<div class="col-3"></div>';

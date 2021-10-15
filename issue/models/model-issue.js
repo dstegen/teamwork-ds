@@ -28,7 +28,7 @@ function createIssue () {
   return newIssue;
 }
 
-function getAllIssues (user='none', orderedBy='idReverse', filteredBy='none') {
+function getAllIssues () {
   let allIssues = loadFile(path.join(__dirname, '../../data/issues.json'));
   return allIssues;
 }
@@ -78,12 +78,12 @@ function updateIssue (fields) {
     //add
     allIssues.push(issue);
   }
-  console.log(issue);
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 
 function deleteIssue (id) {
-
+  let allIssues = getAllIssues().filter( item => item.id !== id);
+  saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 
 

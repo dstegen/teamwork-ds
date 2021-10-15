@@ -8,10 +8,7 @@
 'use strict';
 
 // Required modules
-const locale = require('../../lib/locale');
-const config = require('../models/model-config').getConfig();
-const { formatDay } = require('../../lib/dateJuggler');
-const { createIssue, getAllIssues, editIssue, deleteIssue } = require('../../issue/models/model-issue');
+const { getAllIssues } = require('../../issue/models/model-issue');
 
 
 function mainView (lessonsTodayList, curWeek, user={}, wsport) {

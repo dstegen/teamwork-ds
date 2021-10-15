@@ -8,12 +8,10 @@
 'use strict';
 
 // Required modules
-const path = require('path');
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
-const loadFile = require('../utils/load-file');
 const view = require('../main/views/base-view');
-const { createIssue, getAllIssues, getIssue, updateIssue, deleteIssue } = require('./models/model-issue');
+const { createIssue, getIssue, updateIssue } = require('./models/model-issue');
 const editIssueView = require('./views/edit-issue-view');
 
 
@@ -28,7 +26,6 @@ function issueController (request, response, wss, wsport, user) {
     //add/updateIssue
     getFormObj(request).then(
       data => {
-        let urlPath = '/issue/edit/'+data.fields.id;
         updateIssue(data.fields);
         uniSend(new SendObj(302, [], '', '/issue/edit/'+data.fields.id), response);
       }

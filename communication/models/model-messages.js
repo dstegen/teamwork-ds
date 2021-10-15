@@ -29,9 +29,9 @@ function getPrivateMessages (userId) {
   }
 }
 
-function getLatestMessages (userId) {
-  let allMessages = [];
+function getLatestMessages () {
   /*
+  let allMessages = [];
   try {
     allMessages = loadFile(path.join(__dirname, '../../data/school', 'private-messages.json'), true).filter(
       item => item.chatMates.includes(userId)
