@@ -22,6 +22,7 @@ function createIssue () {
   } else {
     newIssue.id = 1;
   }
+  newIssue.projectId = 1;
   newIssue.priority = 'medium';
   newIssue.createDate = new Date();
   newIssue.lastEditDate = new Date();

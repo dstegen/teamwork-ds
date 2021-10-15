@@ -9,6 +9,7 @@
 
 // Required modules
 const { getAllIssues } = require('../../issue/models/model-issue');
+const { getAllProjects } = require('../../project/models/model-project');
 
 
 function mainView (lessonsTodayList, curWeek, user={}, wsport) {
@@ -19,15 +20,7 @@ function mainView (lessonsTodayList, curWeek, user={}, wsport) {
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
       <div class="row py-2 px-3">
-        <div class="col-12 col-md-6 p-3 border">
-          <h5>List of issues:</h5>
-          <div class="list-group">
-            ${getAllIssues().map( item => { return '<a href="/issue/edit/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
-          </div>
-        </div>
-        <div class="col-12 col-md-6 p-3 border">
-
-        </div>
+        ${[1,2,3].map(issueList).join('')}
       </div>
     </div>
     <script>
@@ -40,6 +33,20 @@ function mainView (lessonsTodayList, curWeek, user={}, wsport) {
         console.log(msg.data);
       };
     </script>
+  `;
+}
+
+
+// Additional functions
+
+function issueList (projectId) {
+  return `
+    <div class="col-12 col-md-6 p-3">
+      <h5>Project: ${getAllProjects().filter(item => item.id === projectId)[0].name}</h5>
+      <div class="list-group">
+        ${getAllIssues().filter( item => item.projectId === projectId).map( item => { return '<a href="/issue/edit/'+item.id+'" class="list-group-item list-group-item-action">'+item.name+'</a>'}).join('')}
+      </div>
+    </div>
   `;
 }
 
