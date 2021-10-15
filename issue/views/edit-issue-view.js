@@ -9,6 +9,7 @@
 
 // Required modules
 const { getAllUsers } = require('../../user/models/model-user');
+const { getAllProjects } = require('../../project/models/model-project');
 const formTextInput = require('../../main/templates/form-textinput');
 const formTextArea = require('../../main/templates/form-textarea');
 const formSelect = require('../../main/templates/form-select');
@@ -47,6 +48,7 @@ function helperIssueForm (issue) {
   let returnHtml = '';
   let allUserList = getAllUsers().map( item => { return [item.id, item.fname+' '+item.lname]; });
   allUserList.unshift([0,'']);
+  let allProjectsList = getAllProjects().map( item => { return [item.id, item.name]; });
   Object.keys(issue).forEach( key => {
     if (key !== 'id') {
       if (key === 'description') {
@@ -60,7 +62,8 @@ function helperIssueForm (issue) {
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'projectId' && issue[key] !== '') {
-        returnHtml += formTextInput(issue[key], key, 'required', '', 'disabled') + '<div class="col-3"></div>';
+        returnHtml += formSelect (allProjectsList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        //returnHtml += formTextInput(issue[key], key, 'required', '', 'disabled') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
         returnHtml += formTextInput(issue[key], key, 'required', '', 'readonly') + '<div class="col-3"></div>';
       } else {
