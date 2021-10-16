@@ -44,7 +44,7 @@ function issueController (request, response, wss, wsport, user) {
   } else if (route.startsWith('issue/comment')) {
     communicationController (request, response, wss, wsport, user);
   } else {
-    uniSend(view(wsport, naviObj, issueListView()), response);
+    uniSend(view(wsport, naviObj, issueListView(user)), response);
   }
 }
 
