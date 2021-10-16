@@ -34,8 +34,10 @@ function issueController (request, response, wss, wsport, user) {
         console.log('ERROR can\'t update/add: '+error.message);
         uniSend(new SendObj(302, [], '', '/'), response);
     });
-  } else {
+  } else if (route.startsWith('issue/edit')) {
     uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
+  } else {
+    uniSend(new SendObj(302, [], '', '/'), response);
   }
 }
 
