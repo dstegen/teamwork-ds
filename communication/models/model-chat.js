@@ -16,10 +16,10 @@ const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
 
 
-function getChat (myGroup) {
+function getChat (issueId) {
   let returnChat = [];
   try {
-    returnChat = loadFile(path.join(__dirname, '../../data/classes', myGroup, 'chat.json'), true);
+    returnChat = loadFile(path.join(__dirname, '../../data/issues/'+issueId, 'comments.json'), false);
     return returnChat;
   } catch (e) {
     console.log('- ERROR reading chat file: '+e);
@@ -34,16 +34,20 @@ function getChat (myGroup) {
 }
 
 function updateChat (fields) {
-  if (fields.chatterId !== '' && fields.userchat !== '') {
+  if (fields.chatterId !== '' && fields.userchat !== '' && fields.issueId !== '') {
     let newChat = {
       chaterId: Number(fields.chatterId),
       timeStamp: new Date(),
-      chat: sani(fields.userchat)
+      chat: sani(fields.userchat),
+      issueId: Number(fields.issueId)
     }
-    let myChat = getChat(fields.group);
+    let myChat = [];
+    if (getChat(fields.issueId) && getChat(fields.issueId).length > 0) {
+      myChat = getChat(fields.issueId);
+    }
     try {
       myChat.push(newChat);
-      saveFile(path.join(__dirname, '../../data/classes', fields.group), 'chat.json', myChat);
+      saveFile(path.join(__dirname, '../../data/issues', fields.issueId), 'comments.json', myChat);
     } catch (e) {
       console.log('- ERROR writing chat to disk: '+e);
     }
@@ -62,7 +66,7 @@ function cleanChat (group, days=15) {
   let myChat = getChat(group);
   myChat = myChat.filter( item => dateIsRecent(item.timeStamp, days));
   try {
-    saveFile(path.join(__dirname, '../../data/classes', group), 'chat.json', myChat);
+    saveFile(path.join(__dirname, '../../data/issues', group), 'comments.json', myChat);
   } catch (e) {
     console.log('- ERROR writing chat to disk: '+e);
   }

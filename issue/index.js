@@ -13,6 +13,9 @@ const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 const { createIssue, getIssue, updateIssue } = require('./models/model-issue');
 const editIssueView = require('./views/edit-issue-view');
+const issueListView = require('./views/issue-list-view');
+const issueView = require('./views/issue-view');
+const communicationController = require('../communication');
 
 
 function issueController (request, response, wss, wsport, user) {
@@ -21,7 +24,7 @@ function issueController (request, response, wss, wsport, user) {
   let issue = getIssue(Number(route.split('/')[2]));
   let naviObj = getNaviObj(user);
   if (route.startsWith('issue/create')) {
-    uniSend(view(wsport, naviObj, editIssueView(createIssue(), user)), response);
+    uniSend(view(wsport, naviObj, editIssueView(createIssue(user), user)), response);
   } else if (route.startsWith('issue/update')) {
     //add/updateIssue
     getFormObj(request).then(
@@ -36,8 +39,12 @@ function issueController (request, response, wss, wsport, user) {
     });
   } else if (route.startsWith('issue/edit')) {
     uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
+  } else if (route.startsWith('issue/view')) {
+    uniSend(view(wsport, naviObj, issueView(issue, user)), response);
+  } else if (route.startsWith('issue/comment')) {
+    communicationController (request, response, wss, wsport, user);
   } else {
-    uniSend(new SendObj(302, [], '', '/'), response);
+    uniSend(view(wsport, naviObj, issueListView()), response);
   }
 }
 

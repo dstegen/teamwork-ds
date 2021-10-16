@@ -84,6 +84,15 @@ function getUserById (id) {
   }
 }
 
+function getUserFullName (id) {
+  let user = users.filter( user => user.id === id)[0];
+  if (users.filter( user => user.id === id).length >0) {
+    return user.fname + ' ' + user.lname;
+  } else {
+    return '';
+  }
+}
+
 function getTitleNameById (id, n=false) {
   if (id !== '' && typeof(id) === 'number') {
     let user = users.filter( user => user.id === id)[0];
@@ -183,4 +192,4 @@ function getNewId (users) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, cleanLogins, getUserById, getTitleNameById, updateUser, updatePassword, advanceUsers };
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, cleanLogins, getUserById, getTitleNameById, updateUser, updatePassword, advanceUsers, getUserFullName };

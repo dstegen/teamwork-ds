@@ -18,7 +18,7 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip()
   });
   // init Tokenfield
-  initTokenfield()
+  initTokenfield();
 });
 
 // *** Tokenfield ***//
@@ -113,16 +113,16 @@ function toggleChat (id) {
 function sendChat (group) {
   var chatterId = $('#chat-window-'+group+' input[name="chatterId"]').val();
   var userchat = $('#chat-window-'+group+' input[name="userchat"]').val();
-  $('#chat-window-'+group+' input[name="userchat"]').val('');
   $.ajax({
-    url: '/communication/chat', // url where to submit the request
+    url: '/issue/comment', // url where to submit the request
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
-    data : {"chatterId": chatterId, "group": group, "userchat": userchat},
+    data : {"chatterId": chatterId, "issueId": group, "userchat": userchat},
     success : function(result) {
         console.log(result);
     }
   });
+  $('#chat-window-'+group+' input[name="userchat"]').val('');
 }
 
 //--- END CHat functions ---//

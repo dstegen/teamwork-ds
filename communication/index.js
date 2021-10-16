@@ -11,7 +11,6 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateChat } = require('./models/model-chat');
 const { updatePrivateMessages } = require('./models/model-messages');
-const comView = require('./views/view');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 
@@ -19,12 +18,12 @@ const view = require('../main/views/base-view');
 function communicationController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
-  if (route.startsWith('communication/chat')) {
+  if (route.startsWith('issue/comment')) {
     updateChatAction(request, response, wss);
   } else if (route.startsWith('communication/message')) {
     updatePrivateMessagesAction(request, response, wss);
   } else {
-    uniSend(view(wsport, naviObj, comView(user, wsport)), response);
+    uniSend(new SendObj(302, [], '', '/issue'), response);
   }
 }
 
@@ -44,8 +43,8 @@ function updateChatAction (request, response, wss) {
       } catch (e) {
         console.log('- ERROR while sending websocket message to all clients: '+e);
       }
-      //uniSend(new SendObj(302, [], '', '/communication'), response);
-      uniSend(new SendObj(200), response);
+      uniSend(new SendObj(302, [], '', '/issue/view/'+data.fields.issueId), response);
+      //uniSend(new SendObj(200), response); //Ajax
     }
   ).catch(
     error => {

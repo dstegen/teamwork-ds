@@ -8,13 +8,15 @@
 'use strict';
 
 // Required modules
+const fs = require('fs');
 const path = require('path');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
+const createDir = require('../../utils/create-dir');
 const sani = require('../../utils/sanitizer');
 
 
-function createIssue () {
+function createIssue (userId) {
   let newIssue = loadFile(path.join(__dirname, './blueprint-issue.json'));
   let allIssues = getAllIssues();
   if (allIssues.length > 0) {
@@ -24,6 +26,7 @@ function createIssue () {
   }
   newIssue.projectId = 1;
   newIssue.priority = 'medium';
+  newIssue.reporter = userId;
   newIssue.createDate = new Date();
   newIssue.lastEditDate = new Date();
   return newIssue;
@@ -78,6 +81,10 @@ function updateIssue (fields) {
   } else {
     //add
     allIssues.push(issue);
+  }
+  // create issue subfolder, if not exists
+  if (!fs.existsSync(path.join(__dirname, '../../data/issues', (issue.id).toString()))) {
+    createDir(path.join(__dirname, '../../data/issues', (issue.id).toString()));
   }
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
