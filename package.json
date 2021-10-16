@@ -23,5 +23,11 @@
     "moment-timezone": "^0.5.33",
     "tokenfield": "^1.4.6",
     "webapputils-ds": "^0.5.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "*.json",
+      "data/*"
+    ]
   }
 }
