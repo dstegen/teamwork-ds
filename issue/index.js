@@ -30,7 +30,7 @@ function issueController (request, response, wss, wsport, user) {
     getFormObj(request).then(
       data => {
         updateIssue(data.fields);
-        uniSend(new SendObj(302, [], '', '/issue/edit/'+data.fields.id), response);
+        uniSend(new SendObj(302, [], '', '/issue/view/'+data.fields.id), response);
       }
     ).catch(
       error => {

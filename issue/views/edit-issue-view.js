@@ -64,6 +64,8 @@ function helperIssueForm (issue) {
       } else if (key === 'projectId' && issue[key] !== '') {
         returnHtml += formSelect (allProjectsList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
         //returnHtml += formTextInput(issue[key], key, 'required', '', 'disabled') + '<div class="col-3"></div>';
+      } else if (key === 'dueDate') {
+        returnHtml += formTextInput(issue[key], key, 'required', '', '', 'date') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
         returnHtml += formTextInput(issue[key], key, 'required', '', 'readonly') + '<div class="col-3"></div>';
       } else {
