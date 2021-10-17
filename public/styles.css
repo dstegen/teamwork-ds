@@ -24,8 +24,8 @@ a.orange, a.orange:focus, a.orange:hover {
 }
 
 .bg-secondary {
-  background-color: var(--my-orange) !important;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+  /*background-color: var(--my-orange) !important;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);*/
 }
 
 .navbar-dark .navbar-nav .nav-link {

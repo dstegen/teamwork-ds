@@ -16,7 +16,7 @@ function tail () {
         </div>
         <!-- Footer -->
         <div class="footer">
-          <div class="small bg-secondary text-light text-center pt-4 pb-4">
+          <div class="small bg-primary text-light text-center pt-4 pb-4">
             &copy; 2021 by Daniel Stegen, Version: ${myPackage.version}
           </div>
         </div>
