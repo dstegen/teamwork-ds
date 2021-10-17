@@ -1,5 +1,7 @@
 {
   "id": "",
+  "createDate": "",
+  "updatedDate": "",
   "name": "New issue...",
   "description": "",
   "projectId": "",
@@ -9,8 +11,6 @@
   "assignee": "",
   "watchers": [],
   "tags": [],
-  "createDate": "",
   "dueDate": "",
-  "updatedDate": "",
   "closeDate": ""
 }

@@ -27,6 +27,8 @@ function editIssueView (issue) {
         <hr />
         <form id="issue-form-${issue.id}" action="/issue/update/${issue.id}" method="post">
           <input type="text" name="id" class="d-none" hidden value="${issue.id}" />
+          <input type="text" name="createDate" class="d-none" hidden value="${issue.createDate}" />
+          <input type="text" name="updatedDate" class="d-none" hidden value="${issue.updatedDate}" />
           <div class="form-group row mb-1">
             ${helperIssueForm (issue)}
           </div>
@@ -68,7 +70,7 @@ function helperIssueForm (issue) {
       } else if (key === 'dueDate') {
         returnHtml += formTextInput(issue[key], key, 'required', '', '', 'date') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
-        returnHtml += formTextInput(issue[key], key, 'required', '', 'readonly') + '<div class="col-3"></div>';
+        // do nothing
       } else {
         returnHtml += formTextInput(issue[key], key, 'required', '') + '<div class="col-3"></div>';
       }
