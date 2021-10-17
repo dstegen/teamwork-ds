@@ -1,5 +1,5 @@
 /*!
- * communication/views/view.js
+ * communication/views/communication-view.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -10,14 +10,13 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
-const classChat = require('../../main/templates/chat');
-const privateMessages = require('../../main/templates/private-messages');
-const newPrivateMessage = require('../../main/templates/new-private-message');
-
+const classChat = require('../templates/chat');
+const privateMessages = require('../templates/private-messages');
+const newPrivateMessage = require('../templates/new-private-message');
 
 function communicationView (user, wsport) {
   return `
-    <div id="dashboard" class="container">
+    <div id="communication-view" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         ${locale.headlines.navi_communication[config.lang]}
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
@@ -28,7 +27,7 @@ function communicationView (user, wsport) {
         ${privateMessages(user.id)}
       </div>
       <div class="col-12 col-md-6">
-        ${classChat(user.group, user)}
+        ${classChat([1,2,3], user)}
       </div>
     </div>
   </div>

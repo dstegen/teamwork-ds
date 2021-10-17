@@ -9,17 +9,53 @@
 
 // Required modules
 const path = require('path');
-const { dateIsRecent } = require('../../lib/dateJuggler');
-const config = require('../../main/models/model-config').getConfig();
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
 
 
-function getChat (issueId) {
+function getComments (issueId) {
   let returnChat = [];
   try {
-    returnChat = loadFile(path.join(__dirname, '../../data/issues/'+issueId, 'comments.json'), false);
+    returnChat = loadFile(path.join(__dirname, '../../data/issues/'+issueId.toString(), 'comments.json'), false);
+    return returnChat;
+  } catch (e) {
+    console.log('- ERROR reading comment file: '+e);
+    return [
+      {
+        "chaterId": 0,
+        "timeStamp": new Date(),
+        "chat": "Error, comment not available at the moment..."
+      }
+    ]
+  }
+}
+
+function updateComments (fields) {
+  if (fields.chatterId !== '' && fields.userchat !== '' && fields.issueId !== '') {
+    let newChat = {
+      chaterId: Number(fields.chatterId),
+      timeStamp: new Date(),
+      chat: sani(fields.userchat),
+      issueId: Number(fields.issueId)
+    }
+    let myChat = [];
+    if (getComments(fields.issueId) && getComments(fields.issueId).length > 0) {
+      myChat = getComments(fields.issueId);
+    }
+    try {
+      myChat.push(newChat);
+      saveFile(path.join(__dirname, '../../data/issues', fields.issueId.toString()), 'comments.json', myChat);
+    } catch (e) {
+      console.log('- ERROR writing comment to disk: '+e);
+    }
+  }
+}
+
+function getChat (projectId) {
+  let returnChat = [];
+  try {
+    returnChat = loadFile(path.join(__dirname, '../../data/projects/'+projectId.toString(), 'chat.json'), false);
     return returnChat;
   } catch (e) {
     console.log('- ERROR reading chat file: '+e);
@@ -34,43 +70,26 @@ function getChat (issueId) {
 }
 
 function updateChat (fields) {
-  if (fields.chatterId !== '' && fields.userchat !== '' && fields.issueId !== '') {
+  console.log(fields);
+  if (fields.chatterId !== '' && fields.userchat !== '' && fields.group !== '') {
     let newChat = {
       chaterId: Number(fields.chatterId),
       timeStamp: new Date(),
       chat: sani(fields.userchat),
-      issueId: Number(fields.issueId)
+      projectId: Number(fields.group)
     }
     let myChat = [];
-    if (getChat(fields.issueId) && getChat(fields.issueId).length > 0) {
-      myChat = getChat(fields.issueId);
+    if (getChat(fields.group) && getChat(fields.group).length > 0) {
+      myChat = getChat(fields.group);
     }
     try {
       myChat.push(newChat);
-      saveFile(path.join(__dirname, '../../data/issues', fields.issueId), 'comments.json', myChat);
+      saveFile(path.join(__dirname, '../../data/projects', fields.group), 'chat.json', myChat);
     } catch (e) {
       console.log('- ERROR writing chat to disk: '+e);
     }
   }
 }
 
-function getChatCount () {
-  let chatMessagesCount = 0;
-  config.classes.forEach( group => {
-    chatMessagesCount += getChat(group).length;
-  });
-  return chatMessagesCount;
-}
 
-function cleanChat (group, days=15) {
-  let myChat = getChat(group);
-  myChat = myChat.filter( item => dateIsRecent(item.timeStamp, days));
-  try {
-    saveFile(path.join(__dirname, '../../data/issues', group), 'comments.json', myChat);
-  } catch (e) {
-    console.log('- ERROR writing chat to disk: '+e);
-  }
-}
-
-
-module.exports = { getChat, updateChat, getChatCount, cleanChat };
+module.exports = { getChat, updateChat, getComments, updateComments };

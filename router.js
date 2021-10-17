@@ -12,6 +12,7 @@ const { deliver, uniSend } = require('webapputils-ds');
 const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction } = require('./user');
 const mainController = require('./main');
 const issueController = require('./issue');
+const communicationController = require('./communication');
 const fileController = require('./main/file-controller');
 const loginView = require('./user/views/login-view');
 
@@ -34,6 +35,8 @@ function router (request, response, wss, wsport) {
       updatePasswordAction(request, response);
     } else if (route.startsWith('issue')) {
       issueController(request, response, wss, wsport, user);
+    } else if (route.startsWith('communication')) {
+      communicationController(request, response, wss, wsport, user);
     } else {
       mainController(request, response, wss, wsport, user);
     }

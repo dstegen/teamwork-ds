@@ -13,7 +13,7 @@ const path = require('path');
 const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
-const { getChat } = require('../../communication/models/model-chat');
+const { getComments } = require('../../communication/models/model-chat');
 const { getUserById, getUserFullName } = require('../../user/models/model-user');
 
 
@@ -40,7 +40,7 @@ function issueComments (issueId, user) {
         </div>
       </div>
     `;
-    //<button type="button" class="btn btn-sm btn-primary" onclick="sendChat('${issueId}');">${locale.buttons.send[config.lang]}</button>
+    //<button type="button" class="btn btn-sm btn-primary" onclick="sendComment('${issueId}');">${locale.buttons.send[config.lang]}</button>
 }
 
 
@@ -48,8 +48,8 @@ function issueComments (issueId, user) {
 
 function chatterEntry (issueId) {
   let returnHtml = '';
-  if (getChat(issueId) && getChat(issueId).length > 0) {
-    getChat(issueId).forEach( item => {
+  if (getComments(issueId) && getComments(issueId).length > 0) {
+    getComments(issueId).forEach( item => {
       let chatUser = getUserById(item.chaterId);
       let chatUserName = getUserFullName(item.chaterId);
       let cssInline = 'd-inline';
@@ -59,13 +59,11 @@ function chatterEntry (issueId) {
         chatterImage = `<img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>`;
       }
         returnHtml += `
-          <div class="row no-gutters mb-2">
-            <div class="col-1 d-flex justify-content-end">
-              <div>
-                ${chatterImage}
-              </div>
+          <div class="d-flex justify-content-start mb-2">
+            <div class="me-2">
+              ${chatterImage}
             </div>
-            <div class="col-9 pl-2">
+            <div>
               <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dd DD.MM.YYYY HH:MM')}</div>
               <div class="${cssInline} rounded text-break">${item.chat}</div>
             </div>

@@ -73,7 +73,7 @@ function helperIssueForm (issue) {
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml2 += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'dueDate') {
-        returnHtml2 += formTextInput(issue[key], key, 'required', '', '', 'date') + '<div class="col-3"></div>';
+        returnHtml2 += formTextInput(issue[key], key, '', '', '', 'date') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
         // do nothing
       } else if (key === 'tags') {

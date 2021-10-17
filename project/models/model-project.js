@@ -19,5 +19,8 @@ function getAllProjects () {
   return allProjects;
 }
 
+function getProjectById (projectId) {
+  return getAllProjects().filter(item => item.id === Number(projectId))[0];
+}
 
-module.exports = { getAllProjects };
+module.exports = { getAllProjects, getProjectById };

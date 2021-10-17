@@ -76,14 +76,14 @@ function issueDetails (issue) {
         returnHtml2 += `
           <div class="col-3 text-capitalize">${key}</div>
           <div class="col-1" text-center>:</div>
-          <div class="col-5">${value}</div>
+          <div class="col-7">${value}</div>
           <br />
         `;
       } else {
         returnHtml1 += `
           <div class="col-3 text-capitalize">${key}</div>
           <div class="col-1" text-center>:</div>
-          <div class="col-5">${value}</div>
+          <div class="col-7">${value}</div>
           <br />
         `;
       }

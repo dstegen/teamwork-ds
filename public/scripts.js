@@ -110,7 +110,7 @@ function toggleChat (id) {
   }
 }
 
-function sendChat (group) {
+function sendComment (group) {
   var chatterId = $('#chat-window-'+group+' input[name="chatterId"]').val();
   var userchat = $('#chat-window-'+group+' input[name="userchat"]').val();
   $.ajax({
@@ -118,6 +118,21 @@ function sendChat (group) {
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
     data : {"chatterId": chatterId, "issueId": group, "userchat": userchat},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+  $('#chat-window-'+group+' input[name="userchat"]').val('');
+}
+
+function sendChat (group) {
+  var chatterId = $('#chat-window-'+group+' input[name="chatterId"]').val();
+  var userchat = $('#chat-window-'+group+' input[name="userchat"]').val();
+  $.ajax({
+    url: '/communication/chat', // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"chatterId": chatterId, "group": group, "userchat": userchat},
     success : function(result) {
         console.log(result);
     }
