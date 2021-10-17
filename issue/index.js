@@ -24,7 +24,7 @@ function issueController (request, response, wss, wsport, user) {
   let issue = getIssue(Number(route.split('/')[2]));
   let naviObj = getNaviObj(user);
   if (route.startsWith('issue/create')) {
-    uniSend(view(wsport, naviObj, editIssueView(createIssue(user), user)), response);
+    uniSend(view(wsport, naviObj, editIssueView(createIssue(user))), response);
   } else if (route.startsWith('issue/update')) {
     //add/updateIssue
     getFormObj(request).then(

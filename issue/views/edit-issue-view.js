@@ -29,11 +29,14 @@ function editIssueView (issue) {
           <input type="text" name="id" class="d-none" hidden value="${issue.id}" />
           <input type="text" name="createDate" class="d-none" hidden value="${issue.createDate}" />
           <input type="text" name="updateDate" class="d-none" hidden value="${issue.updateDate}" />
+          <div class="form-group mb-1">
+
+          </div>
           <div class="form-group row mb-1">
             ${helperIssueForm (issue)}
           </div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-sm btn-primary mt-3">Create/Update</button>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-sm btn-primary mt-3">Update</button>
           </div>
         </form>
       </div>
@@ -48,35 +51,39 @@ function editIssueView (issue) {
 // Additional functions
 
 function helperIssueForm (issue) {
-  let returnHtml = '';
+  let returnHtml1 = '<div class="col-12 col-lg-6 row no-gutter">';
+  let returnHtml2 = '<div class="col-12 col-lg-6 row no-gutter">';
   let allUserList = getAllUsers().map( item => { return [item.id, item.fname+' '+item.lname]; });
   allUserList.unshift([0,'']);
   let allProjectsList = getAllProjects().map( item => { return [item.id, item.name]; });
   Object.keys(issue).forEach( key => {
-    if (key !== 'id') {
-      if (key === 'description') {
-        returnHtml += formTextArea(issue[key], key, '', '') + '<div class="col-3"></div>';
+    if (!['id'].includes(key)) {
+      if (key === 'projectId') {
+        returnHtml1 += formSelect(allProjectsList, issue.projectId, 'projectId', '', '', 'required') + '<div class="col-3"></div>';
+      } else if (key === 'name') {
+        returnHtml1 += formTextInput(issue.name, 'name', 'required', '') + '<div class="col-3"></div>';
+      } else if (key === 'description') {
+        returnHtml2 += formTextArea(issue.description, 'description', '', '') + '<div class="col-3"></div>';
       } else if (key === 'state') {
-        returnHtml += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'type') {
-        returnHtml += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'priority') {
-        returnHtml += formSelect (['blocker','high','medium','low'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['blocker','high','medium','low'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'reporter' || key === 'assignee') {
-        returnHtml += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
-      } else if (key === 'projectId' && issue[key] !== '') {
-        returnHtml += formSelect (allProjectsList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
-        //returnHtml += formTextInput(issue[key], key, 'required', '', 'disabled') + '<div class="col-3"></div>';
+        returnHtml2 += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'dueDate') {
-        returnHtml += formTextInput(issue[key], key, 'required', '', '', 'date') + '<div class="col-3"></div>';
+        returnHtml2 += formTextInput(issue[key], key, 'required', '', '', 'date') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
         // do nothing
+      } else if (key === 'tags') {
+        returnHtml1 += formTextInput(issue[key], key, '', '') + '<div class="col-3"></div>';
       } else {
-        returnHtml += formTextInput(issue[key], key, 'required', '') + '<div class="col-3"></div>';
+        returnHtml2 += formTextInput(issue[key], key, 'required', '') + '<div class="col-3"></div>';
       }
     }
   });
-  return returnHtml;
+  return '<div class="row">'+returnHtml1+'</div>'+returnHtml2+'</div></div>';
 }
 
 
