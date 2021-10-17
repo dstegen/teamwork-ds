@@ -17,7 +17,7 @@ const { getChat } = require('../../communication/models/model-chat');
 const { getUserById, getUserFullName } = require('../../user/models/model-user');
 
 
-function issueComments (issueId, user, windowLength=250) {
+function issueComments (issueId, user) {
     return `
       <div class="mt-5">
         <div class="d-flex justify-content-between">
@@ -29,7 +29,7 @@ function issueComments (issueId, user, windowLength=250) {
         <div id="chat-window-${issueId}" class="collapse show">
           <hr />
           <div id="${issueId}" class="chat-window">
-            ${chatterEntry(issueId, user)}
+            ${chatterEntry(issueId)}
           </div>
           <form id="classChat-form-${issueId}" action="/issue/comment" class="d-flex justify-content-between" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${user.id}" />
@@ -46,7 +46,7 @@ function issueComments (issueId, user, windowLength=250) {
 
 // Additional functions
 
-function chatterEntry (issueId, user) {
+function chatterEntry (issueId) {
   let returnHtml = '';
   if (getChat(issueId) && getChat(issueId).length > 0) {
     getChat(issueId).forEach( item => {

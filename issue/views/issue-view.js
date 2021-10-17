@@ -17,8 +17,9 @@ const issueComments = require('../templates/issue-comments');
 function issueView (issue, user) {
   return `
     <div id="issue-view" class="container p-3 my-3 border">
+      <small class="small text-uppercase">${getAllProjects().filter(item => item.id === issue['projectId'])[0].name}</small>
       <div class="d-md-flex justify-content-between">
-        <h4 class="m-md-0">Issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
+        <h4 class="m-md-0"><strong>${issue.name}</strong> [${issue.id}]</h4>
         <span>
           ${['backlog'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-primary me-2">Open issue</a>` : ''}
           ${['backlog','open'].includes(issue.state) ? `<a href="/issue/start/${issue.id}" class="btn btn-sm btn-success me-2">Start working</a>` : ''}
@@ -29,7 +30,15 @@ function issueView (issue, user) {
         </span>
       </div>
       <hr />
+      <div>
+        ${issue.description}
+      </div>
+      <hr />
       ${issueDetails(issue)}
+      <div class="mt-5">
+        <h5>Attachements:</h5>
+        <hr />
+      </div>
       ${issueComments(issue.id, user)}
     </div>
   `;
@@ -39,13 +48,12 @@ function issueView (issue, user) {
 // Additional functions
 
 function issueDetails (issue) {
-  let returnHtml = '<div class="row">';
+  let returnHtml1 = '<div class="col-12 col-lg-6 row">';
+  let returnHtml2 = '<div class="col-12 col-lg-6 row">';
   Object.keys(issue).forEach( key => {
-    if (!['id','name'].includes(key)) {
+    if (!['id','name','description','projectId'].includes(key)) {
       let value = issue[key];
-      if (key === 'projectId') {
-        value = getAllProjects().filter(item => item.id === issue[key])[0].name;
-      } else if (key === 'reporter' || key === 'assignee') {
+      if (key === 'reporter' || key === 'assignee') {
         value = getUserFullName(issue[key]);
       } else if (key === 'watchers') {
         value = [];
@@ -55,17 +63,33 @@ function issueDetails (issue) {
         value = value.toString();
       } else if (key.includes('Date')) {
         if (issue[key] !== '') value = humanDate(issue[key]);
+      } else if (key === 'state') {
+        let statusPillColor = 'bg-primary';
+        if (issue.state === 'backlog') statusPillColor = 'bg-secondary';
+        value = `<span class="badge ${statusPillColor} rounded-pill">${issue.state}</span>`
+      } else if (key === 'priority' && issue.priority === 'blocker') {
+        value = `<span class="badge bg-danger rounded-pill">${issue.priority}</span>`;
+      } else if (key === 'type' && issue.type === 'Bug') {
+        value = `<span class="badge bg-danger rounded-pill">${issue.type}</span>`;
       }
-      returnHtml += `
-        <div class="col-3">${key}</div>
-        <div class="col-1" text-center>:</div>
-        <div class="col-5">${value}</div>
-        <br />
-      `;
+      if (key.includes('Date') || key.includes('watchers')) {
+        returnHtml2 += `
+          <div class="col-3 text-capitalize">${key}</div>
+          <div class="col-1" text-center>:</div>
+          <div class="col-5">${value}</div>
+          <br />
+        `;
+      } else {
+        returnHtml1 += `
+          <div class="col-3 text-capitalize">${key}</div>
+          <div class="col-1" text-center>:</div>
+          <div class="col-5">${value}</div>
+          <br />
+        `;
+      }
     }
   });
-  returnHtml += '</div>';
-  return returnHtml;
+  return '<div class="row">'+returnHtml1+'</div>'+returnHtml2+'</div></div>';
 }
 
 module.exports = issueView;
