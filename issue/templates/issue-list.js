@@ -56,7 +56,7 @@ function issueListItem (item) {
       <span>
         <strong>${item.name}</strong>
         <span class="d-none d-lg-inline text-muted"> - ${getUserFullName(item.assignee)}</span>
-        <small class="d-block text-muted supersmall">${humanDate(item.updatedDate)}</small>
+        <small class="d-block text-muted supersmall">${humanDate(item.updateDate)}</small>
       </span>
       <span>
         ${priorityPill}

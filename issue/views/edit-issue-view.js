@@ -28,7 +28,7 @@ function editIssueView (issue) {
         <form id="issue-form-${issue.id}" action="/issue/update/${issue.id}" method="post">
           <input type="text" name="id" class="d-none" hidden value="${issue.id}" />
           <input type="text" name="createDate" class="d-none" hidden value="${issue.createDate}" />
-          <input type="text" name="updatedDate" class="d-none" hidden value="${issue.updatedDate}" />
+          <input type="text" name="updateDate" class="d-none" hidden value="${issue.updateDate}" />
           <div class="form-group row mb-1">
             ${helperIssueForm (issue)}
           </div>

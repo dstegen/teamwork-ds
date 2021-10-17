@@ -28,7 +28,7 @@ function createIssue (userId) {
   newIssue.priority = 'medium';
   newIssue.reporter = userId;
   newIssue.createDate = new Date();
-  newIssue.updatedDate = new Date();
+  newIssue.updateDate = new Date();
   return newIssue;
 }
 
@@ -77,7 +77,7 @@ function updateIssue (fields) {
         allIssues.filter( item => item.id === issue.id)[0][key] = issue[key];
       }
     });
-    allIssues.filter( item => item.id === issue.id)[0]['updatedDate'] = new Date();
+    allIssues.filter( item => item.id === issue.id)[0]['updateDate'] = new Date();
   } else {
     //add
     allIssues.push(issue);
@@ -94,6 +94,9 @@ function changeIssueState (issueId, state, user) {
   if (state === 'start') {
     state = 'in progress';
     allIssues.filter( item => item.id === issueId)[0].assignee = user.id;
+  }
+  if (state === 'closed') {
+    allIssues.filter( item => item.id === issueId)[0].closeDate = new Date();
   }
   allIssues.filter( item => item.id === issueId)[0].state = state;
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
