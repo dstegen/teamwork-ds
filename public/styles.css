@@ -40,6 +40,7 @@ a.orange, a.orange:focus, a.orange:hover {
   color: rgb(255, 255, 255);
 }
 
+/*
 .btn-secondary {
   background-color: var(--my-orange) !important;
   border-color: var(--my-orange);
@@ -62,6 +63,7 @@ a.orange, a.orange:focus, a.orange:hover {
   background-color: #fa7a50 !important;
   box-shadow: none;
 }
+*/
 
 .col-form-label {
   font-size: 0.8rem;

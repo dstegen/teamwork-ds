@@ -10,19 +10,19 @@
 // Required modules
 const { getUserFullName } = require('../../user/models/model-user');
 const { getAllProjects } = require('../../project/models/model-project');
-const comments = require('../../main/templates/comments');
+const issueComments = require('../templates/issue-comments');
 
 
 function issueView (issue, user) {
   return `
-    <div class="container p-3 my-3 border">
+    <div id="issue-view" class="container p-3 my-3 border">
       <div class="d-flex justify-content-between">
         <h4 class="m-0">Issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
         <a href="/issue/edit/${issue.id}" class="btn btn-sm btn-warning">Edit</a>
       </div>
       <hr />
       ${issueDetails(issue)}
-      ${comments(issue.id, user)}
+      ${issueComments(issue.id, user)}
     </div>
   `;
 }

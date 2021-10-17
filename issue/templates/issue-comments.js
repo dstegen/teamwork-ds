@@ -1,5 +1,5 @@
 /*!
- * main/templates/comment.js
+ * issue/templates/issue-comments.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/webapputils-ds/blob/master/LICENSE)
@@ -17,7 +17,7 @@ const { getChat } = require('../../communication/models/model-chat');
 const { getUserById, getUserFullName } = require('../../user/models/model-user');
 
 
-function comments (issueId, user, windowLength=250) {
+function issueComments (issueId, user, windowLength=250) {
     return `
       <div class="mt-5">
         <div class="d-flex justify-content-between">
@@ -34,8 +34,8 @@ function comments (issueId, user, windowLength=250) {
           <form id="classChat-form-${issueId}" action="/issue/comment" class="d-flex justify-content-between" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${user.id}" />
             <input type="text" name="issueId" class="d-none" hidden value="${issueId}" />
-            <input type="texte" class="form-control me-2" id="userchat-${issueId}" name="userchat" maxlength="128" value="" />      
-            <button type="submit" class="btn btn-sm btn-danger">${locale.buttons.send[config.lang]}</button>
+            <input type="texte" class="form-control me-2" id="userchat-${issueId}" name="userchat" maxlength="128" value="" />
+            <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
           </form>
         </div>
       </div>
@@ -77,4 +77,4 @@ function chatterEntry (issueId, user) {
 }
 
 
-module.exports = comments;
+module.exports = issueComments;

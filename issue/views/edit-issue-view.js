@@ -18,12 +18,13 @@ const formSelect = require('../../main/templates/form-select');
 function editIssueView (issue) {
   let allUserObj = getAllUsers().map( item => { return {id: item.id, name: item.fname+' '+item.lname}; });
   return `
-    <div id="dashboard" class="container">
-      <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-        Edit issue: ${issue.name} [${issue.id}]
-        <span id="clock" class="d-none d-md-block">&nbsp;</span>
-      </h2>
+    <div id="edit-issue-view" class="container">
       <div class="p-3 my-3 border">
+        <div class="d-flex justify-content-between">
+          <h4 class="m-0">Issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
+          <a href="/issue/view/${issue.id}" class="btn btn-sm btn-secondary">Cancel</a>
+        </div>
+        <hr />
         <form id="issue-form-${issue.id}" action="/issue/update/${issue.id}" method="post">
           <input type="text" name="id" class="d-none" hidden value="${issue.id}" />
           <div class="form-group row mb-1">
