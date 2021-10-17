@@ -11,7 +11,7 @@
 const { getAllProjects } = require('../../project/models/model-project');
 const issueList = require('../../issue/templates/issue-list');
 
-function mainView (lessonsTodayList, curWeek, user={}, wsport) {
+function mainView (lessonsTodayList, curWeek, user, wsport) {
   let allProjectsIds = getAllProjects().map(item => {return item.id});
   return `
     <div id="dashboard" class="container-fluid p-3" style="min-height: 500px;">
@@ -21,6 +21,11 @@ function mainView (lessonsTodayList, curWeek, user={}, wsport) {
       </h2>
       <div class="row py-2 px-3">
         ${allProjectsIds.map(issueList).join('')}
+      </div>
+      <hr class="my-5" />
+      <h5 class="text-muted">Recently closed issues:</h5>
+      <div class="row py-2 px-3">
+        ${allProjectsIds.map(id => issueList(id, '', 'closed')).join('')}
       </div>
     </div>
     <script>

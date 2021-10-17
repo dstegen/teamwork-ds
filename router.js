@@ -13,6 +13,7 @@ const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePassw
 const mainController = require('./main');
 const issueController = require('./issue');
 const communicationController = require('./communication');
+const projectController = require('./project');
 const fileController = require('./main/file-controller');
 const loginView = require('./user/views/login-view');
 
@@ -37,6 +38,8 @@ function router (request, response, wss, wsport) {
       issueController(request, response, wss, wsport, user);
     } else if (route.startsWith('communication')) {
       communicationController(request, response, wss, wsport, user);
+    } else if (route.startsWith('project')) {
+      projectController(request, response, wss, wsport, user);
     } else {
       mainController(request, response, wss, wsport, user);
     }
