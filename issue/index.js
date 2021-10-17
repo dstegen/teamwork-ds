@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { createIssue, getIssue, updateIssue } = require('./models/model-issue');
+const { createIssue, getIssue, updateIssue, changeIssueState } = require('./models/model-issue');
 const editIssueView = require('./views/edit-issue-view');
 const issueListView = require('./views/issue-list-view');
 const issueView = require('./views/issue-view');
@@ -43,6 +43,11 @@ function issueController (request, response, wss, wsport, user) {
     uniSend(view(wsport, naviObj, issueView(issue, user)), response);
   } else if (route.startsWith('issue/comment')) {
     communicationController (request, response, wss, wsport, user);
+  } else if (['open','start','resolved','closed'].includes(route.split('/')[1])) {
+    let state = route.split('/')[1];
+    let issueId = Number(route.split('/')[2]);
+    changeIssueState(issueId, state, user);
+    uniSend(new SendObj(302, [], '', '/issue/view/'+issueId), response);
   } else {
     uniSend(view(wsport, naviObj, issueListView(user)), response);
   }

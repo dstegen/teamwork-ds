@@ -3,7 +3,7 @@
   "name": "New issue...",
   "description": "",
   "projectId": "",
-  "status": "backlog",
+  "state": "backlog",
   "priority": "",
   "reporter": "",
   "assignee": "",

@@ -14,8 +14,17 @@ const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
 
 
-function issueList (projectId, user) {
+function issueList (projectId, user, state='all') {
   let allIssues = getAllIssues().filter( item => item.projectId === projectId);
+  if (state !== 'all') {
+    switch (state) {
+      case 'closed':
+        allIssues = allIssues.filter( item => item.state === 'closed');
+        break;
+      default:
+        allIssues = allIssues.filter( item => item.state !== 'closed');
+    }
+  }
   if (user.id) {
     allIssues = allIssues.filter( item => item.assignee === user.id);
   }
@@ -36,7 +45,7 @@ function issueListItem (item) {
   let statusPillColor = 'bg-primary';
   let priorityPill = '';
   let listGroupItemColor = '';
-  if (item.status === 'backlog') {
+  if (item.state === 'backlog') {
     statusPillColor = 'bg-secondary';
     listGroupItemColor = 'list-group-item-light';
   }
@@ -51,7 +60,7 @@ function issueListItem (item) {
       </span>
       <span>
         ${priorityPill}
-        <span class="badge ${statusPillColor} rounded-pill">${item.status}</span>
+        <span class="badge ${statusPillColor} rounded-pill">${item.state}</span>
       </span>
     </a>
   `;

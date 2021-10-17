@@ -89,10 +89,20 @@ function updateIssue (fields) {
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 
+function changeIssueState (issueId, state, user) {
+  let allIssues = getAllIssues();
+  if (state === 'start') {
+    state = 'in progress';
+    allIssues.filter( item => item.id === issueId)[0].assignee = user.id;
+  }
+  allIssues.filter( item => item.id === issueId)[0].state = state;
+  saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
+}
+
 function deleteIssue (id) {
   let allIssues = getAllIssues().filter( item => item.id !== id);
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 
 
-module.exports = { createIssue, getAllIssues, getIssue, updateIssue, deleteIssue };
+module.exports = { createIssue, getAllIssues, getIssue, updateIssue, deleteIssue, changeIssueState };

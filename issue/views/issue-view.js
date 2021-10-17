@@ -17,9 +17,16 @@ const issueComments = require('../templates/issue-comments');
 function issueView (issue, user) {
   return `
     <div id="issue-view" class="container p-3 my-3 border">
-      <div class="d-flex justify-content-between">
-        <h4 class="m-0">Issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
-        <a href="/issue/edit/${issue.id}" class="btn btn-sm btn-warning">Edit</a>
+      <div class="d-md-flex justify-content-between">
+        <h4 class="m-md-0">Issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
+        <span>
+          ${['backlog'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-primary me-2">Open issue</a>` : ''}
+          ${['backlog','open'].includes(issue.state) ? `<a href="/issue/start/${issue.id}" class="btn btn-sm btn-success me-2">Start working</a>` : ''}
+          ${!['backlog','open','resolved', 'closed'].includes(issue.state) ? `<a href="/issue/resolved/${issue.id}" class="btn btn-sm btn-primary me-2">Resolve issue</a>` : ''}
+          ${!['backlog','closed'].includes(issue.state) ? `<a href="/issue/closed/${issue.id}" class="btn btn-sm btn-primary me-2">Close issue</a>` : ''}
+          ${['closed'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-danger me-2">Re-open issue</a>` : ''}
+          <a href="/issue/edit/${issue.id}" class="btn btn-sm btn-warning">Edit</a>
+        </span>
       </div>
       <hr />
       ${issueDetails(issue)}

@@ -54,7 +54,7 @@ function helperIssueForm (issue) {
     if (key !== 'id') {
       if (key === 'description') {
         returnHtml += formTextArea(issue[key], key, '', '') + '<div class="col-3"></div>';
-      } else if (key === 'status') {
+      } else if (key === 'state') {
         returnHtml += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'type') {
         returnHtml += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
