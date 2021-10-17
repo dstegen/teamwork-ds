@@ -174,45 +174,6 @@ function fileDelete (formId) {
 }
 
 
-//--- Lessons scripts ---//
-
-function calcValidFrom (startWeek) {
-  let endWeek = startWeek;
-  $('#validFrom-field').val(moment().day(1).isoWeek(startWeek).format('YYYY-MM-DD'));
-  if ($('form [name=weekAmount]')[0].checked === false){
-    if ($('form [name=weekAmount]')[1].checked === true) endWeek = Number(startWeek) + 1;
-    if ($('form [name=weekAmount]')[2].checked === true) endWeek = Number(startWeek) + 2;
-    if ($('form [name=weekAmount]')[3].checked === true) endWeek = Number(startWeek) + 3;
-   }
-  $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'));
-}
-
-function calcValidUntil (weekAmount) {
-  let endWeek = Number($('#startWeek-field').val()) + Number(weekAmount) - 1;
-  $('#validUntil-field').val(moment().day(7).isoWeek(endWeek).format('YYYY-MM-DD'));
-}
-
-function checkAvailability (myTime) {
-  let myDay = '';
-  for (var i=0; i<6; i++) {
-    if ($('form [name=weekdays]')[i].checked === true) myDay = i+1;
-  }
-  let myDate = moment($('#validFrom-field').val()).isoWeekday(myDay).format('YYYY-MM-DD');
-  //console.log(myDate);
-  //console.log(myTime);
-  if (onlinelessonsCalendar.filter(item => item.date == myDate && item.time == myTime).length > 0) {
-    console.log('Sorry, timeslot taken!');
-    alert('Sorry, timeslot taken!\nPls choose another time and/or date!');
-    $('form [type=submit]').attr('disabled', 'disabled');
-  } else {
-    console.log('OK');
-    $('form [type=submit]').removeAttr('disabled');
-  }
-}
-
-//--- END Lessons scripts ---//
-
-
 // Check if new password and retype match
 $(document).ready(function () {
   if (window.location.pathname === '/setpassword') {

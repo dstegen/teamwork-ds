@@ -29,9 +29,6 @@ function editIssueView (issue) {
           <input type="text" name="id" class="d-none" hidden value="${issue.id}" />
           <input type="text" name="createDate" class="d-none" hidden value="${issue.createDate}" />
           <input type="text" name="updateDate" class="d-none" hidden value="${issue.updateDate}" />
-          <div class="form-group mb-1">
-
-          </div>
           <div class="form-group row mb-1">
             ${helperIssueForm (issue)}
           </div>
@@ -65,11 +62,11 @@ function helperIssueForm (issue) {
       } else if (key === 'description') {
         returnHtml2 += formTextArea(issue.description, 'description', '', '') + '<div class="col-3"></div>';
       } else if (key === 'state') {
-        returnHtml1 += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'type') {
-        returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'priority') {
-        returnHtml1 += formSelect (['blocker','high','medium','low'], issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['blocker','high','medium','low'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml2 += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'dueDate') {
@@ -79,7 +76,7 @@ function helperIssueForm (issue) {
       } else if (key === 'tags') {
         returnHtml1 += formTextInput(issue[key], key, '', '') + '<div class="col-3"></div>';
       } else {
-        returnHtml2 += formTextInput(issue[key], key, 'required', '') + '<div class="col-3"></div>';
+        returnHtml2 += formTextInput(issue[key], key, '', '') + '<div class="col-3"></div>';
       }
     }
   });
