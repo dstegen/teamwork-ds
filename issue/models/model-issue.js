@@ -28,7 +28,7 @@ function createIssue (userId) {
   newIssue.priority = 'medium';
   newIssue.reporter = userId;
   newIssue.createDate = new Date();
-  newIssue.lastEditDate = new Date();
+  newIssue.updatedDate = new Date();
   return newIssue;
 }
 
@@ -77,7 +77,7 @@ function updateIssue (fields) {
         allIssues.filter( item => item.id === issue.id)[0][key] = issue[key];
       }
     });
-    allIssues.filter( item => item.id === issue.id)[0]['lastEditDate'] = new Date();
+    allIssues.filter( item => item.id === issue.id)[0]['updatedDate'] = new Date();
   } else {
     //add
     allIssues.push(issue);
