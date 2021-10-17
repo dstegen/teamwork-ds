@@ -1,6 +1,6 @@
 {
   "name": "teamwork-ds",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "simple project and teamwork webapp",
   "main": "index.js",
   "scripts": {
