@@ -11,6 +11,7 @@
 const { getAllIssues } = require('../../issue/models/model-issue');
 const { getAllProjects } = require('../../project/models/model-project');
 const { getUserFullName } = require('../../user/models/model-user');
+const { humanDate } = require('../../lib/dateJuggler');
 
 
 function issueList (projectId, user) {
@@ -33,17 +34,20 @@ function issueList (projectId, user) {
 
 function issueListItem (item) {
   let statusPillColor = 'bg-primary';
-  if (item.status === 'backlog') statusPillColor = 'bg-secondary';
   let priorityPill = '';
-  if (item.priority === 'blocker') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
   let listGroupItemColor = '';
+  if (item.status === 'backlog') {
+    statusPillColor = 'bg-secondary';
+    listGroupItemColor = 'list-group-item-light';
+  }
+  if (item.priority === 'blocker') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
   if (item.type === 'Bug') listGroupItemColor = 'list-group-item-danger';
-  if (item.status === 'backlog') listGroupItemColor = 'list-group-item-light';
   return `
     <a href="/issue/view/${item.id}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ${listGroupItemColor}">
       <span>
         <strong>${item.name}</strong>
         <span class="d-none d-lg-inline text-muted"> - ${getUserFullName(item.assignee)}</span>
+        <small class="d-block text-muted supersmall">${humanDate(item.updatedDate)}</small>
       </span>
       <span>
         ${priorityPill}

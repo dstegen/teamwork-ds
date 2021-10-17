@@ -21,7 +21,7 @@ function editIssueView (issue) {
     <div id="edit-issue-view" class="container">
       <div class="p-3 my-3 border">
         <div class="d-flex justify-content-between">
-          <h4 class="m-0">Issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
+          <h4 class="m-0">Edit issue: <strong>${issue.name}</strong> [${issue.id}]</h4>
           <a href="/issue/view/${issue.id}" class="btn btn-sm btn-secondary">Cancel</a>
         </div>
         <hr />

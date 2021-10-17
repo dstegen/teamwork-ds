@@ -10,6 +10,7 @@
 // Required modules
 const { getUserFullName } = require('../../user/models/model-user');
 const { getAllProjects } = require('../../project/models/model-project');
+const { humanDate } = require('../../lib/dateJuggler');
 const issueComments = require('../templates/issue-comments');
 
 
@@ -45,6 +46,8 @@ function issueDetails (issue) {
           if (item !== '') value.push(getUserFullName(Number(item)));
         });
         value = value.toString();
+      } else if (key.includes('Date')) {
+        if (issue[key] !== '') value = humanDate(issue[key]);
       }
       returnHtml += `
         <div class="col-3">${key}</div>
