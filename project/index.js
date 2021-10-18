@@ -8,13 +8,15 @@
 'use strict';
 
 // Required modules
-const { uniSend } = require('webapputils-ds');
+const path = require('path');
+const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { getProjectById } = require('./models/model-project');
+const { getProjectById, getAllProjects, updateProject } = require('./models/model-project');
 const projectListView = require('./views/project-list-view');
 const editProjectView = require('./views/edit-project-view');
 const projectView = require('./views/project-view');
+const loadFile = require('../utils/load-file');
 
 
 function projectController (request, response, wss, wsport, user) {
@@ -22,9 +24,22 @@ function projectController (request, response, wss, wsport, user) {
   let project = getProjectById(Number(route.split('/')[2]));
   let naviObj = getNaviObj(user);
   if (route.startsWith('project/create')) {
-    uniSend(view(wsport, naviObj, editProjectView(project)), response);
+    let newProject = loadFile(path.join(__dirname, '../project/models/blueprint-project.json'));
+    newProject.id = Math.max(...getAllProjects().map( item => item.id)) + 1;
+    newProject.createDate = new Date();
+    uniSend(view(wsport, naviObj, editProjectView(newProject)), response);
   } else if (route.startsWith('project/update')) {
-    uniSend(view(wsport, naviObj, editProjectView(project)), response);
+    //add/updateIssue
+    getFormObj(request).then(
+      data => {
+        updateProject(data.fields);
+        uniSend(new SendObj(302, [], '', '/project/view/'+data.fields.id), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t update/add: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
   } else if (route.startsWith('project/edit')) {
     uniSend(view(wsport, naviObj, editProjectView(project)), response);
   } else if (route.startsWith('project/view')) {
