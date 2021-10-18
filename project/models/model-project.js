@@ -26,7 +26,7 @@ function getProjectById (projectId) {
 
 function updateProject (fields) {
   fields.id = Number(fields.id);
-  console.log(fields);
+  //console.log(fields);
   let allProjects = getAllProjects();
   let myProject = {};
   if (allProjects.filter(item => item.id === fields.id).length > 0) {
@@ -39,7 +39,6 @@ function updateProject (fields) {
     Object.keys(fields).forEach(key => {
       myProject[key] = sani(fields[key]);
     });
-    console.log(myProject);
     allProjects.push(myProject);
     // create project subfolder & empty chat, if not exists
     createDir(path.join(__dirname, '../../data/projects', (myProject.id).toString()));
