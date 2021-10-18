@@ -15,12 +15,13 @@ const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { getChat } = require('../../communication/models/model-chat');
 const { getUserById, getUserFullName } = require('../../user/models/model-user');
-const { getProjectById } = require('../../project/models/model-project');
+const { getAllProjects, getProjectById } = require('../../project/models/model-project');
 
 
-function classChat (groupsList, user, windowLength=250) {
+function classChat (user, windowLength=250) {
   let returnHtml = '';
-  if (typeof(groupsList) === 'string') groupsList = [groupsList];
+  let groupsList = getAllProjects().map(item => { return item.id });
+  if (typeof(groupsList) === 'number') groupsList = [groupsList];
   groupsList.forEach( myGroup => {
     returnHtml += `
       <div class="border py-2 px-3 mb-3">

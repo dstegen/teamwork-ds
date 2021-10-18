@@ -4,6 +4,8 @@
   "description": "simple project and teamwork webapp",
   "main": "index.js",
   "scripts": {
+    "postinstall": "node helper/install.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

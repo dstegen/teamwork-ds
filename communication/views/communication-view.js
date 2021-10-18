@@ -27,7 +27,7 @@ function communicationView (user, wsport) {
         ${privateMessages(user.id)}
       </div>
       <div class="col-12 col-md-6">
-        ${classChat([1,2,3], user)}
+        ${classChat(user)}
       </div>
     </div>
   </div>
