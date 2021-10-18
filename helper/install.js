@@ -50,7 +50,7 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
   ];
   saveFile(path.join(__dirname, '../data'), 'projects.json', projects);
   let chat = [];
-  saveFile(path.join(__dirname, '../data/0'), 'chat.json', chat);
+  saveFile(path.join(__dirname, '../data/projects/0'), 'chat.json', chat);
   let privateMessages = [];
   saveFile(path.join(__dirname, '../data'), 'private-messages.json', privateMessages);
   // Install steps: 0=install, 1=email, 2=passwd, 3=passwd complete, 4=install complete
