@@ -15,12 +15,11 @@ const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { getChat } = require('../../communication/models/model-chat');
 const { getUserById, getUserFullName } = require('../../user/models/model-user');
-const { getAllProjects, getProjectById } = require('../../project/models/model-project');
+const { getProjectById } = require('../../project/models/model-project');
 
 
-function classChat (user, windowLength=250) {
+function classChat (groupsList, user, windowLength=250) {
   let returnHtml = '';
-  let groupsList = getAllProjects().map(item => { return item.id });
   if (typeof(groupsList) === 'number') groupsList = [groupsList];
   groupsList.forEach( myGroup => {
     returnHtml += `

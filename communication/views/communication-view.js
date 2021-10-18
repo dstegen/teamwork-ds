@@ -13,6 +13,8 @@ const config = require('../../main/models/model-config').getConfig();
 const classChat = require('../templates/chat');
 const privateMessages = require('../templates/private-messages');
 const newPrivateMessage = require('../templates/new-private-message');
+const { getAllProjects } = require('../../project/models/model-project');
+
 
 function communicationView (user, wsport) {
   return `
@@ -27,7 +29,7 @@ function communicationView (user, wsport) {
         ${privateMessages(user.id)}
       </div>
       <div class="col-12 col-md-6">
-        ${classChat(user)}
+        ${classChat(getAllProjects().map(item => { return item.id }), user)}
       </div>
     </div>
   </div>

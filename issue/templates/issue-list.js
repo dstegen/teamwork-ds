@@ -25,7 +25,7 @@ function issueList (projectId, user, state='all') {
         allIssues = allIssues.filter( item => item.state !== 'closed');
     }
   }
-  if (user.id) {
+  if (user && user.id) {
     allIssues = allIssues.filter( item => item.assignee === user.id);
   }
   return `

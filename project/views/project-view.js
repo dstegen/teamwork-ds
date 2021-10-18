@@ -1,5 +1,5 @@
 /*!
- * project/views/project-list-view.js
+ * project/views/project-view.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -8,20 +8,24 @@
 'use strict';
 
 // Required modules
-const { getAllProjects } = require('../models/model-project');
 const { getAllIssues } = require('../../issue/models/model-issue');
+const issueList = require('../../issue/templates/issue-list');
+const chat = require('../../communication/templates/chat');
 
-
-function projectListView () {
-  let allProjects = getAllProjects();
+function projectView (project, user) {
   return `
-    <div id="project-list-view" class="container-fluid p-3" style="min-height: 500px;">
-      <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-        Projects overview
-        <span id="clock" class="d-none d-md-block">&nbsp;</span>
-      </h2>
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-4 gy-1">
-        ${allProjects.map(projectCard).join('')}
+    <div id="project-list-view" class="container p-3" style="min-height: 500px;">
+      <div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1 py-2">
+        ${projectCard(project)}
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              ${chat([project.id], user, 130)}
+            </div>
+          </div>
+        </div>
+        ${issueList(project.id, undefined, '')}
+        ${issueList(project.id, undefined, 'closed')}
       </div>
     </div>
   `;
@@ -37,7 +41,7 @@ function projectCard (project) {
   return `
     <div class="col">
       <div class="card">
-        <div class="card-body" onclick="window.location.href='/project/view/${project.id}'" style="cursor: pointer;">
+        <div class="card-body">
           <h5 class="card-title">${project.name}</h5>
           <h6 class="card-subtitle mb-2 text-muted">${project.id}</h6>
           <div class="card-text">
@@ -65,4 +69,4 @@ function projectDetailLine (inArray) {
   }
 }
 
-module.exports = projectListView;
+module.exports = projectView;
