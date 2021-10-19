@@ -10,6 +10,7 @@
 // Required modules
 const path = require('path');
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
+const { newDate } = require('../lib/dateJuggler');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 const { getProjectById, getAllProjects, updateProject } = require('./models/model-project');
@@ -26,7 +27,7 @@ function projectController (request, response, wss, wsport, user) {
   if (route.startsWith('project/create')) {
     let newProject = loadFile(path.join(__dirname, '../project/models/blueprint-project.json'));
     newProject.id = Math.max(...getAllProjects().map( item => item.id)) + 1;
-    newProject.createDate = new Date();
+    newProject.createDate = newDate();
     uniSend(view(wsport, naviObj, editProjectView(newProject)), response);
   } else if (route.startsWith('project/update')) {
     //add/updateIssue

@@ -10,6 +10,7 @@
 // Required Modules
 const path = require('path');
 const fs = require('fs');
+const { newDate } = require('../lib/dateJuggler');
 const saveFile = require('../utils/save-file');
 const createDir = require('../utils/create-dir');
 const bcrypt = require('bcryptjs');
@@ -42,7 +43,7 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
       "id": 0,
       "name": "Start with TeamWork-DS",
       "description": "",
-      "createDate": new Date(),
+      "createDate": newDate(),
       "state": "started",
       "dueDate": "",
       "finishDate": ""

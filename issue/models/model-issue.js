@@ -10,6 +10,7 @@
 // Required modules
 const fs = require('fs');
 const path = require('path');
+const { newDate } = require('../../lib/dateJuggler');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const createDir = require('../../utils/create-dir');
@@ -27,8 +28,8 @@ function createIssue (user) {
   newIssue.projectId = 1;
   newIssue.priority = 'medium';
   newIssue.reporter = user.id;
-  newIssue.createDate = new Date();
-  newIssue.updateDate = new Date();
+  newIssue.createDate = newDate();
+  newIssue.updateDate = newDate();
   return newIssue;
 }
 
@@ -77,7 +78,7 @@ function updateIssue (fields) {
         allIssues.filter( item => item.id === issue.id)[0][key] = issue[key];
       }
     });
-    allIssues.filter( item => item.id === issue.id)[0]['updateDate'] = new Date();
+    allIssues.filter( item => item.id === issue.id)[0]['updateDate'] = newDate();
   } else {
     //add
     allIssues.push(issue);
@@ -96,7 +97,7 @@ function changeIssueState (issueId, state, user) {
     allIssues.filter( item => item.id === issueId)[0].assignee = user.id;
   }
   if (state === 'closed') {
-    allIssues.filter( item => item.id === issueId)[0].closeDate = new Date();
+    allIssues.filter( item => item.id === issueId)[0].closeDate = newDate();
   }
   allIssues.filter( item => item.id === issueId)[0].state = state;
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
