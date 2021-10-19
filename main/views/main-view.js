@@ -14,7 +14,7 @@ const issueList = require('../../issue/templates/issue-list');
 function mainView (lessonsTodayList, curWeek, user, wsport) {
   let allProjectsIds = getAllProjects().map(item => {return item.id});
   return `
-    <div id="dashboard" class="container-fluid p-3" style="min-height: 500px;">
+    <div id="dashboard" class="container py-3" style="min-height: 500px;">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         Dashboard
         <span id="clock" class="d-none d-md-block">&nbsp;</span>

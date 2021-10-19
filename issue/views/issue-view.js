@@ -16,30 +16,32 @@ const issueComments = require('../templates/issue-comments');
 
 function issueView (issue, user) {
   return `
-    <div id="issue-view" class="container p-3 my-3 border">
-      <small class="small text-uppercase">${getAllProjects().filter(item => item.id === issue['projectId'])[0].name}</small>
-      <div class="d-md-flex justify-content-between">
-        <h4 class="m-md-0"><strong>${issue.name}</strong> [${issue.id}]</h4>
-        <span>
-          ${['backlog'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-primary me-2">Open issue</a>` : ''}
-          ${['backlog','open'].includes(issue.state) ? `<a href="/issue/start/${issue.id}" class="btn btn-sm btn-success me-2">Start working</a>` : ''}
-          ${!['backlog','open','resolved', 'closed'].includes(issue.state) ? `<a href="/issue/resolved/${issue.id}" class="btn btn-sm btn-primary me-2">Resolve issue</a>` : ''}
-          ${!['backlog','closed'].includes(issue.state) ? `<a href="/issue/closed/${issue.id}" class="btn btn-sm btn-primary me-2">Close issue</a>` : ''}
-          ${['closed'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-danger me-2">Re-open issue</a>` : ''}
-          <a href="/issue/edit/${issue.id}" class="btn btn-sm btn-warning">Edit</a>
-        </span>
-      </div>
-      <hr />
-      <div>
-        ${issue.description}
-      </div>
-      <hr />
-      ${issueDetails(issue)}
-      <div class="mt-5">
-        <h5>Attachements:</h5>
+    <div id="issue-view" class="container py-3">
+      <div class=" p-3 my-3 border">
+        <small class="small text-uppercase">${getAllProjects().filter(item => item.id === issue['projectId'])[0].name}</small>
+        <div class="d-md-flex justify-content-between">
+          <h4 class="m-md-0"><strong>${issue.name}</strong> [${issue.id}]</h4>
+          <span>
+            ${['backlog'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-primary me-2">Open issue</a>` : ''}
+            ${['backlog','open'].includes(issue.state) ? `<a href="/issue/start/${issue.id}" class="btn btn-sm btn-success me-2">Start working</a>` : ''}
+            ${!['backlog','open','resolved', 'closed'].includes(issue.state) ? `<a href="/issue/resolved/${issue.id}" class="btn btn-sm btn-primary me-2">Resolve issue</a>` : ''}
+            ${!['backlog','closed'].includes(issue.state) ? `<a href="/issue/closed/${issue.id}" class="btn btn-sm btn-primary me-2">Close issue</a>` : ''}
+            ${['closed'].includes(issue.state) ? `<a href="/issue/open/${issue.id}" class="btn btn-sm btn-danger me-2">Re-open issue</a>` : ''}
+            <a href="/issue/edit/${issue.id}" class="btn btn-sm btn-warning">Edit</a>
+          </span>
+        </div>
         <hr />
+        <div>
+          ${issue.description}
+        </div>
+        <hr />
+        ${issueDetails(issue)}
+        <div class="mt-5">
+          <h5>Attachements:</h5>
+          <hr />
+        </div>
+        ${issueComments(issue.id, user)}
       </div>
-      ${issueComments(issue.id, user)}
     </div>
   `;
 }

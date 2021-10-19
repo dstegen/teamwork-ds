@@ -17,7 +17,7 @@ function issueListView (user) {
   let allProjectsIds = getAllIssues().map(item => {return item.projectId});
   if (user !== undefined) allProjectsIds = Array.from(new Set(getAllIssues().filter(item => item.assignee === user.id).map(item => {return item.projectId})));
   return `
-    <div id="issue-list-view" class="container-fluid p-3" style="min-height: 500px;">
+    <div id="issue-list-view" class="container py-3" style="min-height: 500px;">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         My Issues
         <span id="clock" class="d-none d-md-block">&nbsp;</span>

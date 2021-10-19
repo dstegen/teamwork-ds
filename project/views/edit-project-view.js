@@ -15,7 +15,7 @@ const formSelect = require('../../main/templates/form-select');
 
 function editProjectView (project) {
   return `
-    <div id="edit-project-view" class="container">
+    <div id="edit-project-view" class="container py-3">
       <div class="p-3 my-3 border">
         <div class="d-flex justify-content-between">
           <h4 class="m-0">Edit project: <strong>${project.name}</strong> [${project.id}]</h4>
