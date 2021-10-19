@@ -23,16 +23,16 @@ function loginView (wsport, message='') {
           <h2 class="card-title">${locale.headlines.please_login[config.lang]}</h2>
           <form action="/login" method="post" enctype="application/x-www-form-urlencoded" name="login-form">
             <input type="text" readonly class="d-none" id="action" name="action" value="login">
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="login-email">${locale.login.email_address[config.lang]}</label>
               <input type="email" class="form-control" id="username" name="username" placeholder="${locale.placeholder.email[config.lang]}">
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label for="login-password">${locale.login.password[config.lang]}</label>
               <input type="password" class="form-control" id="password" name="password" placeholder="${locale.placeholder.password[config.lang]}">
             </div>
-            <div class=" d-flex justify-content-end">
-              <button type="submit" class="btn btn-secondary">
+            <div class=" d-flex justify-content-end mt-3">
+              <button type="submit" class="btn btn-sm btn-primary">
                 ${locale.buttons.login[config.lang]}
               </button>
             </div>
