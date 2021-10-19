@@ -51,7 +51,6 @@ function issueListItem (item) {
   }
   if (item.state === 'in progress') {
     statusPillColor = 'bg-success';
-    listGroupItemColor = 'list-group-item-light';
   }
   if (item.priority === 'blocker' && item.state !== 'closed') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
   if (item.priority === 'critical' && item.state !== 'closed') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
@@ -61,7 +60,7 @@ function issueListItem (item) {
     <a href="/issue/view/${item.id}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ${listGroupItemColor}">
       <span>
         <strong>${item.name}</strong>
-        <span class="d-none d-lg-inline text-muted"> - ${getUserFullName(item.assignee)}</span>
+        <span class="d-none d-lg-inline text-muted small"> - ${getUserFullName(item.assignee)}</span>
         <small class="d-block text-muted supersmall">${humanDate(item.updateDate)}</small>
       </span>
       <span>
