@@ -24,8 +24,13 @@ function projectView (project, user) {
             </div>
           </div>
         </div>
+        <div class="col">
+        <h5>Open issues:</h5>
         ${issueList(project.id, undefined, '')}
+        </div><div class="col">
+        <h5>Closed issues:</h5>
         ${issueList(project.id, undefined, 'closed')}
+        </div>
       </div>
     </div>
   `;

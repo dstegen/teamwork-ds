@@ -9,7 +9,6 @@
 
 // Required modules
 const { getAllIssues } = require('../../issue/models/model-issue');
-const { getAllProjects } = require('../../project/models/model-project');
 const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
 
@@ -29,11 +28,8 @@ function issueList (projectId, user, state='all') {
     allIssues = allIssues.filter( item => item.assignee === user.id);
   }
   return `
-    <div class="col-12 col-md-6 p-3">
-      <h5>Project: ${getAllProjects().filter(item => item.id === projectId)[0].name}</h5>
-      <div class="list-group">
-        ${allIssues.map(issueListItem).join('')}
-      </div>
+    <div class="list-group">
+      ${allIssues.map(issueListItem).join('')}
     </div>
   `;
 }
@@ -49,8 +45,18 @@ function issueListItem (item) {
     statusPillColor = 'bg-secondary';
     listGroupItemColor = 'list-group-item-light';
   }
-  if (item.priority === 'blocker') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
-  if (item.type === 'Bug') listGroupItemColor = 'list-group-item-danger';
+  if (item.state === 'closed') {
+    statusPillColor = 'bg-info';
+    listGroupItemColor = 'list-group-item-light';
+  }
+  if (item.state === 'in progress') {
+    statusPillColor = 'bg-success';
+    listGroupItemColor = 'list-group-item-light';
+  }
+  if (item.priority === 'blocker' && item.state !== 'closed') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
+  if (item.priority === 'critical' && item.state !== 'closed') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
+  if (item.priority === 'high' && item.state !== 'closed') priorityPill = `<span class="badge bg-warning rounded-pill">${item.priority}</span>`;
+  if (item.type === 'Bug' && item.state !== 'closed') listGroupItemColor = 'list-group-item-danger';
   return `
     <a href="/issue/view/${item.id}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ${listGroupItemColor}">
       <span>

@@ -20,12 +20,12 @@ function mainView (lessonsTodayList, curWeek, user, wsport) {
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
       <div class="row py-2 px-3">
-        ${allProjectsIds.map(issueList).join('')}
+        ${allProjectsIds.map(issueListWrapper).join('')}
       </div>
       <hr class="my-5" />
       <h5 class="text-muted">Recently closed issues:</h5>
       <div class="row py-2 px-3">
-        ${allProjectsIds.map(id => issueList(id, '', 'closed')).join('')}
+        ${allProjectsIds.map(id => issueListWrapper(id, '', 'closed')).join('')}
       </div>
     </div>
     <script>
@@ -38,6 +38,18 @@ function mainView (lessonsTodayList, curWeek, user, wsport) {
         console.log(msg.data);
       };
     </script>
+  `;
+}
+
+
+// Additional functions
+
+function issueListWrapper (projectId, user, state) {
+  return `
+    <div class="col-12 col-md-6 p-3">
+      <h5>Project: ${getAllProjects().filter(item => item.id === projectId)[0].name}</h5>
+      ${issueList(projectId, user, state)}
+    </div>
   `;
 }
 

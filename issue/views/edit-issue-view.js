@@ -66,7 +66,7 @@ function helperIssueForm (issue) {
       } else if (key === 'type') {
         returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'priority') {
-        returnHtml1 += formSelect (['blocker','high','medium','low'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
+        returnHtml1 += formSelect (['blocker','critical','high','medium','low'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml2 += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'dueDate') {

@@ -9,6 +9,7 @@
 
 // Required modules
 const { getAllIssues } = require('../../issue/models/model-issue');
+const { getAllProjects } = require('../../project/models/model-project');
 const issueList = require('../templates/issue-list');
 
 
@@ -22,8 +23,20 @@ function issueListView (user) {
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
       <div class="row py-2 px-3">
-        ${allProjectsIds.map(projectId => issueList(projectId, user)).join('')}
+        ${allProjectsIds.map(projectId => issueListWrapper(projectId, user)).join('')}
       </div>
+    </div>
+  `;
+}
+
+
+// Additional functions
+
+function issueListWrapper (projectId, user) {
+  return `
+    <div class="col-12 col-md-6 p-3">
+      <h5>Project: ${getAllProjects().filter(item => item.id === projectId)[0].name}</h5>
+      ${issueList(projectId, user)}
     </div>
   `;
 }
