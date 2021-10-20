@@ -13,7 +13,7 @@ const { getAllProjects } = require('../../project/models/model-project');
 const { humanDate } = require('../../lib/dateJuggler');
 const issueComments = require('../templates/issue-comments');
 const issuePills = require('../templates/issue-pills');
-
+const issueTypeIcon = require('../templates/issue-type-icon');
 
 function issueView (issue, user) {
   return `
@@ -70,8 +70,9 @@ function issueDetails (issue) {
         value = issuePills(issue.state);
       } else if (key === 'priority') {
         value = issuePills(issue.priority, issue.priority);
-      } else if (key === 'type' && issue.type === 'Bug') {
-        value = issuePills(issue.type, issue.type);
+      } else if (key === 'type') {
+        //value = issuePills(issue.type, issue.type);
+        value = issueTypeIcon(issue.type);
       }
       if (key.includes('Date') || key.includes('watchers')) {
         returnHtml2 += `
