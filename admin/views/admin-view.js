@@ -9,25 +9,23 @@
 
 // Required modules
 const locale = require('../../lib/locale');
-const config = require('../models/model-config').getConfig();
+const config = require('../../main/models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
-const { getAllUsers, getTitleNameById, usersOnline } = require('../../user/models/model-user');
-const { getMessagesCount } = require('../../communication/models/model-messages');
-const { getChatCount } = require('../../communication/models/model-chat');
+const { getAllUsers, usersOnline, getUserFullName } = require('../../user/models/model-user');
 const getWelcome = require('./get-welcome');
 
 
 function adminView (user) {
   return `
-    <div id="dashboard" class="container">
+    <div id="admin-dashboard" class="container">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-        Dashboard
+        Admin Dashboard
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
       <div class="row">
         <div class="col-12 col-md-6">
         <div class="border py-2 px-3 mb-3">
-            <h4>${getWelcome(config.lang)} ${getTitleNameById(user.id)},</h4>
+            <h4>${getWelcome(config.lang)} ${getUserFullName(user.id)},</h4>
             <p>
               ${locale.teacher.today_is[config.lang]} ${formatDay()}.
             </p>
@@ -38,12 +36,7 @@ function adminView (user) {
         <div class="col-12 col-md-6">
           <div class="border py-2 px-3 mb-3">
             <h4>Statistics:</h4>
-            ${helperCounts('Teachers', getAllUsers().filter( item => item.role === 'member' ).length)}
-            ${helperCounts('Students', getAllUsers().filter( item => item.role === 'student' ).length)}
-            ${helperCounts('Classes', config.classes.length)}
-            <hr />
-            ${helperCounts('Messages count', getMessagesCount())}
-            ${helperCounts('Chat count', getChatCount())}
+            ${helperCounts('Members', getAllUsers().filter( item => item.role === 'member' ).length)}
             <hr />
             ${helperCounts('Users online', usersOnline())}
             <br />
