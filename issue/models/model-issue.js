@@ -100,6 +100,7 @@ function changeIssueState (issueId, state, user) {
     allIssues.filter( item => item.id === issueId)[0].closeDate = newDate();
   }
   allIssues.filter( item => item.id === issueId)[0].state = state;
+  allIssues.filter( item => item.id === issueId)[0].updateDate = newDate();
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 

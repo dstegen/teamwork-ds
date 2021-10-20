@@ -12,7 +12,7 @@ const { getAllIssues } = require('../../issue/models/model-issue');
 const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
 const issuePills = require('./issue-pills');
-
+const sortItemsByDate = require('../../utils/sort-items-by-date');
 
 function issueList (projectId, user, state='all') {
   let allIssues = getAllIssues().filter( item => item.projectId === projectId);
@@ -28,6 +28,7 @@ function issueList (projectId, user, state='all') {
   if (user && user.id) {
     allIssues = allIssues.filter( item => item.assignee === user.id);
   }
+  allIssues.sort((a,b) => sortItemsByDate(b,a,'updateDate'));
   return `
     <div class="list-group">
       ${allIssues.map(issueListItem).join('')}
