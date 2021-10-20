@@ -11,6 +11,7 @@
 const { getAllIssues } = require('../../issue/models/model-issue');
 const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
+const issuePills = require('./issue-pills');
 
 
 function issueList (projectId, user, state='all') {
@@ -38,23 +39,13 @@ function issueList (projectId, user, state='all') {
 // Additional functions
 
 function issueListItem (item) {
-  let statusPillColor = 'bg-primary';
-  let priorityPill = '';
   let listGroupItemColor = '';
   if (item.state === 'backlog') {
-    statusPillColor = 'bg-secondary';
     listGroupItemColor = 'list-group-item-light';
   }
   if (item.state === 'closed') {
-    statusPillColor = 'bg-info';
     listGroupItemColor = 'list-group-item-light';
   }
-  if (item.state === 'in progress') {
-    statusPillColor = 'bg-success';
-  }
-  if (item.priority === 'blocker' && item.state !== 'closed') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
-  if (item.priority === 'critical' && item.state !== 'closed') priorityPill = `<span class="badge bg-danger rounded-pill">${item.priority}</span>`;
-  if (item.priority === 'high' && item.state !== 'closed') priorityPill = `<span class="badge bg-warning rounded-pill">${item.priority}</span>`;
   if (item.type === 'Bug' && item.state !== 'closed') listGroupItemColor = 'list-group-item-danger';
   return `
     <a href="/issue/view/${item.id}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ${listGroupItemColor}">
@@ -64,8 +55,8 @@ function issueListItem (item) {
         <small class="d-block text-muted supersmall">${humanDate(item.updateDate)}</small>
       </span>
       <span>
-        ${priorityPill}
-        <span class="badge ${statusPillColor} rounded-pill">${item.state}</span>
+        ${issuePills(item.priority)}
+        ${issuePills(item.state)}
       </span>
     </a>
   `;
