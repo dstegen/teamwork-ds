@@ -19,7 +19,7 @@ function issueView (issue, user) {
   return `
     <div id="issue-view" class="container py-3">
       <div class=" p-3 my-3 border">
-        <small class="small text-uppercase">${getAllProjects().filter(item => item.id === issue['projectId'])[0].name}</small>
+        <small class="small text-uppercase"><a href="/project/view/${issue.projectId}">${getAllProjects().filter(item => item.id === issue['projectId'])[0].name}</a></small>
         <div class="d-md-flex justify-content-between">
           <h4 class="m-md-0"><strong>${issue.name}</strong> [${issue.id}]</h4>
           <span>

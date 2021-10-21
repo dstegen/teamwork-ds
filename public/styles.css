@@ -75,7 +75,7 @@ a.orange, a.orange:focus, a.orange:hover {
 
 .card {
   border: 0;
-  border-radius: 0.1875rem;
+  border-radius: 0.25rem;
   display: inline-block;
   position: relative;
   width: 100%;

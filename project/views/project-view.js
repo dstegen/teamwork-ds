@@ -16,20 +16,19 @@ function projectView (project, user) {
   return `
     <div id="project-list-view" class="container py-3" style="min-height: 500px;">
       <div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1 py-3">
-        ${projectCard(project)}
+        ${projectCard(project,user)}
         <div class="col">
-          <div class="card">
+          <div class="card mb-1">
             <div class="card-body">
-              ${chat([project.id], user, 130)}
+              <div class="card-title d-flex justify-content-between my-0 align-middle">
+                <h5 class="mb-0 mt-1">Issues:</h5>
+                <a href="/issue/create?projectId=${project.id}" class="btn btn-primary btn-sm text-capitalize">Create issue</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col">
-        <h5>Open issues:</h5>
-        ${issueList(project.id, undefined, '')}
-        </div><div class="col">
-        <h5>Closed issues:</h5>
-        ${issueList(project.id, undefined, 'closed')}
+          ${issueList(project.id, undefined, '')}
+          <hr class="my-4" />
+          ${issueList(project.id, undefined, 'closed')}
         </div>
       </div>
     </div>
@@ -39,7 +38,7 @@ function projectView (project, user) {
 
 // Additional functions
 
-function projectCard (project) {
+function projectCard (project, user) {
   let projectIssues = getAllIssues().filter(item => item.projectId === project.id);
   let issuesClosed = projectIssues.filter(item => item.state === 'closed').length;
   let projectProgress = Number(issuesClosed/projectIssues.length*100).toFixed(0);
@@ -47,7 +46,10 @@ function projectCard (project) {
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">${project.name}</h5>
+          <h4 class="card-title d-flex justify-content-between">
+            ${project.name}
+            <a href="/project/edit/${project.id}" class="btn btn-sm btn-warning">Edit</a>
+          </h4>
           <h6 class="card-subtitle mb-2 text-muted">${project.id}</h6>
           <div class="card-text">
             ${Object.entries(project).map(projectDetailLine).join('')}
@@ -58,10 +60,8 @@ function projectCard (project) {
             <div class="progress-bar" role="progressbar" style="width: ${projectProgress}%" aria-valuenow="${projectProgress}" aria-valuemin="0" aria-valuemax="100">${projectProgress}%</div>
           </div>
         </div>
-        <div class="card-footer d-flex justify-content-end">
-          <a href="/project/edit/${project.id}">Edit project</a>
-        </div>
       </div>
+      ${chat([project.id], user)}
     </div>
   `;
 }

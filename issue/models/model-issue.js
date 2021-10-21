@@ -17,7 +17,7 @@ const createDir = require('../../utils/create-dir');
 const sani = require('../../utils/sanitizer');
 
 
-function createIssue (user) {
+function createIssue (user, projectId) {
   let newIssue = loadFile(path.join(__dirname, './blueprint-issue.json'));
   let allIssues = getAllIssues();
   if (allIssues.length > 0) {
@@ -25,7 +25,7 @@ function createIssue (user) {
   } else {
     newIssue.id = 1;
   }
-  newIssue.projectId = 1;
+  newIssue.projectId = projectId;
   newIssue.priority = 'medium';
   newIssue.reporter = user.id;
   newIssue.createDate = newDate();

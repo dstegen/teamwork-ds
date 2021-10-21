@@ -24,7 +24,11 @@ function issueController (request, response, wss, wsport, user) {
   let issue = getIssue(Number(route.split('/')[2]));
   let naviObj = getNaviObj(user);
   if (route.startsWith('issue/create')) {
-    uniSend(view(wsport, naviObj, editIssueView(createIssue(user))), response);
+    let projectId = undefined;
+    if (request.url.substr(1).includes('?projectId=')) {
+      projectId = Number(request.url.substr(1).split('?')[1].split('=')[1]);
+    }
+    uniSend(view(wsport, naviObj, editIssueView(createIssue(user, projectId))), response);
   } else if (route.startsWith('issue/update')) {
     //add/updateIssue
     getFormObj(request).then(

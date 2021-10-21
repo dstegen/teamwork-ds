@@ -49,9 +49,6 @@ function projectCard (project) {
             <div class="progress-bar" role="progressbar" style="width: ${projectProgress}%" aria-valuenow="${projectProgress}" aria-valuemin="0" aria-valuemax="100">${projectProgress}%</div>
           </div>
         </div>
-        <div class="card-footer d-flex justify-content-end">
-          <a href="/project/edit/${project.id}">Edit project</a>
-        </div>
       </div>
     </div>
   `;
