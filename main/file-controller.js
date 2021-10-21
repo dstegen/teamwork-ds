@@ -36,24 +36,13 @@ function fileUploadAction (request, response, user) {
     data => {
       let filePath = '';
       urlPath = data.fields.urlPath;
-      if (user.role === 'student') {
-        filePath = path.join('courses', data.fields.course, data.fields.courseId, 'homework', user.id.toString());
+      if (user.role === 'member') {
+        filePath = 'attachements';
         if (fileUpload(data.fields, data.files, filePath)) {
           let addFields = {
-            group: data.fields.group,
-            courseId: data.fields.courseId,
-            studentId: user.id,
-            file: path.join('/data/classes', data.fields.group, filePath, data.files.filetoupload.name)
+            files: path.join('/data/issue', data.fields.id, filePath, data.files.filetoupload.name)
           }
-        }
-      } else if (user.role === 'member') {
-        filePath = path.join('courses', data.fields.course, data.fields.courseId, 'material');
-        if (fileUpload(data.fields, data.files, filePath)) {
-          let addFields = {
-            group: data.fields.group,
-            id: data.fields.courseId,
-            files: path.join('/data/classes', data.fields.group, filePath, data.files.filetoupload.name)
-          }
+          // add to issues files list
         }
       }
       uniSend(new SendObj(302, [], '', urlPath), response);
@@ -64,11 +53,12 @@ function fileUploadAction (request, response, user) {
   });
 }
 
-function fileDeleteAction (request, response, user) {
+function fileDeleteAction (request, response) {
   let urlPath = '';
   getFormObj(request).then(
     data => {
       urlPath = data.fields.urlPath;
+      fileDelete(data.fields);
       uniSend(new SendObj(302, [], '', urlPath), response);
     }
   ).catch(

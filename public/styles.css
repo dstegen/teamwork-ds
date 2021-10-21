@@ -210,9 +210,11 @@ a.orange, a.orange:focus, a.orange:hover {
 }
 
 input.form-control {
+  /*
   background-color: transparent;
   /*border: 1px solid #E3E3E3;*/
   /*border-radius: 30px;*/
+  /*
   color: var(--color);
   line-height: normal;
   font-size: 0.8571em;
@@ -223,6 +225,7 @@ input.form-control {
   transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   -webkit-box-shadow: none;
   box-shadow: none;
+  */
 }
 
 input.form-control.board-form {

@@ -14,6 +14,8 @@ const { humanDate } = require('../../lib/dateJuggler');
 const issueComments = require('../templates/issue-comments');
 const issuePills = require('../templates/issue-pills');
 const issueTypeIcon = require('../templates/issue-type-icon');
+const uploadForm = require('../templates/upload-form');
+
 
 function issueView (issue, user) {
   return `
@@ -39,6 +41,7 @@ function issueView (issue, user) {
         ${issueDetails(issue)}
         <div class="mt-5">
           <h5>Attachements:</h5>
+          ${uploadForm(issue)}
           <hr />
         </div>
         ${issueComments(issue.id, user)}
