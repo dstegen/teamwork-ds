@@ -86,6 +86,8 @@ function updateIssue (fields) {
   // create issue subfolder, if not exists
   if (!fs.existsSync(path.join(__dirname, '../../data/issues', (issue.id).toString()))) {
     createDir(path.join(__dirname, '../../data/issues', (issue.id).toString()));
+    // save empty comments file
+    saveFile(path.join(__dirname, '../../data/issues', (issue.id).toString()), 'comments.json', []);
   }
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
