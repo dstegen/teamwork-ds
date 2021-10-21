@@ -91,7 +91,7 @@ function initChat () {
     }
   });
   if (newMessages > 0) {
-    $('#topnavi-communication').append('<span class="badge badge-light ml-1">'+newMessages+'</span>');
+    $('#topnavi-communication').append('<span class="badge bg-warning ms-1">'+newMessages+'</span>');
   }
 }
 
