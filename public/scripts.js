@@ -17,8 +17,12 @@ $(document).ready(function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   });
+  // init Chat & Comments
+  initChat();
   // init Tokenfield
-  initTokenfield();
+  if (window.location.toString().includes('issue/create') || window.location.toString().includes('issue/edit')) {
+    initTokenfield();
+  }
 });
 
 // *** Tokenfield ***//
