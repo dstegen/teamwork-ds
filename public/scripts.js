@@ -214,30 +214,31 @@ function enableDisableInput (checkbox, enableElement, disableElement) {
 // jQuery-ui sortable
 $( function() {
   $(".sortable").sortable({
-    update: function( event, ui ) {}
+    update: function( event, ui ) {},
   });
   $(".sortable").sortable( "option", "cancel", "form,a,button" );
+  $(".sortable").sortable( "option", "connectWith", ".sortable-list" );
+
 });
 
+var stateList = ['','backlog','open','start','resolved','closed'];
+
 $(".sortable").on("sortupdate", function(event, ui) {
-  var myList = document.getElementsByClassName("board-frame");
-  var ordList = myList[0].getElementsByClassName("board-topic");
-  var newOrder = [];
-  for (var i=0; i<ordList.length; i++) {
-    newOrder.push(ordList[i].id.replace(/topic-/,''));
-  }
-  var curGroup = window.location.pathname.split('/')[2];
-  console.log('group: '+curGroup+', New Order: '+newOrder);
+  //console.log(ui.item[0].parentElement.id.split('-')[1]);
+  //console.log(ui.item[0].id.split('-')[2]);
+  var issueId = ui.item[0].id.split('-')[2];
+  var newState = stateList[Number(ui.item[0].parentElement.id.split('-')[1])];
+  console.log('Issue ID: '+issueId+' changed state to: '+newState);
   $.ajax({
-    url: '/board/'+curGroup+'/reorder', // url where to submit the request
+    url: '/issue/'+newState+'/'+issueId, // url where to submit the request
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
-    data : {"group": curGroup, "newOrder": newOrder},
+    data : {"id": issueId, "state": newState},
     success : function(result) {
         console.log(result);
     }
   });
-  $("#feedback .modal-content").html('Re-order was saved!<br>Class: '+curGroup+' New Order: '+newOrder);
+  $("#feedback .modal-content").html('Issue ID: '+issueId+' changed state to: '+newState);
   $("#feedback").modal('show');
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );

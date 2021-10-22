@@ -44,7 +44,7 @@ function getIssue (id) {
 }
 
 function updateIssue (fields) {
-  console.log(fields);
+  //console.log(fields);
   let issue = {};
   let tagArray = [];
   let watchersArray = [];
@@ -90,6 +90,7 @@ function updateIssue (fields) {
     saveFile(path.join(__dirname, '../../data/issues', (issue.id).toString()), 'comments.json', []);
   }
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
+  console.log('+ Issue "'+issue.name+'" updated successfully!');
 }
 
 function changeIssueState (issueId, state, user) {
@@ -104,6 +105,7 @@ function changeIssueState (issueId, state, user) {
   allIssues.filter( item => item.id === issueId)[0].state = state;
   allIssues.filter( item => item.id === issueId)[0].updateDate = newDate();
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
+  console.log('+ Issue "'+issueId+'" state successfully updated to "'+state+'"');
 }
 
 function deleteIssue (id) {

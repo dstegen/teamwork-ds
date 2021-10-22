@@ -19,7 +19,10 @@ function projectCard (project, small=false) {
   let headlineClass = '';
   let detailClass = '';
   let cardLink = '';
-  let editLink = `<a href="/project/edit/${project.id}" class="btn btn-sm btn-warning">Edit</a>`;
+  let editLink = `<span>
+                    <a href="/board/${project.id}" class="btn btn-sm btn-primary me-2">View board</a>
+                    <a href="/project/edit/${project.id}" class="btn btn-sm btn-warning">Edit</a>
+                  </span>`;
   if (small) {
     headlineClass = 'h5';
     detailClass = 'small';

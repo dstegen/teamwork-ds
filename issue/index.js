@@ -47,7 +47,7 @@ function issueController (request, response, wss, wsport, user) {
     uniSend(view(wsport, naviObj, issueView(issue, user)), response);
   } else if (route.startsWith('issue/comment')) {
     communicationController (request, response, wss, wsport, user);
-  } else if (['open','start','resolved','closed'].includes(route.split('/')[1])) {
+  } else if (['backlog','open','start','resolved','closed'].includes(route.split('/')[1])) {
     let state = route.split('/')[1];
     let issueId = Number(route.split('/')[2]);
     changeIssueState(issueId, state, user);

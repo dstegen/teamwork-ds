@@ -297,8 +297,8 @@ input.form-control.board-form {
 }
 
 .board-frame {
-  overflow-x: scroll;
-  min-height: 75vH;
+  /*overflow-x: scroll;
+  min-height: 75vH;*/
 }
 
 .board-column {
@@ -319,4 +319,21 @@ input.form-control.board-form {
 
 .ui-sortable-placeholder {
   min-width: 220px;
+}
+
+
+/*** All new styles for TeamWork-DS ***/
+
+.project-board-headline .btn {
+  border-radius: 50%;
+}
+
+.project-board-headline .btn[aria-expanded="false"] {
+    transform: rotate(90deg);
+}
+
+.project-board-headline .btn {
+    transition: transform 0.35s ease;
+    transform: rotate(0deg);
+    /*transform-origin: .5em 50%;*/
 }
