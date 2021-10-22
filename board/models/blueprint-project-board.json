@@ -1,0 +1,41 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "order": 0,
+      "topic": "Backlog",
+      "autofill": true,
+      "autofillWith": "backlog"
+    },
+    {
+      "id": 2,
+      "order": 1,
+      "topic": "Open",
+      "autofill": true,
+      "autofillWith": "open"
+    },
+    {
+      "id": 3,
+      "order": 2,
+      "topic": "In progress",
+      "autofill": true,
+      "autofillWith": "in progress"
+    },
+    {
+      "id": 4,
+      "order": 3,
+      "topic": "Resolved",
+      "autofill": true,
+      "autofillWith": "resolved"
+    },
+    {
+      "id": 5,
+      "order": 4,
+      "topic": "Closed",
+      "autofill": true,
+      "autofillWith": "closed"
+    }
+  ],
+  "cards": [
+  ]
+}

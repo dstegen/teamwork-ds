@@ -15,7 +15,7 @@ const { getProjectById } = require('../../project/models/model-project');
 
 
 function boardView (group, user, single=false) {
-  let myBoard = getBoard(group);
+  let myBoard = getBoard();
   let project = getProjectById(Number(group));
   if (myBoard.topics !== undefined) {
     return `

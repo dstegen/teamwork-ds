@@ -16,9 +16,9 @@ const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
 
 
-function getBoard (group) {
+function getBoard () {
   let returnBoard = {};
-  returnBoard = loadFile(path.join(__dirname, '../../data/projects', group, 'board.json'), false);
+  returnBoard = loadFile(path.join(__dirname, './blueprint-project-board.json'));
   if (returnBoard.topics !== undefined) {
     return reOrderBoard(returnBoard);
   } else {
