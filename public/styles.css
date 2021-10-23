@@ -337,3 +337,9 @@ input.form-control.board-form {
     transform: rotate(0deg);
     /*transform-origin: .5em 50%;*/
 }
+
+/*** FullCalendar CSS overwrites ***/
+
+.fc .fc-button {
+  font-size: .75rem;
+}

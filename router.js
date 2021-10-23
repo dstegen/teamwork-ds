@@ -16,6 +16,7 @@ const communicationController = require('./communication');
 const projectController = require('./project');
 const fileController = require('./main/file-controller');
 const boardController = require('./board');
+const calendarController = require('./calendar');
 const adminController = require('./admin');
 const loginView = require('./user/views/login-view');
 
@@ -44,6 +45,8 @@ function router (request, response, wss, wsport) {
       projectController(request, response, wss, wsport, user);
     } else if (route.startsWith('board')) {
       boardController(request, response, user);
+    } else if (route.startsWith('calendar')) {
+      calendarController(request, response, wss, wsport, user);
     } else if (route.startsWith('admin') && user.admin) {
       adminController(request, response, wss, wsport, user);
     } else {

@@ -19,6 +19,8 @@ function header () {
             <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
             <link rel="stylesheet" href="/node_modules/tokenfield/dist/tokenfield.css">
             <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.min.css">
+          <!-- FullCalendar -->
+            <link href='/public/fullcalendar/lib/main.css' rel='stylesheet' />
           <!-- Css Theme -->
             <link rel="stylesheet" href="/public/styles.css">
           <!-- Favicon -->

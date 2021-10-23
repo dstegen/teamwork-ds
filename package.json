@@ -17,6 +17,11 @@
   "author": "Daniel Stegen",
   "license": "MIT",
   "dependencies": {
+    "@fullcalendar/core": "^5.10.0",
+    "@fullcalendar/daygrid": "^5.10.0",
+    "@fullcalendar/interaction": "^5.10.0",
+    "@fullcalendar/list": "^5.10.0",
+    "@fullcalendar/timegrid": "^5.10.0",
     "bootstrap": "^5.1.3",
     "bs-custom-file-input": "^1.3.4",
     "jquery": "^3.6.0",
