@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { getAllEvents, getProjectEvents, getEvent, updateEvent, deleteEvent } = require('./models/model-calendar');
+const { getAllEvents, getProjectEvents, updateEvent, deleteEvent } = require('./models/model-calendar');
 const calendarView = require('./views/calendar-view');
 const { getProjectById } = require('../project/models/model-project');
 
@@ -25,6 +25,18 @@ function calendarController (request, response, wss, wsport, user) {
     let project = getProjectById(Number(route.split('/')[2]));
     let calHeadline = 'Calendar for <a href="/project/view/'+project.id+'">'+project.name+'<a/>';
     uniSend(view(wsport, naviObj, calendarView(events, calHeadline)), response);
+  } else if (route.startsWith('calendar/update')) {
+    //add/updateIssue
+    getFormObj(request).then(
+      data => {
+        updateEvent(data.fields);
+        uniSend(new SendObj(302, [], '', '/calendar/'), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t update/add: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
   } else {
     events = getAllEvents();
     uniSend(view(wsport, naviObj, calendarView(events)), response);
