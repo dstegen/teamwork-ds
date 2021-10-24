@@ -16,9 +16,9 @@ function header () {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
           <!-- Bootstrap, jquery and trumbowyg CSS -->
-            <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-            <link rel="stylesheet" href="/node_modules/tokenfield/dist/tokenfield.css">
-            <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.min.css">
+            <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/tokenfield/dist/tokenfield.css">
+            <link rel="stylesheet" href="/jquery-ui-dist/jquery-ui.min.css">
           <!-- FullCalendar -->
             <link href='/public/fullcalendar/lib/main.css' rel='stylesheet' />
           <!-- Css Theme -->
