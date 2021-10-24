@@ -32,7 +32,7 @@ function getProjectEvents (projectId) {
         {
           id: 8000000 + issue.id,
           title: issue.name+' ['+issue.id+']',
-          start: issue.createDate,
+          start: issue.startDate,
           end: issue.updateDate,
           url: '/issue/view/'+ issue.id.toString(),
           backgroundColor: 'rgb(255, 0, '+(issue.id%3)*80+')',

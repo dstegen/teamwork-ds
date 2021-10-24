@@ -79,6 +79,7 @@ function updateIssue (fields) {
         allIssues.filter( item => item.id === issue.id)[0][key] = issue[key];
       }
     });
+    if (issue.state === 'in progress') allIssues.filter( item => item.id === issue.id)[0]['startDate'] = newDate();
     allIssues.filter( item => item.id === issue.id)[0]['updateDate'] = newDate();
   } else {
     //add
@@ -103,6 +104,7 @@ function changeIssueState (issueId, state, user) {
   if (state === 'start') {
     state = 'in progress';
     allIssues.filter( item => item.id === issueId)[0].assignee = user.id;
+    allIssues.filter( item => item.id === issueId)[0].startDate = newDate();
   }
   if (state === 'closed') {
     allIssues.filter( item => item.id === issueId)[0].closeDate = newDate();

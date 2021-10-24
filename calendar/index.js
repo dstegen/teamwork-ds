@@ -13,6 +13,7 @@ const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 const { getAllEvents, getProjectEvents, getEvent, updateEvent, deleteEvent } = require('./models/model-calendar');
 const calendarView = require('./views/calendar-view');
+const { getProjectById } = require('../project/models/model-project');
 
 
 function calendarController (request, response, wss, wsport, user) {
@@ -21,10 +22,13 @@ function calendarController (request, response, wss, wsport, user) {
   let events = [];
   if (route.split('/')[1] === 'project' && Number(route.split('/')[2]) > 0) {
     events = getProjectEvents(Number(route.split('/')[2]));
+    let project = getProjectById(Number(route.split('/')[2]));
+    let calHeadline = 'Calendar for <a href="/project/view/'+project.id+'">'+project.name+'<a/>';
+    uniSend(view(wsport, naviObj, calendarView(events, calHeadline)), response);
   } else {
     events = getAllEvents();
+    uniSend(view(wsport, naviObj, calendarView(events)), response);
   }
-  uniSend(view(wsport, naviObj, calendarView(events)), response);
 }
 
 
