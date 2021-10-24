@@ -16,8 +16,8 @@ const filesList = require('../../main/templates/files-list');
 
 function uploadForm (issue) {
   let attachements = undefined;
-  if (fs.existsSync(path.join(__dirname, '../../data/issues', issue.id.toString(), 'attachements'))) {
-    attachements = fs.readdirSync(path.join(__dirname, '../../data/issues', issue.id.toString(), 'attachements'));
+  if (fs.existsSync(path.join(__dirname, '../../data/attachements', issue.id.toString()))) {
+    attachements = fs.readdirSync(path.join(__dirname, '../../data/attachements', issue.id.toString()));
   }
   return `
   <div class="row">

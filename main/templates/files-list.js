@@ -12,7 +12,7 @@ function filesList (files, urlPath='', id='', lessonColor='', deleteable=true) {
   let returnHtml = '';
   if (files && files.length > 0) {
     files.forEach( filePath => {
-      filePath = '/data/issues/'+id+'/attachements/'+filePath;
+      filePath = '/data/attachements/'+id+'/'+filePath;
       let delButton = '';
       let tmpFile = filePath.split('/').pop();
       if (deleteable) {

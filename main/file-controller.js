@@ -10,8 +10,6 @@
 // Required modules
 const path = require('path');
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-//const { updateLesson, finishLesson, deleteFileFromLesson, deleteFileFromLessonFinished } = require('../lesson/models/model-lessons');
-//const { deleteFileFromCard } = require('../board/models/model-board');
 const fileUpload = require('../lib/file-upload');
 const fileDelete = require('../lib/file-delete');
 
@@ -37,10 +35,9 @@ function fileUploadAction (request, response, user) {
       let filePath = '';
       urlPath = data.fields.urlPath;
       if (user.role === 'member') {
-        filePath = 'attachements';
         if (fileUpload(data.fields, data.files, filePath)) {
           let addFields = {
-            files: path.join('/data/issue', data.fields.id, filePath, data.files.filetoupload.name)
+            files: path.join('/data/attachements', data.fields.id, filePath, data.files.filetoupload.name)
           }
           // add to issues files list
         }

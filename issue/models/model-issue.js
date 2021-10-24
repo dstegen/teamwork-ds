@@ -89,6 +89,10 @@ function updateIssue (fields) {
     // save empty comments file
     saveFile(path.join(__dirname, '../../data/issues', (issue.id).toString()), 'comments.json', []);
   }
+  // create empty attachements subfolder,if not exists
+  if (!fs.existsSync(path.join(__dirname, '../../data/attachements', (issue.id).toString()))) {
+    createDir(path.join(__dirname, '../../data/attachements', (issue.id).toString()));
+  }
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
   console.log('+ Issue "'+issue.name+'" updated successfully!');
 }

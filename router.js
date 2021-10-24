@@ -23,7 +23,7 @@ const loginView = require('./user/views/login-view');
 
 function router (request, response, wss, wsport) {
   let route = request.url.substr(1).split('?')[0];
-  if (route.startsWith('data') || request.url.includes('public') || request.url.includes('favicon')) {
+  if (route.startsWith('data/attachements') || request.url.includes('public') || request.url.includes('favicon')) {
     deliver(request, response);
   } else if (request.url.includes('bootstrap') || request.url.includes('jquery') || request.url.includes('tokenfield') || request.url.includes('bs-custom-file') || request.url.includes('moment')) {
     request.url = 'node_modules/'+request.url;
