@@ -26,6 +26,7 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
   console.log('Installing necessary data structure & files...');
   createDir(path.join(__dirname, '../data'));
   createDir(path.join(__dirname, '../data/issues'));
+  createDir(path.join(__dirname, '../data/attachements'));
   createDir(path.join(__dirname, '../data/projects'));
   createDir(path.join(__dirname, '../data/projects/0'));
   let config = {
