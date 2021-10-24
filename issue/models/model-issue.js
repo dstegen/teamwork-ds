@@ -33,8 +33,9 @@ function createIssue (user, projectId) {
   return newIssue;
 }
 
-function getAllIssues () {
+function getAllIssues (projectId=undefined) {
   let allIssues = loadFile(path.join(__dirname, '../../data/issues.json'));
+  if (projectId !== undefined && typeof(projectId) === 'number') allIssues = allIssues.filter( item => item.projectId === projectId);
   return allIssues;
 }
 
