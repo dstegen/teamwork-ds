@@ -21,6 +21,9 @@ function header () {
             <link rel="stylesheet" href="/jquery-ui-dist/jquery-ui.min.css">
           <!-- FullCalendar -->
             <link href='/public/fullcalendar/lib/main.css' rel='stylesheet' />
+          <!-- Flatpickr -->
+            <link rel="stylesheet" href="/flatpickr/dist/flatpickr.min.css">
+            <link rel="stylesheet" type="text/css" href="/flatpickr/dist/themes/material_blue.css">
           <!-- Css Theme -->
             <link rel="stylesheet" href="/public/styles.css">
           <!-- Favicon -->

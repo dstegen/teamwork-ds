@@ -8,12 +8,9 @@
 'use strict';
 
 // Required modules
-const fs = require('fs');
 const path = require('path');
-const { newDate } = require('../../lib/dateJuggler');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
-const createDir = require('../../utils/create-dir');
 const sani = require('../../utils/sanitizer');
 const { getAllIssues } = require('../../issue/models/model-issue');
 
@@ -52,23 +49,41 @@ function getEvent (eventId) {
 function updateEvent (fields) {
   let allEvents = getAllEvents();
   console.log(fields);
+  let membersArray = [];
   if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
     // update
-    console.log('+++ Update');
+    console.log('+ Update event: '+fields.title+' '+fields.start);
+    if (Object.keys(fields).includes('allDay')) {
+      allEvents.filter(item => item.id === Number(fields.id))[0].allDay = true;
+    } else {
+      allEvents.filter(item => item.id === Number(fields.id))[0].allDay = false;
+    }
     Object.keys(fields).forEach( key => {
-      if (key !== 'id') {
+      if (key.startsWith('membersItems')) {
+        if (fields[key] != '') membersArray.push(sani(fields[key]));
+      } else if (key !== 'id' && key !== 'allDay') {
         allEvents.filter(item => item.id === Number(fields.id))[0][key] = sani(fields[key]);
       }
     });
+    if (membersArray.length > 0) {
+      allEvents.filter(item => item.id === Number(fields.id))[0]['members'] = membersArray.toString();
+    }
   } else {
     // add
     let tmpEvent = {};
     tmpEvent.id = Math.max(...allEvents.map( item => item.id)) + 1;
     Object.keys(fields).forEach( key => {
-      if (key !== 'id') {
+      if (key.startsWith('membersItems')) {
+        if (fields[key] != '') membersArray.push(sani(fields[key]));
+      } else if (key === 'allDay') {
+        tmpEvent.allDay = true;
+      } else if (key !== 'id') {
         tmpEvent[key] = sani(fields[key]);
       }
     });
+    if (membersArray.length > 0) {
+      tmpEvent['members'] = membersArray.toString();
+    }
     console.log(tmpEvent);
     allEvents.push(tmpEvent);
   }
@@ -77,7 +92,9 @@ function updateEvent (fields) {
 }
 
 function deleteEvent (eventId) {
-
+  let allEvents = getAllEvents().filter(item => item.id !== Number(eventId));
+  saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
+  console.log('- Deleted event with ID: '+eventId);
 }
 
 

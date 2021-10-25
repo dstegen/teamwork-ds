@@ -23,6 +23,9 @@ $(document).ready(function () {
   if (window.location.toString().includes('issue/create') || window.location.toString().includes('issue/edit')) {
     initTokenfield();
   }
+  if (window.location.toString().includes('calendar')) {
+    initTokenfieldForCalendar();
+  }
 });
 
 // *** Tokenfield ***//
@@ -42,6 +45,7 @@ var myTags = [
 ]
 
 function initTokenfield () {
+  // Tags
   let tfTags = new Tokenfield({
     el: document.querySelector('#tags-field'),
     items: myTags,
@@ -56,12 +60,14 @@ function initTokenfield () {
     }
   });
   tfTags.setItems(tagsArray);
+  // Watchers
   let tfWatchers = new Tokenfield({
     el: document.querySelector('#watchers-field'),
     items: watchersArray,
     delimiters: [','],
     itemName: "watchersItems",
-    newItems: false
+    newItems: false,
+    minChars: 0
   });
   let curWatchersArray = [];
   $('#watchers-field').val().split(',').forEach( id => {
@@ -72,6 +78,45 @@ function initTokenfield () {
   tfWatchers.setItems(curWatchersArray);
 }
 
+//*** Flatpickr ***/
+
+function initFlatpickr () {
+  const pickrOptions = {
+    locale: {
+        firstDayOfWeek: 1
+    },
+    weekNumbers: true,
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    time_24hr: true,
+    allowInput: true
+  };
+  ['start-field','end-field'].forEach( id => {
+    flatpickr($('#'+id), pickrOptions);
+  });
+  // Members Tokenfield
+  let curMembersArray = [];
+  $('#members-field').val().split(',').forEach( id => {
+    if (id != '') {
+      curMembersArray.push({ id: id, name: membersArray.filter( entry => entry.id === Number(id))[0].name });
+    }
+  });
+  tfMembers.setItems(curMembersArray);
+}
+
+let tfMembers = {};
+
+function initTokenfieldForCalendar () {
+  // Members Tokenfield
+  tfMembers = new Tokenfield({
+    el: document.querySelector('#members-field'),
+    items: membersArray,
+    delimiters: [','],
+    itemName: "membersItems",
+    newItems: false,
+    minChars: 0
+  });
+}
 
 
 //+++ START Chat functions +++//
@@ -144,7 +189,7 @@ function sendChat (group) {
   $('#chat-window-'+group+' input[name="userchat"]').val('');
 }
 
-//--- END CHat functions ---//
+//--- END Chat functions ---//
 
 
 

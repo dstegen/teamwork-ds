@@ -37,6 +37,17 @@ function calendarController (request, response, wss, wsport, user) {
         console.log('ERROR can\'t update/add: '+error.message);
         uniSend(new SendObj(302, [], '', '/'), response);
     });
+  } else if (route.startsWith('calendar/delete')) {
+    getFormObj(request).then(
+      data => {
+        deleteEvent(Number(data.fields.id));
+        uniSend(new SendObj(302, [], '', '/calendar/'), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t delete event: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
   } else {
     events = getAllEvents();
     uniSend(view(wsport, naviObj, calendarView(events)), response);

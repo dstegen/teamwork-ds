@@ -31,6 +31,8 @@ function tail () {
         <script src="/moment/min/moment-with-locales.min.js"></script>
       <!-- FullCalendar -->
         <script src='/public/fullcalendar/lib/main.js'></script>
+      <!-- Flatpickr -->
+        <script src="/flatpickr/dist/flatpickr.min.js"></script>
       <!-- Other Scripts -->
         <script src="/public/clock.js"></script>
         <script src="/public/cookie.js"></script>
