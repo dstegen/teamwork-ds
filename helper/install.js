@@ -55,6 +55,17 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
   saveFile(path.join(__dirname, '../data/projects/0'), 'chat.json', chat);
   let privateMessages = [];
   saveFile(path.join(__dirname, '../data'), 'private-messages.json', privateMessages);
+  let allEvents = [
+    {
+      "id": 9000000,
+      "start": newDate(),
+      "end": "",
+      "title": "Start with TeamWork-DS",
+      "allDay": true,
+      "members": "100000"
+    }
+  ];
+  saveFile(path.join(__dirname, '../data'), 'events.json', allEvents);
   // Install steps: 0=install, 1=email, 2=passwd, 3=passwd complete, 4=install complete
   let steps = [false, false, false, false, false];
   console.log('\nFor loggin into the TeamWork-DS pls setup login credentials now!');
