@@ -19,7 +19,7 @@ function editProjectView (project) {
       <div class="p-3 my-3 border">
         <div class="d-flex justify-content-between">
           <h4 class="m-0">Edit project: <strong>${project.name}</strong> [${project.id}]</h4>
-          <a href="/project/view/${project.id}" class="btn btn-sm btn-secondary">Cancel</a>
+          <a href="/project/${project.name !== '' ? '/view/'+project.id : ''}" class="btn btn-sm btn-secondary">Cancel</a>
         </div>
         <hr />
         <form id="project-form-${project.id}" action="/project/update/${project.id}" method="post">
