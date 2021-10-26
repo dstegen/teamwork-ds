@@ -20,7 +20,7 @@ function calendarController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
   let events = [];
-  if (route.split('/')[1] === 'project' && Number(route.split('/')[2]) > 0) {
+  if (route.split('/')[1] === 'project' && Number(route.split('/')[2]) > -1) {
     events = getProjectEvents(Number(route.split('/')[2]));
     let project = getProjectById(Number(route.split('/')[2]));
     let calHeadline = 'Calendar for <a href="/project/view/'+project.id+'">'+project.name+'<a/>';
