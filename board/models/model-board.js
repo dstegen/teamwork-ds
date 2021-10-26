@@ -16,9 +16,13 @@ const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
 
 
-function getBoard () {
+function getBoard (boardType, group) {
   let returnBoard = {};
-  returnBoard = loadFile(path.join(__dirname, './blueprint-project-board.json'));
+  if (boardType === 'kanban') {
+    returnBoard = loadFile(path.join(__dirname, './blueprint-project-board.json'));
+  } else {
+    returnBoard = loadFile(path.join(__dirname, '../../data/boards', group, 'board.json'));
+  }
   if (returnBoard.topics !== undefined) {
     return reOrderBoard(returnBoard);
   } else {

@@ -11,8 +11,8 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateTopic, updateCard, deleteFromBoard, updateOrder } = require('./models/model-board');
 const getNaviObj = require('../lib/getNaviObj');
-const boardView = require('./views/board-view');
-const boardListView = require('./views/board-list-view');
+const kanbanBoardView = require('./views/kanban-board-view');
+const kanbanBoardListView = require('./views/kanban-board-list-view');
 const view = require('../main/views/base-view');
 
 
@@ -21,12 +21,14 @@ function boardController (request, response, user) {
   let naviObj = getNaviObj(user);
   if (route.startsWith('board') && (route.includes('update') || route.includes('delete') || route.includes('reorder'))) {
     updateBoard(request, response);
+  } else if (route.startsWith('board')) {
+    //later
   } else if (route.startsWith('kanban')) {
     let projectId = route.split('/')[1];
     if (projectId === undefined) {
-      uniSend(view('', naviObj, boardListView(user)), response);
+      uniSend(view('', naviObj, kanbanBoardListView(user)), response);
     } else {
-      uniSend(view('', naviObj, boardView(projectId, user, true)), response);
+      uniSend(view('', naviObj, kanbanBoardView(projectId, user, true)), response);
     }
   }
 }

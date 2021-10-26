@@ -1,5 +1,5 @@
 /*!
- * views/board/board-view.js
+ * views/board/kanban-board-view.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -9,13 +9,12 @@
 
 // Required modules
 const { getBoard } = require('../models/model-board');
-const boardColumn = require('./board-column');
-const boardColumnForm = require('./board-column-form');
+const kanbanBoardColumn = require('./kanban-board-column');
 const { getProjectById } = require('../../project/models/model-project');
 
 
-function boardView (group, user, single=false) {
-  let myBoard = getBoard();
+function kanbanBoardView (group, user, single=false) {
+  let myBoard = getBoard('kanban');
   let project = getProjectById(Number(group));
   if (myBoard.topics !== undefined) {
     return `
@@ -27,11 +26,10 @@ function boardView (group, user, single=false) {
           </div>
         </div>
         <div id="board-collapse-${group}" ${single ? '' : 'class="collapse"'}>
-          <div id="board-frame" class="container pb-3 d-flex board-frame">
+          <div id="board-frame" class="container pb-3 board-frame">
             <div class="row row-cols-1 row-cols-md-2  row-cols-lg-3 row-cols-xl-5 g-3">
-              ${myBoard.topics.map( topics => boardColumn(topics, myBoard, group, user)).join('')}
+              ${myBoard.topics.map( topics => kanbanBoardColumn(topics, myBoard, group, user)).join('')}
             </div>
-            ${user.role === 'member2' ? boardColumnForm(group) : ''}
           </div>
         </div>
       </div>
@@ -46,4 +44,4 @@ function boardView (group, user, single=false) {
 }
 
 
-module.exports = boardView;
+module.exports = kanbanBoardView;

@@ -1,5 +1,5 @@
 /*!
- * views/board/board-card2.js
+ * views/board/kanban-board-card.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -8,13 +8,12 @@
 'use strict';
 
 // Required modules
-// Required modules
 const issueTypeIcon = require('../../issue/templates/issue-type-icon');
 const { humanDate } = require('../../lib/dateJuggler');
 const { getUserFullName } = require('../../user/models/model-user');
 
 
-function boardCard2 (issue, state) {
+function kanbanBoardCard (issue, state) {
   if (issue.state === state) {
     return `
       <div id="issue-card-${issue.id}" class="card text-center ui-sortable-handle mb-3">
@@ -45,4 +44,4 @@ function boardCard2 (issue, state) {
 }
 
 
-module.exports = boardCard2;
+module.exports = kanbanBoardCard;
