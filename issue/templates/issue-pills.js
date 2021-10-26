@@ -27,7 +27,7 @@ function issuePills (state, noPillText='') {
     case 'resolved':
       return `<span class="badge bg-primary rounded-pill">${state}</span>`;
     case 'closed':
-      return `<span class="badge bg-info rounded-pill">${state}</span>`;
+      return `<span class="badge bg-light text-muted rounded-pill">${state}</span>`;
     // type
   case 'Bug':
     return `<span class="badge bg-danger rounded-pill">${state}</span>`;

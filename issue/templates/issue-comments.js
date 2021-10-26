@@ -55,8 +55,8 @@ function chatterEntry (issueId) {
       let cssInline = 'd-inline';
       if (item.chat.split('').length > 46) cssInline = '';
       let chatterImage = '<span class="p-2 small border rounded-circle">' + chatUser.fname.split('')[0] + chatUser.lname.split('')[0] + '</span>';
-      if (fs.existsSync(path.join(__dirname, '../../data/school/pics/', item.chaterId+'.jpg'))) {
-        chatterImage = `<img src="/data/school/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>`;
+      if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', item.chaterId+'.jpg'))) {
+        chatterImage = `<img src="/data/users/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>`;
       }
         returnHtml += `
           <div class="d-flex justify-content-start mb-2">
