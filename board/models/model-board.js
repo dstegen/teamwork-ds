@@ -13,6 +13,7 @@ const path = require('path');
 const fileUpload = require('../../lib/file-upload');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
+const createDir = require('../../utils/create-dir');
 const sani = require('../../utils/sanitizer');
 
 
@@ -21,12 +22,12 @@ function getBoard (boardType, group) {
   if (boardType === 'kanban') {
     returnBoard = loadFile(path.join(__dirname, './blueprint-project-board.json'));
   } else {
-    returnBoard = loadFile(path.join(__dirname, '../../data/boards', group, 'board.json'));
+    returnBoard = loadFile(path.join(__dirname, '../../data/boards', group.toString(), 'board.json'));
   }
   if (returnBoard.topics !== undefined) {
     return reOrderBoard(returnBoard);
   } else {
-    return {
+    let newBoard = {
       topics: [
         {
           id: 0,
@@ -41,17 +42,26 @@ function getBoard (boardType, group) {
           id: 0,
           topicId: 0,
           chapter: 'Start your board',
-          details: 'Start adding content and lessons to your board!',
+          details: 'Start adding cards to your board!',
           link: ''
         }
       ]
     };
+    if (!fs.existsSync(path.join(__dirname, '../../data/boards', group.toString(), 'board.json'))) {
+      createDir(path.join(__dirname, '../../data/boards', group.toString()));
+      saveFile(path.join(__dirname, '../../data/boards', group.toString()), 'board.json', newBoard);
+      console.log('+ Added board for group: '+group);
+    }
+    return newBoard;
   }
 }
 
 function updateTopic (fields) {
-  let tmpBoard = {};
-  if (fs.existsSync(path.join(__dirname, '../../data/classes/', fields.group, 'board.json'))) tmpBoard = getBoard(fields.group);
+  let tmpBoard = {
+    topics: [],
+    cards: []
+  };
+  if (fs.existsSync(path.join(__dirname, '../../data/boards', fields.group, 'board.json'))) tmpBoard = getBoard('', fields.group);
   let newTopic = {};
   if (fields.id !== 'null' && tmpBoard.topics && tmpBoard.topics.filter( item => item.id === Number(fields.id) ).length === 1) {
     newTopic = tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0];
@@ -66,12 +76,12 @@ function updateTopic (fields) {
   if (fields.id === 'null') {
     tmpBoard.topics.push(newTopic);
   }
-  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/boards', fields.group), 'board.json', tmpBoard);
   console.log('+ Updated/added group board topic successfully!');
 }
 
 function updateCard (fields, files) {
-  let tmpBoard = getBoard(fields.group);
+  let tmpBoard = getBoard('', fields.group);
   let newCard = {};
   if (fields.id !== 'null' && tmpBoard.cards.filter( item => item.id === Number(fields.id) ).length === 1) {
     newCard = tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0];
@@ -85,18 +95,19 @@ function updateCard (fields, files) {
   if (files.filetoupload.name !== '') {
     if (newCard.files === undefined || newCard.files === '') newCard.files = [];
     if (fileUpload(fields, files, path.join('board', newCard.id.toString()))) {
-      newCard.files.push(path.join('/data/classes', fields.group, 'board', newCard.id.toString(), files.filetoupload.name));
+      newCard.files.push(path.join('/data/boards', fields.group, 'board', newCard.id.toString(), files.filetoupload.name));
     }
   }
   if (fields.id === 'null') {
+    newCard.order = 0;
     tmpBoard.cards.push(newCard);
   }
-  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/boards', fields.group), 'board.json', tmpBoard);
   console.log('+ Updated/added group board card successfully!');
 }
 
 function deleteFromBoard (fields) {
-  let tmpBoard = getBoard(fields.group);
+  let tmpBoard = getBoard('', fields.group);
   if (fields.section === 'topics') {
     tmpBoard.topics.splice(tmpBoard.topics.indexOf(tmpBoard.topics.filter( item => item.id === Number(fields.id) )[0]), 1);
     if (tmpBoard.cards.filter( item => item.topicId === Number(fields.id) ).length > 0) {
@@ -118,25 +129,25 @@ function deleteFromBoard (fields) {
     tmpBoard.cards.splice(tmpBoard.cards.indexOf(tmpBoard.cards.filter( item => item.id === Number(fields.id) )[0]), 1);
     console.log('- Deleted card successfully from group board!');
   }
-  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/boards', fields.group), 'board.json', tmpBoard);
 }
 
 function deleteFileFromCard (fields) {
-  let tmpBoard = getBoard(fields.group);
+  let tmpBoard = getBoard('', fields.group);
   let myFiles = tmpBoard.cards.filter( item => item.id === Number(fields.lessonId))[0].files;
-  myFiles.splice(myFiles.indexOf('/data/classes/'+fields.group+'/board/'+fields.lessonId+'/'+fields.delfilename));
+  myFiles.splice(myFiles.indexOf('/data/boards/'+fields.group+'/board/'+fields.lessonId+'/'+fields.delfilename));
   tmpBoard.cards.filter( item => item.id === Number(fields.lessonId))[0].files = myFiles;
-  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/boards', fields.group), 'board.json', tmpBoard);
 }
 
 function updateOrder (fields) {
-  let tmpBoard = getBoard(fields.group);
+  let tmpBoard = getBoard('', fields.group);
   if (fields['newOrder[]'].length > 0) {
     fields['newOrder[]'].forEach((id, i) => {
       tmpBoard.topics.filter( item => item.id === Number(id))[0].order = i;
     });
   }
-  saveFile(path.join(__dirname, '../../data/classes', fields.group), 'board.json', tmpBoard);
+  saveFile(path.join(__dirname, '../../data/boards', fields.group), 'board.json', tmpBoard);
   console.log('+ Changed order of board '+fields.group);
 }
 
@@ -159,10 +170,10 @@ function reOrderBoard (inBoard) {
 }
 
 function getNewId (cards) {
-  if (cards.length > 0) {
+  if (cards && cards.length > 0) {
     return Math.max(...cards.map( item => item.id)) + 1;
   } else {
-    return 100001;
+    return 0;
   }
 }
 

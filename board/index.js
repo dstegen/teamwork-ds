@@ -13,6 +13,7 @@ const { updateTopic, updateCard, deleteFromBoard, updateOrder } = require('./mod
 const getNaviObj = require('../lib/getNaviObj');
 const kanbanBoardView = require('./views/kanban-board-view');
 const kanbanBoardListView = require('./views/kanban-board-list-view');
+const boardView = require('./views/board-view');
 const view = require('../main/views/base-view');
 
 
@@ -22,7 +23,9 @@ function boardController (request, response, user) {
   if (route.startsWith('board') && (route.includes('update') || route.includes('delete') || route.includes('reorder'))) {
     updateBoard(request, response);
   } else if (route.startsWith('board')) {
-    //later
+    let myGroup = route.split('/')[1];
+    if (myGroup === undefined) myGroup = 1;
+    uniSend(view('', naviObj, boardView(myGroup, user)), response);
   } else if (route.startsWith('kanban')) {
     let projectId = route.split('/')[1];
     if (projectId === undefined) {

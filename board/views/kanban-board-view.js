@@ -26,7 +26,7 @@ function kanbanBoardView (group, user, single=false) {
           </div>
         </div>
         <div id="board-collapse-${group}" ${single ? '' : 'class="collapse"'}>
-          <div id="board-frame" class="container pb-3 board-frame">
+          <div id="board-frame" class="container pb-3">
             <div class="row row-cols-1 row-cols-md-2  row-cols-lg-3 row-cols-xl-5 g-3">
               ${myBoard.topics.map( topics => kanbanBoardColumn(topics, myBoard, group, user)).join('')}
             </div>

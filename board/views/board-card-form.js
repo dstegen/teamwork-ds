@@ -34,7 +34,7 @@ function boardCardForm (group, myTopicId, myCard) {
     }
     delButton = '';
     addButton = `
-      <div class="px-3 py-2 border mt-2 text-muted bg-light text-center board-header" data-toggle="collapse" data-target="#addCardForm-${myTopicId}-${myCard.id}">
+      <div class="px-3 py-2 border mt-2 text-muted bg-light text-center board-header" data-bs-toggle="collapse" data-bs-target="#addCardForm-${myTopicId}-${myCard.id}">
         <strong>+</strong>
       </div>
     `;

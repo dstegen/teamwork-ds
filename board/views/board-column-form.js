@@ -34,7 +34,7 @@ function boardColumnForm (group, myTopic) {
       autofillWith: ''
     }
     addButton = `
-      <div class="px-3 py-2 border bg-primary text-light text-center board-header" data-toggle="collapse" data-target="#addColumnForm-null">
+      <div class="px-3 py-2 border bg-primary text-light text-center board-header" data-bs-toggle="collapse" data-bs-target="#addColumnForm-null">
         <strong>+ ${locale.buttons.add_column[config.lang]}</strong>
       </div>
     `;
