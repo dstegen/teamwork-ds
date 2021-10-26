@@ -46,7 +46,7 @@ function router (request, response, wss, wsport) {
       communicationController(request, response, wss, wsport, user);
     } else if (route.startsWith('project')) {
       projectController(request, response, wss, wsport, user);
-    } else if (route.startsWith('board')) {
+    } else if (route.startsWith('board') || route.startsWith('kanban')) {
       boardController(request, response, user);
     } else if (route.startsWith('calendar')) {
       calendarController(request, response, wss, wsport, user);

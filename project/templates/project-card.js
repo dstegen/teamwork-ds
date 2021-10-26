@@ -20,7 +20,7 @@ function projectCard (project, small=false) {
   let detailClass = '';
   let cardLink = '';
   let editLink = `<span>
-                    <a href="/board/${project.id}" class="btn btn-sm btn-primary me-2">View board</a>
+                    <a href="/kanban/${project.id}" class="btn btn-sm btn-primary me-2">View board</a>
                     <a href="/calendar/project/${project.id}" class="btn btn-sm btn-primary me-2">View calendar</a>
                     <a href="/project/edit/${project.id}" class="btn btn-sm btn-warning">Edit</a>
                   </span>`;

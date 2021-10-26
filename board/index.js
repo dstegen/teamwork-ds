@@ -15,20 +15,18 @@ const boardView = require('./views/board-view');
 const boardListView = require('./views/board-list-view');
 const view = require('../main/views/base-view');
 
-let myGroup = '';
-
 
 function boardController (request, response, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
   if (route.startsWith('board') && (route.includes('update') || route.includes('delete') || route.includes('reorder'))) {
     updateBoard(request, response);
-  } else if (route.startsWith('board')) {
-    myGroup = route.split('/')[1];
-    if (myGroup === undefined) {
+  } else if (route.startsWith('kanban')) {
+    let projectId = route.split('/')[1];
+    if (projectId === undefined) {
       uniSend(view('', naviObj, boardListView(user)), response);
     } else {
-      uniSend(view('', naviObj, boardView(myGroup, user, true)), response);
+      uniSend(view('', naviObj, boardView(projectId, user, true)), response);
     }
   }
 }
