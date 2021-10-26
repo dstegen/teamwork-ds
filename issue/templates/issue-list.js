@@ -12,6 +12,7 @@ const { getAllIssues } = require('../../issue/models/model-issue');
 const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
 const issuePills = require('./issue-pills');
+const issueTypeIcon = require('./issue-type-icon');
 const sortItemsByDate = require('../../utils/sort-items-by-date');
 
 function issueList (projectId, user, state='all') {
@@ -51,6 +52,7 @@ function issueListItem (item) {
   return `
     <a href="/issue/view/${item.id}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ${listGroupItemColor}">
       <span>
+        ${issueTypeIcon(item.type, true)}
         <strong>${item.name}</strong>
         <span class="d-none d-lg-inline text-muted small"> - ${getUserFullName(item.assignee)}</span>
         <small class="d-block text-muted supersmall">${humanDate(item.updateDate)}</small>
