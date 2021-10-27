@@ -53,7 +53,7 @@ function updateEvent (fields) {
   if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
     // update
     console.log('+ Update event: '+fields.title+' '+fields.start);
-    if (Object.keys(fields).includes('allDay')) {
+    if (Object.keys(fields).includes('allDay') && fields.allDay === 'true') {
       allEvents.filter(item => item.id === Number(fields.id))[0].allDay = true;
     } else {
       allEvents.filter(item => item.id === Number(fields.id))[0].allDay = false;
@@ -76,7 +76,11 @@ function updateEvent (fields) {
       if (key.startsWith('membersItems')) {
         if (fields[key] != '') membersArray.push(sani(fields[key]));
       } else if (key === 'allDay') {
-        tmpEvent.allDay = true;
+        if (fields.allDay === 'true') {
+          tmpEvent.allDay = true;
+        } else {
+          tmpEvent.allDay = false;
+        }
       } else if (key !== 'id') {
         tmpEvent[key] = sani(fields[key]);
       }

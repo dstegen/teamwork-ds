@@ -40,12 +40,29 @@ function calendarView (events, calHeadline='Calendar') {
           selectable: ${editable},
 
           eventDrop: function(info) {
-            alert(info.event.title + " was dropped on " + info.event.start.toISOString());
             if (!confirm("Are you sure about this change?")) {
               info.revert();
+            } else {
+              // Ajax call to update event
+              let endDate = '';
+              if (info.event.end != undefined) endDate = moment(info.event.end).format('YYYY-MM-DD HH:mm');
+              let allDay = false;
+              if (info.event.allDay === true) allDay = true;
+              $.ajax({
+                url: '/calendar/update/', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                data : {
+                  "id": info.event.id,
+                  "start": moment(info.event.start).format('YYYY-MM-DD HH:mm'),
+                  "end": endDate,
+                  "allDay": allDay
+                },
+                success : function(result) {
+                    console.log(result);
+                }
+              });
             }
-            console.log(info.event.id);
-            // Ajax call to update event
           },
 
           eventClick: function(info) {
