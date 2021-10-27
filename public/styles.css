@@ -12,11 +12,12 @@ body {
 
 a {
   color: var(--color);
+  text-decoration: none;
 }
 
 a:focus, a:hover {
   color: var(--color);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a.orange, a.orange:focus, a.orange:hover {
@@ -118,7 +119,8 @@ a.orange, a.orange:focus, a.orange:hover {
 }
 
 .list-group {
-  box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+  /*box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);*/
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 /* Lesson colors */
@@ -342,4 +344,9 @@ input.form-control.board-form {
 
 .fc .fc-button {
   font-size: .75rem;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.25em;
+    margin: 0;
 }
