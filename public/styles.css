@@ -164,6 +164,10 @@ a.orange, a.orange:focus, a.orange:hover {
   color: white !important;
 }
 
+.bg-lightgrey {
+  background-color: lightgrey;
+}
+
 .details-box {
   background-color: #efefef;
   color: var(--color);

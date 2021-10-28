@@ -27,8 +27,8 @@ function boardCardForm (group, myTopicId, myCard) {
     myCard = {
       id: 'null',
       topicId: myTopicId,
-      chapter: '',
-      details: '',
+      title: '',
+      description: '',
       file: '',
       link: ''
     }
@@ -39,6 +39,19 @@ function boardCardForm (group, myTopicId, myCard) {
       </div>
     `;
   }
+  let attachementsInForm = `
+    <hr />
+    <label class="mb-2">${locale.headlines.attachment_files[config.lang]}</label>
+    <div class="custom-file">
+      <input type="file" class="form-control form-control-sm custom-file-input" id="filetoupload-${myCard.id}" name="filetoupload">
+      <label class="form-control form-control-sm custom-file-label text-truncate" for="filetoupload-${myCard.id}">${locale.placeholder.attachment[config.lang]}...</label>
+      <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+    </div>
+  `;
+  let cardLink = `
+    <label for="link-field">Link</label>
+    <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="${myCard.link}">
+  `;
   return `
     ${addButton}
     <div id="addCardForm-${myTopicId}-${myCard.id}" class="collapse px-3 py-2 border bg-light board-card">
@@ -47,22 +60,14 @@ function boardCardForm (group, myTopicId, myCard) {
         <input type="text" name="id" class="d-none" hidden value="${myCard.id}" />
         <input type="text" name="topicId" class="d-none" hidden value="${myCard.topicId}" />
         <input type="text" name="section" class="d-none" hidden value="cards" />
-        <label for="chapter-field">Chapter</label>
-        <input type="text" class="form-control board-form form-control-sm mb-2" id="chapter-field" name="chapter" value="${myCard.chapter}">
-        <label for="details-field">Details</label>
-        <textarea class="form-control form-control-sm  mb-2" id="details-field" rows="3" name="details">${myCard.details}</textarea>
-        <label for="link-field">Link</label>
-        <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="${myCard.link}">
+        <label for="title-field">Title</label>
+        <input type="text" class="form-control board-form form-control-sm mb-2" id="title-field" name="title" value="${myCard.title}">
+        <label for="description-field">Description</label>
+        <textarea class="form-control form-control-sm  mb-2" id="description-field" rows="3" name="description">${myCard.description}</textarea>
+        ${cardLink}
         <div class="d-flex justify-content-between mt-3">
           ${delButton}
           <button type="submit" class="btn btn-primary">${myCard.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
-        </div>
-        <hr />
-        <label class="mb-2">${locale.headlines.attachment_files[config.lang]}</label>
-        <div class="custom-file">
-          <input type="file" class="form-control form-control-sm custom-file-input" id="filetoupload-${myCard.id}" name="filetoupload">
-          <label class="form-control form-control-sm custom-file-label text-truncate" for="filetoupload-${myCard.id}">${locale.placeholder.attachment[config.lang]}...</label>
-          <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
         </div>
       </form>
       <div class="small mt-2">

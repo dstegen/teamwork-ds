@@ -18,8 +18,11 @@ function boardView (group, user) {
   if (myBoard.topics !== undefined) {
     return `
       <div class="board-bg">
-        <div class="container p-3 d-flex justify-content-between">
-          <h2>Free board ${group}</h2>
+        <div class="container py-3 px-0">
+          <h2 class="d-flex justify-content-between py-2 px-3 border bg-light">
+            Free board ${group}
+            <span id="clock" class="d-none d-md-block">23:11:40</span>
+          </h2>
         </div>
         <div id="board-frame" class="container px-0 pb-3 d-flex board-frame sortable ui-sortable">
           ${myBoard.topics.map( topics => boardColumn(topics, myBoard, group, user)).join('')}

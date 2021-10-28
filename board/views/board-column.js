@@ -11,11 +11,23 @@
 const boardCard = require('./board-card');
 const boardCardForm = require('./board-card-form');
 const boardColumnForm = require('./board-column-form');
-
+const { getAllIssues } = require('../../issue/models/model-issue');
+const { getUserFullName } = require('../../user/models/model-user');
 
 function boardColumn (myTopic, myBoard, group, user) {
   let editor = true;
   let cardsArray = myBoard.cards.filter( item => item.topicId === myTopic.id);
+  if (myTopic.autofill === true) {
+    cardsArray = getAllIssues().filter( item => (item.projectId === Number(myTopic.autofillWith) && item.state !== 'closed'));
+    cardsArray = cardsArray.map( issue => { return {
+      title: issue.name,
+      description: issue.description,
+      type: issue.type,
+      id: issue.id,
+      state: issue.state,
+      assignee: getUserFullName(issue.assignee)
+    }; });
+  }
   return `
     <div id="topic-${myTopic.id}" class="mr-3 board-topic ui-sortable-handle me-2"}">
       <h5 class="px-3 py-2 border mb-0 bg-light d-flex justify-content-between board-column">

@@ -41,8 +41,8 @@ function getBoard (boardType, group) {
         {
           id: 0,
           topicId: 0,
-          chapter: 'Start your board',
-          details: 'Start adding cards to your board!',
+          title: 'Start your board',
+          description: 'Start adding cards to your board!',
           link: ''
         }
       ]
@@ -89,15 +89,17 @@ function updateCard (fields, files) {
     newCard.id = getNewId(tmpBoard.cards);
   }
   newCard.topicId = Number(fields.topicId);
-  newCard.chapter = sani(fields.chapter);
-  newCard.details = sani(fields.details);
+  newCard.title = sani(fields.title);
+  newCard.description = sani(fields.description);
   if (fields.link.startsWith('http://') || fields.link.startsWith('https://')) newCard.link = sani(fields.link);
+  /*
   if (files.filetoupload.name !== '') {
     if (newCard.files === undefined || newCard.files === '') newCard.files = [];
     if (fileUpload(fields, files, path.join('board', newCard.id.toString()))) {
       newCard.files.push(path.join('/data/boards', fields.group, 'board', newCard.id.toString(), files.filetoupload.name));
     }
   }
+  */
   if (fields.id === 'null') {
     newCard.order = 0;
     tmpBoard.cards.push(newCard);

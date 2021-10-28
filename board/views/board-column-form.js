@@ -55,7 +55,7 @@ function boardColumnForm (group, myTopic) {
             <label class="form-check-label" for="autofill">Autofill</label>
             <input class="form-check-input ml-2" type="checkbox" id="autofill" name="autofill" onchange="enableDisableInput(this, '#edit-column-form-${myTopic.id} select#with-field', '#edit-column-form-${myTopic.id} select#color-field')" ${myTopic.autofill === true ? 'checked' : ''}>
           </div>
-          ${boardFormSelect(getAllProjects().map( item => { return item.name; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
+          ${boardFormSelect(getAllProjects().map( item => { return [item.id, item.name]; }), myTopic.autofillWith, 'with', myTopic.autofill === true ? '' : 'disabled')}
           <div class="d-flex justify-content-between mt-3">
             ${delButton}
             <button type="submit" class="btn btn-primary">${myTopic.id === 'null' ? locale.buttons.add[config.lang] : locale.buttons.update[config.lang]}</button>
