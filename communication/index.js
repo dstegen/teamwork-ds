@@ -20,7 +20,7 @@ function communicationController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
   if (route.startsWith('issue/comment')) {
-    updateCommentAction(request, response, wss);
+    updateCommentAction(request, response, wss, user);
   } else if (route.startsWith('communication/message')) {
     updatePrivateMessagesAction(request, response, wss);
   } else if (route.startsWith('communication/chat')) {
@@ -35,10 +35,10 @@ function communicationController (request, response, wss, wsport, user) {
 
 // Additional functions
 
-function updateCommentAction (request, response, wss) {
+function updateCommentAction (request, response, wss, user) {
   getFormObj(request).then(
     data => {
-      updateComments(data.fields);
+      updateComments(data.fields, user);
       try {
         wss.clients.forEach(client => {
           setTimeout(function () {

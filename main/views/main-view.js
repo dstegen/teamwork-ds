@@ -12,6 +12,9 @@ const { getAllProjects } = require('../../project/models/model-project');
 const issueList = require('../../issue/templates/issue-list');
 const { getAllEvents } =require('../../calendar/models/model-calendar');
 const calendarListView = require('../../calendar/views/calendar-list-view');
+const { getAllActivties } = require('../models/model-activity');
+const { humanDate } = require('../../lib/dateJuggler');
+const { getUserFullName } = require('../../user/models/model-user');
 
 
 function mainView (lessonsTodayList, curWeek, user, wsport) {
@@ -30,6 +33,12 @@ function mainView (lessonsTodayList, curWeek, user, wsport) {
           ${allProjectsIds.map(id => issueListWrapper(id, '', 'closed')).join('')}
         </div>
         <div class="col-12 col-lg-6">
+          <h5 class="d-flex justify-content-between p-3 mb-3 border">
+            Recent activities
+          </h5>
+          <div class="border p-3 mb-5" style="max-height: 300px; overflow: auto;">
+            ${getAllActivties().map(activityView).join('')}
+          </div>
           ${calendarListView(getAllEvents())}
         </div>
       </div>
@@ -65,6 +74,15 @@ function issueListWrapper (projectId, user, state) {
       ${issueList(projectId, user, state)}
       <div class="mb-5"></div>
   `;
+}
+
+function activityView (activity) {
+  return `
+  <p>
+    <a href="${activity.url}">+ ${activity.activity}</a>
+    <br />
+    <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;${getUserFullName(activity.member)}, ${humanDate(activity.timestamp)}</small>
+  </p>`;
 }
 
 

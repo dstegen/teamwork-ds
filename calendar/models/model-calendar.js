@@ -13,6 +13,7 @@ const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
 const { getAllIssues } = require('../../issue/models/model-issue');
+const { addActivity } = require('../../main/models/model-activity');
 
 
 function getAllEvents () {
@@ -46,13 +47,13 @@ function getEvent (eventId) {
   return getAllEvents().filter(item => item.id === eventId)[0];
 }
 
-function updateEvent (fields) {
+function updateEvent (fields, user) {
   let allEvents = getAllEvents();
-  console.log(fields);
+  //console.log(fields);
   let membersArray = [];
   if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
     // update
-    console.log('+ Update event: '+fields.title+' '+fields.start);
+    //console.log('+ Update event: '+fields.title+' '+fields.start);
     if (Object.keys(fields).includes('allDay') && fields.allDay === 'true') {
       allEvents.filter(item => item.id === Number(fields.id))[0].allDay = true;
     } else {
@@ -88,16 +89,19 @@ function updateEvent (fields) {
     if (membersArray.length > 0) {
       tmpEvent['members'] = membersArray.toString();
     }
-    console.log(tmpEvent);
+    //console.log(tmpEvent);
     allEvents.push(tmpEvent);
   }
   saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
+  addActivity('Calendar event "'+fields.title+'" updated', user.id, 'calendar', fields.id);
   console.log('+ Event updated/added: '+fields.title+' '+fields.start);
 }
 
-function deleteEvent (eventId) {
+function deleteEvent (eventId, user) {
+  let delEventTitle = getEvent(eventId).title;
   let allEvents = getAllEvents().filter(item => item.id !== Number(eventId));
   saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
+  addActivity('Calendar event "'+delEventTitle+'" deleted', user.id);
   console.log('- Deleted event with ID: '+eventId);
 }
 

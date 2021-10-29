@@ -12,6 +12,9 @@ const path = require('path');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
+const { addActivity } = require('../../main/models/model-activity');
+const { getUserFullName } = require('../../user/models/model-user');
+const { getIssue } = require('../../issue/models/model-issue');
 
 
 function getComments (issueId) {
@@ -31,7 +34,7 @@ function getComments (issueId) {
   }
 }
 
-function updateComments (fields) {
+function updateComments (fields, user) {
   if (fields.chatterId !== '' && fields.userchat !== '' && fields.issueId !== '') {
     let newChat = {
       chaterId: Number(fields.chatterId),
@@ -46,6 +49,7 @@ function updateComments (fields) {
     try {
       myChat.push(newChat);
       saveFile(path.join(__dirname, '../../data/issues', fields.issueId.toString()), 'comments.json', myChat);
+      addActivity(getUserFullName(user.id)+' commented on issue "'+getIssue(Number(fields.issueId)).name+'": <br />"'+sani(fields.userchat)+'"', user.id, 'issue', Number(fields.issueId));
     } catch (e) {
       console.log('- ERROR writing comment to disk: '+e);
     }

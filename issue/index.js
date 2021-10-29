@@ -33,7 +33,7 @@ function issueController (request, response, wss, wsport, user) {
     //add/updateIssue
     getFormObj(request).then(
       data => {
-        updateIssue(data.fields);
+        updateIssue(data.fields, user);
         uniSend(new SendObj(302, [], '', '/issue/view/'+data.fields.id), response);
       }
     ).catch(

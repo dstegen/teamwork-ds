@@ -29,7 +29,7 @@ function calendarController (request, response, wss, wsport, user) {
     //add/updateIssue
     getFormObj(request).then(
       data => {
-        updateEvent(data.fields);
+        updateEvent(data.fields, user);
         uniSend(new SendObj(302, [], '', '/calendar/'), response);
       }
     ).catch(
@@ -40,7 +40,7 @@ function calendarController (request, response, wss, wsport, user) {
   } else if (route.startsWith('calendar/delete')) {
     getFormObj(request).then(
       data => {
-        deleteEvent(Number(data.fields.id));
+        deleteEvent(Number(data.fields.id), user);
         uniSend(new SendObj(302, [], '', '/calendar/'), response);
       }
     ).catch(
