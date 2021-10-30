@@ -8,6 +8,8 @@
 'use strict';
 
 // Required modules
+const fs = require('fs');
+const path = require('path');
 const { getAllActivties } = require('../models/model-activity');
 const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
@@ -34,11 +36,17 @@ function activitiesList () {
 // Additional functions
 
 function activityView (activity) {
+  let fullName = getUserFullName(activity.member).split(' ');
+  //fullName[0]+' '+fullName[1][0]+'.'
+  let chatterImage = '<span class="p-2 small border rounded-circle">' + fullName[0] + fullName[1] + '</span>';
+  if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', activity.member+'.jpg'))) {
+    chatterImage = `<img src="/data/users/pics/${activity.member}.jpg" height="20" width="20" class="img-fluid border rounded-circle"/>`;
+  }
   return `
-  <p class="activity type-${activity.type}">
-    + ${getUserFullName(activity.member)} <a href="${activity.url}">${activity.text}</a>
+  <p class="activity type-${activity.type} text-truncate">
+    ${chatterImage} ${fullName[0]} <a href="${activity.url}">${activity.text}</a>
     <br />
-    <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;${getUserFullName(activity.member)}, ${humanDate(activity.timestamp)}</small>
+    <small class="text-muted"><span style="width: 25px; display: inline-block;"></span>${getUserFullName(activity.member)}, ${humanDate(activity.timestamp)}</small>
   </p>`;
 }
 

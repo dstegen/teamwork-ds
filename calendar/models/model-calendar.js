@@ -93,7 +93,7 @@ function updateEvent (fields, user) {
     allEvents.push(tmpEvent);
   }
   saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
-  addActivity('Calendar event "'+fields.title+'" updated', user.id, 'calendar', fields.id);
+  addActivity('updated calendar event "'+fields.title+'" updated', user.id, 'calendar', fields.id);
   console.log('+ Event updated/added: '+fields.title+' '+fields.start);
 }
 
