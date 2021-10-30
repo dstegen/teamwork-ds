@@ -2,12 +2,17 @@
 #### TeamWorking WebApp by Daniel Stegen ####
 
 ## Introduction ##
-TeamWork-DS intends to integrate many modern team working tools in one App. Project based workflow with tasks/issues/ticket tracking, kanban boards for planing, chat functions for communication and docs for longtime documentation.
+TeamWork-DS intends to integrate many modern team working tools in one App. Project based workflow with tasks/issues/ticket tracking, kanban boards for planing, calendars and reminders, chat functions for communication and docs for longtime documentation.
 
 ## Features ##
 - Organize your work in projects with tasks/issues/bugs
 - Comment on the issues
 - Communicate about projects and in private chats
+- view projects on kanban boards
+- view projects on calendar
+- free trello-like boards for additional orangisation
+- calendar
+
 
 ## Important notice ##
 ***At the moment TeamWork-DS is more a "proof-of-concept" project and not ready for production!***
@@ -43,6 +48,33 @@ TeamWork-DS intends to integrate many modern team working tools in one App. Proj
    ```
 
 ## Changelog ##
+
+#### v0.1.2 ####
+- refactored & improved
+- some bugfixes
+
+#### v0.1.1 ####
+- added activity stream
+- drag'n drop events in calendar
+- added free boards
+- added calendar list view to main page
+- added member pictures
+
+#### v0.0.9 ####
+- added flatpickr
+- added more event editing options
+
+
+#### v0.0.8 ####
+- added calendar
+- securtiy fix for delivery
+- security fix for up- & donwload
+
+#### v0.0.7 ####
+- added projects kanban boards
+- added first favicon
+- added more use of icons
+- added issue pills
 
 #### v0.0.5 ####
 - enabled communication
