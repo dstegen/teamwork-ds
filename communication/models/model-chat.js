@@ -48,7 +48,7 @@ function updateComments (fields, user) {
     try {
       myChat.push(newChat);
       saveFile(path.join(__dirname, '../../data/issues', fields.issueId.toString()), 'comments.json', myChat);
-      addActivity('commented on issue "'+getIssue(Number(fields.issueId)).name+'": <br />"'+sani(fields.userchat)+'"', user.id, 'comment', Number(fields.issueId));
+      addActivity('commented on issue "'+getIssue(Number(fields.issueId)).name+'": "'+sani(fields.userchat)+'"', user.id, 'comment', Number(fields.issueId));
     } catch (e) {
       console.log('- ERROR writing comment to disk: '+e);
     }

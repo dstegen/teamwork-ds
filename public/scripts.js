@@ -259,7 +259,7 @@ function enableDisableInput (checkbox, enableElement, disableElement) {
 // jQuery-ui sortable
 $( function() {
   $(".sortable").sortable({
-    update: function( event, ui ) {},
+    stop: function( event, ui ) {},
   });
   $(".sortable").sortable( "option", "cancel", "form,a,button" );
   $(".sortable").sortable( "option", "connectWith", ".sortable-list" );
@@ -268,7 +268,7 @@ $( function() {
 
 var stateList = ['','backlog','open','start','resolved','closed'];
 
-$(".sortable").on("sortupdate", function(event, ui) {
+$(".sortable").on("sortstop", function(event, ui) {
   //console.log(ui.item[0].parentElement.id.split('-')[1]);
   //console.log(ui.item[0].id.split('-')[2]);
   var issueId = ui.item[0].id.split('-')[2];
