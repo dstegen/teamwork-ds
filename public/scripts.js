@@ -287,3 +287,16 @@ $(".sortable").on("sortupdate", function(event, ui) {
   $("#feedback").modal('show');
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );
+
+// Filter activities
+
+function filterActivities (type) {
+  ['calendar','issue','comment'].forEach( item => {
+    if (['calendar','issue', 'comment'].includes(type)) {
+      $('.type-'+item).hide();
+      $('.type-'+type).show();
+    } else {
+      $('.type-'+item).show();
+    }
+  });
+}

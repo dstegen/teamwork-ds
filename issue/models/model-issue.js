@@ -15,7 +15,6 @@ const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const createDir = require('../../utils/create-dir');
 const sani = require('../../utils/sanitizer');
-const { getUserFullName } = require('../../user/models/model-user');
 const { addActivity } = require('../../main/models/model-activity');
 const issuePills = require('../templates/issue-pills');
 
@@ -98,7 +97,7 @@ function updateIssue (fields, user) {
     createDir(path.join(__dirname, '../../data/attachements', (issue.id).toString()));
   }
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
-  addActivity(getUserFullName(user.id)+' updated issue: "'+fields.name+'"', user.id, 'issue', fields.id);
+  addActivity('updated issue: "'+fields.name+'"', user.id, 'issue', fields.id);
   console.log('+ Issue "'+issue.name+'" updated successfully!');
 }
 
@@ -115,7 +114,7 @@ function changeIssueState (issueId, state, user) {
   allIssues.filter( item => item.id === issueId)[0].state = state;
   allIssues.filter( item => item.id === issueId)[0].updateDate = newDate();
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
-  addActivity(getUserFullName(user.id)+' changed state of issue: "'+getIssue(Number(issueId)).name+'" to '+issuePills(state), user.id, 'issue', issueId);
+  addActivity('changed state of issue: "'+getIssue(Number(issueId)).name+'" to '+issuePills(state), user.id, 'issue', issueId);
   console.log('+ Issue "'+issueId+'" state successfully updated to "'+state+'"');
 }
 

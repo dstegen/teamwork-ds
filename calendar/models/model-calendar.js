@@ -101,7 +101,7 @@ function deleteEvent (eventId, user) {
   let delEventTitle = getEvent(eventId).title;
   let allEvents = getAllEvents().filter(item => item.id !== Number(eventId));
   saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
-  addActivity('Calendar event "'+delEventTitle+'" deleted', user.id);
+  addActivity('Calendar event "'+delEventTitle+'" deleted', user.id, 'calendar', Number(eventId));
   console.log('- Deleted event with ID: '+eventId);
 }
 

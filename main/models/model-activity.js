@@ -29,10 +29,10 @@ function getAllActivties () {
   return activities;
 }
 
-function addActivity (activity, memberId=null, type='', id=1) {
-  if (activity !== undefined && activity !== '') {
+function addActivity (text, memberId=null, type='', id=1) {
+  if (text !== undefined && text !== '') {
     activities.push({
-      activity: activity,
+      text: text,
       member: memberId,
       timestamp: newDate(),
       type: type,
