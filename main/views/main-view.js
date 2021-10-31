@@ -32,7 +32,7 @@ function mainView (lessonsTodayList, curWeek, user, wsport) {
         </div>
         <div class="col-12 col-lg-6">
           ${activitiesList()}
-          ${calendarListView(getAllEvents())}
+          ${calendarListView(getAllEvents(), user)}
         </div>
       </div>
     </div>

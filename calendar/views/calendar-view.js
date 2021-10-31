@@ -11,7 +11,7 @@
 const editEventModal = require('../templates/edit-event-modal');
 
 
-function calendarView (events, calHeadline='Calendar') {
+function calendarView (events, calHeadline='Calendar', user={}) {
   let editable = false;
   if (calHeadline === 'Calendar') editable = true;
   return `
@@ -38,6 +38,22 @@ function calendarView (events, calHeadline='Calendar') {
           height: 600,
           editable: ${editable},
           selectable: ${editable},
+          eventDidMount: function(info) {
+            if (info.event.extendedProps.members && info.event.extendedProps.members.includes(${user.id})) {
+              // Change background color of row
+              console.log(calendar.view.type);
+              if (info.event.allDay === true) info.el.style.backgroundColor = 'var(--bs-danger)';
+              // Change color of dot marker
+              var dotEl = info.el.getElementsByClassName('fc-list-event-dot')[0];
+              if (dotEl) {
+                dotEl.style.borderColor = 'var(--bs-danger)';
+              }
+              var dotEl2 = info.el.getElementsByClassName('fc-daygrid-event-dot')[0];
+              if (dotEl2) {
+                dotEl2.style.borderColor = 'var(--bs-danger)';
+              }
+            }
+          },
 
           eventDrop: function(info) {
             if (!confirm("Are you sure about this change?")) {

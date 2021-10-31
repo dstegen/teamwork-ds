@@ -11,7 +11,7 @@
 const { humanToday } = require('../../lib/dateJuggler');
 
 
-function calendarListView (events) {
+function calendarListView (events, user={}) {
   return `
     <script>
       let eventId = '';
@@ -37,6 +37,30 @@ function calendarListView (events) {
           slotMinTime: '07:00:00',
           slotMaxTime: '22:00:00',
           height: 600,
+          viewDidMount: function(viewObj) {
+            if (viewObj.view.type === 'listWeek') {
+              document.getElementsByClassName('fc-day-today')[0].children[0].children[0].style.backgroundColor = 'var(--bs-primary)';
+              document.getElementsByClassName('fc-day-today')[0].children[0].children[0].children[0].style.color = 'white';
+              document.getElementsByClassName('fc-day-today')[0].children[0].children[0].children[1].style.color = 'white';
+            }
+          },
+          eventDidMount: function(info) {
+            if (info.event.extendedProps.members && info.event.extendedProps.members.includes(${user.id})) {
+              // Change background color of row
+              if (info.event.allDay === true) {
+                if (calendar.view.type === 'listWeek') {
+                  info.el.style.backgroundColor = '#FFEEEE';
+                } else {
+                  info.el.style.backgroundColor = '#var(--bs-danger)';
+                }
+              }
+              // Change color of dot marker
+              var dotEl = info.el.getElementsByClassName('fc-list-event-dot')[0];
+              if (dotEl) {
+                dotEl.style.borderColor = 'var(--bs-danger)';
+              }
+            }
+          },
           events: ${JSON.stringify(events)}
         });
         calendar.render();

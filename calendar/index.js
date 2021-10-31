@@ -24,7 +24,7 @@ function calendarController (request, response, wss, wsport, user) {
     events = getProjectEvents(Number(route.split('/')[2]));
     let project = getProjectById(Number(route.split('/')[2]));
     let calHeadline = 'Calendar for <a href="/project/view/'+project.id+'">'+project.name+'<a/>';
-    uniSend(view(wsport, naviObj, calendarView(events, calHeadline)), response);
+    uniSend(view(wsport, naviObj, calendarView(events, calHeadline, user)), response);
   } else if (route.startsWith('calendar/update')) {
     //add/updateIssue
     getFormObj(request).then(
@@ -50,7 +50,7 @@ function calendarController (request, response, wss, wsport, user) {
     });
   } else {
     events = getAllEvents();
-    uniSend(view(wsport, naviObj, calendarView(events)), response);
+    uniSend(view(wsport, naviObj, calendarView(events, 'Calendar', user)), response);
   }
 }
 
