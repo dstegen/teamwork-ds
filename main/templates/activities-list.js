@@ -17,16 +17,16 @@ const { humanDate } = require('../../lib/dateJuggler');
 
 function activitiesList () {
   return `
-    <h5 class="d-flex justify-content-between p-3 mb-3 border">
-      Recent activities
-      <span class="supersmall">
+    <div class="d-flex justify-content-between p-3 mb-3 border">
+      <h5 class="m-0">Recent activities</h5>
+      <span class="small">
         <a href="#" onclick="filterActivities('all')" class="text-muted">all</a>
          | <a href="#" onclick="filterActivities('issue')" class="text-muted">issues</a>
          | <a href="#" onclick="filterActivities('comment')" class="text-muted">comments</a>
          | <a href="#" onclick="filterActivities('calendar')" class="text-muted">calendar</a>
       </span>
-    </h5>
-    <div class="border p-3 mb-5" style="max-height: 300px; overflow: auto;">
+    </div>
+    <div class="border p-3 mb-5" style="max-height: 295px; overflow: auto;">
       ${getAllActivties().map(activityView).join('')}
     </div>
   `;
