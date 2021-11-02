@@ -44,11 +44,10 @@ saveFile(path.join(__dirname, '../data'), 'events.json', events);
 
 function individualMeetings (weeksArray) {
   let meetingTitles = ['Product meeting','Marketing meeting','Developer meeting'];
-  let timesArray = ['T12:00:00+01:00','T15:00:00+01:00','T16:00:00+01:00'];
-  let day = 0;
+  let timesArray = ['T12:00:00+01:00','T13:00:00+01:00','T15:00:00+01:00','T16:00:00+01:00','T17:00:00+01:00'];
   allUserIds.forEach( userId => {
-    let startDate = weeksArray[day];
-    startDate = startDate.split('T')[0]+timesArray[userId%3];
+    let startDate = weeksArray[Math.floor(Math.random() * (5 - 0) + 0)];
+    startDate = startDate.split('T')[0]+timesArray[userId%5];
     events.push(
       {
         id: getNewId(),
@@ -59,11 +58,6 @@ function individualMeetings (weeksArray) {
         allDay: false
       }
     );
-    if (day < 5) {
-      day++;
-    } else {
-      day = 0;
-    }
   });
 }
 
