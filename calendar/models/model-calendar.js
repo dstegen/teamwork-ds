@@ -9,6 +9,7 @@
 
 // Required modules
 const path = require('path');
+const uuidv4 = require('uuid').v4;
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
@@ -44,7 +45,7 @@ function getProjectEvents (projectId) {
 }
 
 function getEvent (eventId) {
-  return getAllEvents().filter(item => item.id === eventId)[0];
+  return getAllEvents().filter(item => item.id === Number(eventId))[0];
 }
 
 function updateEvent (fields, user) {
@@ -62,6 +63,15 @@ function updateEvent (fields, user) {
     Object.keys(fields).forEach( key => {
       if (key.startsWith('membersItems')) {
         if (fields[key] != '') membersArray.push(sani(fields[key]));
+      } else if (key === 'online') {
+        // Online meeting
+        if (fields[key] === 'true') {
+          allEvents.filter(item => item.id === Number(fields.id))[0].online = true;
+          allEvents.filter(item => item.id === Number(fields.id))[0].url = '/meeting/attend/'+fields.id;
+          allEvents.filter(item => item.id === Number(fields.id))[0].key = uuidv4();
+        } else {
+          allEvents.filter(item => item.id === Number(fields.id))[0].online = false;
+        }
       } else if (key !== 'id' && key !== 'allDay') {
         allEvents.filter(item => item.id === Number(fields.id))[0][key] = sani(fields[key]);
       }
@@ -82,6 +92,11 @@ function updateEvent (fields, user) {
         } else {
           tmpEvent.allDay = false;
         }
+      } else if (key === 'online' && fields[key] === 'true') {
+        // Online meeting
+        tmpEvent.online = true;
+        tmpEvent.url = '/meeting/attend/'+tmpEvent.id;
+        tmpEvent.key = uuidv4();
       } else if (key !== 'id') {
         tmpEvent[key] = sani(fields[key]);
       }

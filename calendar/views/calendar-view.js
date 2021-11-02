@@ -82,6 +82,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
           },
 
           eventClick: function(info) {
+            info.jsEvent.preventDefault();
             $('#id-field').val(info.event.id);
             $('#eventId').text(info.event.id);
             $('#start-field').val(moment(info.event.start).format('YYYY-MM-DD HH:mm'));
@@ -91,11 +92,20 @@ function calendarView (events, calHeadline='Calendar', user={}) {
               $('#end-field').val('');
             }
             $('#title-field').val(info.event.title);
-            if (info.event.allDay === true) document.getElementById("allDay-true").checked = true;
-            if (info.event.extendedProps.members != undefined) {
+            if (info.event.allDay === true) {
+              document.getElementById("allDay-true").checked = true;
+            } else {
+              document.getElementById("allDay-true").checked = false;
+            }
+            if (info.event.extendedProps.members !== undefined) {
               $('#members-field').val(info.event.extendedProps.members);
             } else {
               $('#members-field').val('');
+            }
+            if (info.event.extendedProps.online !== undefined) {
+              document.getElementById("online-true").checked = info.event.extendedProps.online;
+            } else {
+              document.getElementById("online-true").checked = false;
             }
             $("#editEventModal").modal('show');
             initFlatpickr();
@@ -108,6 +118,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             $('#title-field').val('');
             document.getElementById("allDay-true").checked = false;
             $('#members-field').val('');
+            document.getElementById("online-true").checked = false;
             $("#editEventModal").modal('show');
             initFlatpickr();
           },
@@ -119,6 +130,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             $('#title-field').val('');
             document.getElementById("allDay-true").checked = false;
             $('#members-field').val('');
+            document.getElementById("online-true").checked = false;
             $("#editEventModal").modal('show');
             initFlatpickr();
           },

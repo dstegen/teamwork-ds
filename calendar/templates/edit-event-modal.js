@@ -28,9 +28,10 @@ function editEventModal () {
             <form id="edit-event-form" name="edit-event-form" action="/calendar/update" method="post">
               <input type="text" id="id-field" name="id" class="d-none" hidden value="" />
               <div class="form-group row">
+                ${formTextInput('', 'title', 'required', '', '', 'text')} <div class="col-3"></div>
+                ${formCheckbox (['true'], 'online', [], [], true)} <div class="col-3"></div>
                 ${formTextInput('', 'start', 'required', '', '', 'text')} <div class="col-3"></div>
                 ${formTextInput('', 'end', '', '', '', 'text')} <div class="col-3"></div>
-                ${formTextInput('', 'title', 'required', '', '', 'text')} <div class="col-3"></div>
                 ${formCheckbox (['true'], 'allDay', [], [], true)} <div class="col-3"></div>
                 ${formTextInput('', 'members', '', '', '', 'text')} <div class="col-3"></div>
               </div>

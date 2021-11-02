@@ -8,26 +8,22 @@
 'use strict';
 
 // Required modules
-const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
-const uuidv4 = require('uuid').v4;
+const { uniSend, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 const lobbyView = require('./views/lobby-view');
 const meetingView = require('./views/meeting-view');
+const { getEvent } = require('../calendar/models/model-calendar');
 
 
 function meetingController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
-  let meeting = {
-    name: 'Team meeting',
-    id: 'e3ffa11e-c277-4980-b20e-4c1efac67b60',
-    key: uuidv4()
-  }
   if (route === 'meeting') {
     uniSend(view(wsport, naviObj, lobbyView(user)), response);
   } else if (route.startsWith('meeting/attend/')) {
-    uniSend(view(wsport, naviObj, meetingView(meeting, user)), response);
+    let meetingId = route.split('/')[2];
+    uniSend(view(wsport, naviObj, meetingView(getEvent(meetingId), user)), response);
   } else {
     uniSend(new SendObj(302, [], '', '/'), response);
   }

@@ -11,11 +11,21 @@
 function jitsi (meeting, user) {
   try {
     const serverconf = require('../../serverconf');
+    let passwordLogin = '';
+    if (meeting.members && meeting.members.length > 0 && meeting.members.includes((user.id).toString())) {
+      passwordLogin = `
+        // join a protected channel
+        api.on('passwordRequired', function ()
+        {
+            api.executeCommand('password', '${meeting.key}');
+        });
+      `;
+    }
     return `
       <script src='https://${serverconf.meetServer}/external_api.js'></script>
       <script>
         const options = {
-          roomName: '${meeting.id}-${meeting.name}',
+          roomName: '${meeting.id}-${meeting.title}',
           width: '1256px',
           height: '706px',
           parentNode: document.querySelector('#jitsi'),
@@ -54,19 +64,13 @@ function jitsi (meeting, user) {
                 api.executeCommand('password', '${meeting.key}');
             }
         });
-        // join a protected channel
-        /*
-        api.on('passwordRequired', function ()
-        {
-            api.executeCommand('password', '${meeting.key}');
-        });
-        */
         // enable lobby
         api.addEventListener('participantRoleChanged', function (event) {
             if(event.role === 'moderator') {
                 api.executeCommand('toggleLobby', true);
             }
         });
+        ${passwordLogin}
       </script>
     `;
   } catch (e) {
