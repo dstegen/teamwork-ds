@@ -2,20 +2,21 @@
 #### TeamWorking WebApp by Daniel Stegen ####
 
 ## Introduction ##
-TeamWork-DS intends to integrate many modern team working tools in one App. Project based workflow with tasks/issues/ticket tracking, kanban boards for planing, calendars and reminders, chat functions for communication and docs for longtime documentation.
+TeamWork-DS intends to integrate many modern team working tools in one App. Project based workflows with tasks/issues/tickets, time tracking, kanban boards for planing, calendars and reminders, chat functions and online video meetings for communication,  docs for longtime documentation.
 
 ## Features ##
 - Organize your work in projects with tasks/issues/bugs
-- Comment on the issues
+- Comment on issues
 - Communicate about projects and in private chats
-- view projects on kanban boards
-- view projects on calendar
-- free trello-like boards for additional orangisation
-- calendar
+- View projects on kanban boards
+- View projects on calendar
+- Trello-like free boards for additional orangisation
+- Team calendar
+- Jitsi online video meetings
 
 
 ## Important notice ##
-***At the moment TeamWork-DS is more a "proof-of-concept" project and not ready for production!***
+***-> At the moment TeamWork-DS is more a "proof-of-concept" and not ready for production!***
 
 #### Missing features: ####
 - Database support (currently only *.json files)
@@ -47,11 +48,38 @@ TeamWork-DS intends to integrate many modern team working tools in one App. Proj
    npm start
    ```
 
+## HowTos ##
+
+#### Install example data ####
+```
+node helper/install-example-date.js
+```
+
+#### Add example events only ####
+```
+node helper/add-example-events.js
+```
+
+#### Optional ./serverconf.json ####
+```
+{
+  "serverIp": "0", // listen to all ips
+  "serverPort": 8585,
+  "secure": true,
+  "keyFile": "/path/to/ssl/server.key",
+  "certFile": "/path/to/ssl/server.cert",
+  "meetServer": "your-jitsi-meet-server.com"
+}
+```
+
+
 ## Changelog ##
 
 #### v0.1.2 ####
-- refactored & improved
-- some bugfixes
+- added jitsi online viedoe meetings
+- added example data install script
+- refactored & improved activities
+- bugfixes and visual improvements
 
 #### v0.1.1 ####
 - added activity stream
