@@ -101,6 +101,7 @@ function updateUser (fields) {
       id: getNewId(users),
       password: bcrypt.hashSync(myPassword),
       role: 'member',
+      position: sani(fields.position),
       fname: sani(fields.fname),
       lname: sani(fields.lname),
       email: sani(fields.email),

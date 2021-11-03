@@ -40,7 +40,7 @@ function editUserAction (request, response, naviObj) {
   if (group !== undefined) {
     allUsers = allUsers.filter( item => item.group.includes(group) );
   }
-  let allUserIds = allUsers.map( item => { return [item.id, item.fname+' '+item.lname+', '+item.group] } );
+  let allUserIds = allUsers.map( item => { return [item.id, item.fname+' '+item.lname+', '+item.position] } );
   allUserIds.unshift('');
   if (request.url.split('/')[3] != undefined && Number.isInteger(Number(request.url.split('/')[3]))) {
     uniSend(view('', naviObj, editUserView(allUserIds, getUserById(Number(request.url.split('/')[3])))), response);
@@ -50,6 +50,7 @@ function editUserAction (request, response, naviObj) {
       id: '',
       password: '',
       role: '',
+      position: '',
       fname: '',
       lname: '',
       email: '',
@@ -64,7 +65,7 @@ function updateUserAction (request, response) {
     data => {
       updateUser(data.fields);
       // TODO: Update passwdObj !?
-      uniSend(new SendObj(302, [], '', '/admin'), response);
+      uniSend(new SendObj(302, [], '', '/admin/edituser'), response);
     }
   ).catch(
     error => {
