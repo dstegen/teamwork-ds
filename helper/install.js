@@ -27,6 +27,7 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
   createDir(path.join(__dirname, '../data'));
   createDir(path.join(__dirname, '../data/issues'));
   createDir(path.join(__dirname, '../data/attachements'));
+  createDir(path.join(__dirname, '../data/boards'));
   createDir(path.join(__dirname, '../data/projects'));
   createDir(path.join(__dirname, '../data/projects/0'));
   let config = {
@@ -34,6 +35,15 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
     "classes": [
     ],
     "courseColors": [
+      "bg-green",
+      "bg-blue",
+      "bg-red",
+      "bg-yellow",
+      "bg-brown",
+      "bg-grey",
+      "bg-teal",
+      "bg-purple",
+      "bg-lightgrey"
     ]
   };
   saveFile(path.join(__dirname, '../data'), 'config.json', config);
@@ -43,7 +53,7 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
     {
       "id": 0,
       "name": "Start with TeamWork-DS",
-      "description": "",
+      "description": "This is your example project to get familiar with TeamWork-DS!",
       "createDate": newDate(),
       "state": "started",
       "dueDate": "",

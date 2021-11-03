@@ -10,7 +10,10 @@
 // Required Modules
 const path = require('path');
 const readline = require('readline');
+const execFileSync = require('child_process').execFileSync;
 const { initUsers, getAllUsers } = require('../user/models/model-user');
+const { getAllIssues } = require('../issue/models/model-issue');
+const { newDate } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
 const userImporter = require('./user-importer');
@@ -21,25 +24,45 @@ let rl = readline.createInterface({
 });
 
 
-rl.question('\n- Do you want to install example data? (Y/N) ', (answer) => {
+rl.question('\n--- Do you want to install example data? (Y/N) ', (answer) => {
   if (answer === 'Y' || answer === 'y') {
-    console.log(' Ok, installing example data...');
+    console.log('+++ Ok, installing example data...\n');
     initUsers();
     let users = getAllUsers();
     try {
       // Add members to users
+      console.log('+++ Adding some example members...\n');
       let namesList = loadFile(path.join(__dirname, '../helper/names_int.csv'), false, true).toString().split('\n');
       users = userImporter(namesList, users);
       saveFile(path.join(__dirname, '../data'), 'users.json', users);
       // Add Tasks to project "0"
-
+      console.log('+++ Adding some example issues to the first project...\n');
+      let issues = getAllIssues();
+      let exampleIssues = loadFile(path.join(__dirname, './issues.json'));
+      exampleIssues.forEach( (issue, i) => {
+        issue.id = issues.length > 0 ? (Math.max(...issues.map( item => item.id)) + 1) : i;
+        issue.createDate = newDate();
+        issue.updateDate = newDate();
+        issue.projectId = 0;
+        issue.reporter = users[0].id;
+        if (issue.state === 'in progress' || issue.state === 'closed') {
+          issue.startDate = newDate();
+        }
+        if (issue.state === 'closed') {
+          issue.closeDate = newDate();
+        }
+      });
+      issues = issues.concat(exampleIssues);
+      saveFile(path.join(__dirname, '../data'), 'issues.json', issues);
       // Add Events to calendar
-
+      console.log('+++ Adding some example events to the calendar...\n');
+      let child = execFileSync('node', [path.join(__dirname, './add-example-events')]);
     } catch (e) {
       console.log('- ERROR couldn\'t install example data: '+e);
     }
-    process.exit(0);
   } else {
     process.exit(0);
   }
+  console.log('+++ Adding example data finished!\n\n--- Pls start TeamWork-DS with "npm start" now.\n');
+  process.exit(0);
 });

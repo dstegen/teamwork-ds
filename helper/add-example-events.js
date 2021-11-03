@@ -10,6 +10,7 @@
 // Required Modules
 const fs = require('fs');
 const path = require('path');
+const uuidv4 = require('uuid').v4;
 const { initUsers, getAllUsers } = require('../user/models/model-user');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
@@ -23,9 +24,8 @@ if (fs.existsSync (path.join(__dirname, '../data/events.json'))) {
 initUsers();
 let allUserIds = getAllUsers().map(item => { return item.id; });
 
-console.log('+ Adding some example events to the calendar...\n');
+console.log('\n+++ Adding some example events to the calendar...\n');
 
-// get all Dates from today until next weeks sunday
 let thisWeekArray = getWeekDates(0);
 individualMeetings(thisWeekArray);
 weeklyMeetings(thisWeekArray);
@@ -36,7 +36,6 @@ individualMeetings(nextWeekArray);
 weeklyMeetings(nextWeekArray);
 weekendWorkshop(nextWeekArray);
 
-//console.log(events);
 saveFile(path.join(__dirname, '../data'), 'events.json', events);
 
 
@@ -55,7 +54,8 @@ function individualMeetings (weeksArray) {
         start: startDate,
         end: '',
         members: userId.toString(),
-        allDay: false
+        allDay: false,
+        online: false
       }
     );
   });
@@ -63,21 +63,24 @@ function individualMeetings (weeksArray) {
 
 function weeklyMeetings (weeksArray) {
   [1,3].forEach( day => {
+    let eventId = getNewId();
     events.push(
       {
-        id: getNewId(),
+        id: eventId,
         title: 'Group Meeting',
         start: weeksArray[day],
         end: '',
         members: allUserIds.toString(),
-        allDay: false
+        allDay: false,
+        online: true,
+        url: '/meeting/attend/'+eventId,
+        key: uuidv4()
       }
     );
   });
 }
 
 function weekendWorkshop (weeksArray) {
-
   events.push(
     {
       id: getNewId(),
