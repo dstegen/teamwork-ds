@@ -8,6 +8,8 @@
 'use strict';
 
 // Required modules
+const fs = require('fs');
+const path = require('path');
 const { getUserFullName } = require('../../user/models/model-user');
 const { getAllProjects } = require('../../project/models/model-project');
 const { humanDate } = require('../../lib/dateJuggler');
@@ -60,7 +62,12 @@ function issueDetails (issue) {
     if (!['id','name','description','projectId'].includes(key)) {
       let value = issue[key];
       if (key === 'reporter' || key === 'assignee') {
-        value = getUserFullName(issue[key]);
+        let fullName = getUserFullName(issue[key]);
+        let memberImage = '<span class="p-2 supersmall border rounded-circle">' + fullName[0][0] + fullName[1][0] + '</span>';
+        if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', issue[key]+'.jpg'))) {
+          memberImage = `<img src="/data/users/pics/${issue[key]}.jpg" height="20" width="20" class="img-fluid border rounded-circle"/>`;
+        }
+        value = memberImage+'&nbsp;'+fullName;
       } else if (key === 'watchers') {
         value = [];
         issue['watchers'].split(',').forEach(item => {
@@ -79,7 +86,7 @@ function issueDetails (issue) {
       }
       if (key.includes('Date') || key.includes('watchers')) {
         returnHtml2 += `
-          <div class="col-3 text-capitalize">${key}</div>
+          <div class="col-3 text-capitalize mb-2">${key}</div>
           <div class="col-1" text-center>:</div>
           <div class="col-7">${value}</div>
           <br />

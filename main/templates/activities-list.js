@@ -37,7 +37,6 @@ function activitiesList () {
 
 function activityView (activity) {
   let fullName = getUserFullName(activity.member).split(' ');
-  //fullName[0]+' '+fullName[1][0]+'.'
   let chatterImage = '<span class="p-2 supersmall border rounded-circle">' + fullName[0][0] + fullName[1][0] + '</span>';
   if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', activity.member+'.jpg'))) {
     chatterImage = `<img src="/data/users/pics/${activity.member}.jpg" height="20" width="20" class="img-fluid border rounded-circle"/>`;

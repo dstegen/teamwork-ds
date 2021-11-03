@@ -19,23 +19,26 @@ const { getUserById, getUserFullName } = require('../../user/models/model-user')
 
 function issueComments (issueId, user) {
     return `
-      <div class="mt-5">
-        <div class="d-flex justify-content-between">
+      <div class="mt-4">
+        <div class="d-flex justify-content-between mb-3">
           <h5>Comments:</h5>
           <span>
             <button type="button" class="btn btn-sm btn-outline-info" id="toggle-button-${issueId}" onclick="toggleChat('chat-window-${issueId}')"> - </button>
           </span>
         </div>
         <div id="chat-window-${issueId}" class="collapse show">
-          <hr />
           <div id="${issueId}" class="chat-window">
             ${chatterEntry(issueId)}
           </div>
-          <form id="classChat-form-${issueId}" action="/issue/comment" class="d-flex justify-content-between" method="post">
+          <form id="classChat-form-${issueId}" action="/issue/comment" class="row mt-4" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${user.id}" />
             <input type="text" name="issueId" class="d-none" hidden value="${issueId}" />
-            <input type="texte" class="form-control me-2" id="userchat-${issueId}" name="userchat" maxlength="128" value="" />
-            <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.send[config.lang]}</button>
+            <div class="col-12 col-md-10 col-lg-10">
+              <textarea class="form-control ms-md-5 w-100" id="userchat-${issueId}" name="userchat" rows="3"></textarea>
+            </div>
+            <div class="col-12 col-md-2 col-lg-1 ms-md-5 mt-2 mt-lg-0 d-flex ">
+              <button type="submit" class="btn btn-sm btn-primary align-self-center">${locale.buttons.send[config.lang]}</button>
+            </div>
           </form>
         </div>
       </div>
@@ -56,7 +59,7 @@ function chatterEntry (issueId) {
       if (item.chat.split('').length > 46) cssInline = '';
       let chatterImage = '<span class="p-2 small border rounded-circle">' + chatUser.fname.split('')[0] + chatUser.lname.split('')[0] + '</span>';
       if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', item.chaterId+'.jpg'))) {
-        chatterImage = `<img src="/data/users/pics/${item.chaterId}.jpg" height="40" width="40" class="img-fluid border rounded-circle"/>`;
+        chatterImage = `<img src="/data/users/pics/${item.chaterId}.jpg" height="40" width="40" class="border rounded-circle"/>`;
       }
         returnHtml += `
           <div class="d-flex justify-content-start mb-2">
