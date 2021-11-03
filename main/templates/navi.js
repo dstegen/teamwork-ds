@@ -58,7 +58,7 @@ function helperMenuItem (item) {
     returnHtml += `
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown">${item.name}</a>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu dropdown-menu-end">
           ${item.dropdownItems.map(helperDropdown).join('')}
         </div>
       </div>
