@@ -10,6 +10,7 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
+const { getUserDetails } = require('../models/model-user');
 
 
 function setpasswordView (userId, message='') {
@@ -20,31 +21,55 @@ function setpasswordView (userId, message='') {
         User settings
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
       </h2>
-      <div class="d-flex justify-content-center">
-        <div class="border w-md-50">
-          <div class="card-body">
-            <h2 class="mb-3">${locale.headlines.set_new_password[config.lang]}</h2>
-            <form action="/updatepassword" method="post" enctype="application/x-www-form-urlencoded" name="setpassword-form">
-              <input type="text" readonly class="d-none" id="userId" name="userId" value="${userId}">
-              <div class="form-group">
-                <label for="login-password">${locale.placeholder.old_password[config.lang]}</label>
-                <input type="password" class="form-control mt-1" id="password" name="password" placeholder="${locale.placeholder.old_password[config.lang]}" required>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-4 gy-1">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="mb-3">${locale.headlines.set_new_password[config.lang]}</h2>
+              <form action="/updatepassword" method="post" enctype="application/x-www-form-urlencoded" name="setpassword-form">
+                <input type="text" readonly class="d-none" id="userId" name="userId" value="${userId}">
+                <div class="form-group">
+                  <label for="login-password">${locale.placeholder.old_password[config.lang]}</label>
+                  <input type="password" class="form-control mt-1" id="password" name="password" placeholder="${locale.placeholder.old_password[config.lang]}" required>
+                </div>
+                <div class="form-group mt-2">
+                  <label for="login-password">${locale.placeholder.new_password[config.lang]}</label>
+                  <input type="password" class="form-control mt-1" id="new_password" name="new_password" placeholder="${locale.placeholder.new_password[config.lang]}" required>
+                </div>
+                <div class="form-group mt-2">
+                  <label for="login-password">${locale.placeholder.retype_password[config.lang]}</label>
+                  <input type="password" class="form-control mt-1" id="retype_password" name="retype_password" onKeyUp="isPasswordMatch();" placeholder="${locale.placeholder.retype_password[config.lang]}" required>
+                  <div id="divCheckPassword" class="small text-danger"></div>
+                </div>
+                <div class=" d-flex justify-content-end mt-3">
+                  <button type="submit" class="btn btn-secondary">
+                    ${locale.buttons.update[config.lang]}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="mb-3">Upload photo</h2>
+              <div class="d-flex justify-content-center mb-4">
+                <img src="/data/users/pics/${getUserDetails(userId).id}.jpg" height="200" width="200" class="img-fluid border rounded-circle"/>
               </div>
-              <div class="form-group mt-2">
-                <label for="login-password">${locale.placeholder.new_password[config.lang]}</label>
-                <input type="password" class="form-control mt-1" id="new_password" name="new_password" placeholder="${locale.placeholder.new_password[config.lang]}" required>
-              </div>
-              <div class="form-group mt-2">
-                <label for="login-password">${locale.placeholder.retype_password[config.lang]}</label>
-                <input type="password" class="form-control mt-1" id="retype_password" name="retype_password" onKeyUp="isPasswordMatch();" placeholder="${locale.placeholder.retype_password[config.lang]}" required>
-                <div id="divCheckPassword" class="small text-danger"></div>
-              </div>
-              <div class=" d-flex justify-content-end mt-3">
-                <button type="submit" class="btn btn-secondary">
-                  ${locale.buttons.update[config.lang]}
-                </button>
-              </div>
-            </form>
+              <form class="row mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
+                <input type="text" readonly class="d-none" id="id" name="id" value="${getUserDetails(userId).id}" />
+                <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/setpassword" />
+                <input type="text" readonly class="d-none" id="filePath" name="filePath" value="/data/users/pics/" />
+                <div class="col-sm-10">
+                  <input type="file" class="form-control form-control-sm" id="filetoupload-${getUserDetails(userId).id}" name="filetoupload">
+                  <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+                </div>
+                <div class="col-sm-2 mt-2 mt-sm-0">
+                  <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.upload[config.lang]}</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

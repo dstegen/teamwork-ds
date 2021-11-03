@@ -34,6 +34,9 @@ function fileUploadAction (request, response, user) {
     data => {
       let filePath = '';
       urlPath = data.fields.urlPath;
+      if (data.fields.filePath && data.fields.filePath !== '') {
+        filePath = path.join('../../..', data.fields.filePath, data.fields.id+'.jpg');
+      }
       if (user.role === 'member') {
         if (fileUpload(data.fields, data.files, filePath)) {
           let addFields = {
