@@ -31,13 +31,15 @@ function getAllActivties () {
 
 function addActivity (text, memberId=null, type='', id=1) {
   if (text !== undefined && text !== '') {
+    let linkUrl = '/'+type+'/view/'+id
+    if (type === 'comment') linkUrl = '/issue/view/'+id
     activities.push({
       text: text,
       member: memberId,
       timestamp: newDate(),
       type: type,
       id: id,
-      url: '/'+type+'/view/'+id
+      url: linkUrl
     });
     saveFile(path.join(__dirname, '../../data'), 'activities.json', activities);
   }
