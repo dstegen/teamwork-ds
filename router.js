@@ -24,7 +24,7 @@ const loginView = require('./user/views/login-view');
 
 function router (request, response, wss, wsport) {
   let route = request.url.substr(1).split('?')[0];
-  if (route.startsWith('data/attachements') || route.startsWith('data/users/pics') || request.url.includes('public') || request.url.includes('favicon')) {
+  if (request.url.includes('public') || request.url.includes('favicon')) {
     deliver(request, response);
   } else if (request.url.includes('bootstrap') || request.url.includes('jquery') || request.url.includes('tokenfield') || request.url.includes('bs-custom-file') || request.url.includes('moment') || request.url.includes('flatpickr')) {
     request.url = 'node_modules/'+request.url;
@@ -35,7 +35,9 @@ function router (request, response, wss, wsport) {
     logout(request, response);
   } else if (userLoggedIn(request)) {
     let user = userDetails(request);
-    if (route.startsWith('file')) {
+    if (route.startsWith('data/attachements') || route.startsWith('data/users/pics')) {
+      deliver(request, response);
+    } else if (route.startsWith('file')) {
       fileController(request, response, user);
     } else if (route === 'setpassword') {
       setPasswordAction(request, response);
