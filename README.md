@@ -75,6 +75,14 @@ node helper/add-example-events.js
 
 ## Changelog ##
 
+#### v0.1.3 ####
+- important security fix in router
+- added members settings
+- added member photo upload
+- added position to user
+- fixed admin dropdown menu
+- some bugfixes and cleanups
+
 #### v0.1.2 ####
 - added jitsi online viedoe meetings
 - added example data install script
