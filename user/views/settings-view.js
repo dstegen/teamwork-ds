@@ -10,8 +10,6 @@
 // Required modules
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
-const tooltip = require('../../main/templates/tooltip');
-const formTextInput = require('../../main/templates/form-textinput');
 const { getUserDetails } = require('../models/model-user');
 
 

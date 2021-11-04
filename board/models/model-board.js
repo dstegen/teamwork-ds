@@ -10,7 +10,7 @@
 // Required modules
 const fs = require('fs');
 const path = require('path');
-const fileUpload = require('../../lib/file-upload');
+//const fileUpload = require('../../lib/file-upload');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const createDir = require('../../utils/create-dir');

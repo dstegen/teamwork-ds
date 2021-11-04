@@ -39,15 +39,6 @@ function boardCardForm (group, myTopicId, myCard) {
       </div>
     `;
   }
-  let attachementsInForm = `
-    <hr />
-    <label class="mb-2">${locale.headlines.attachment_files[config.lang]}</label>
-    <div class="custom-file">
-      <input type="file" class="form-control form-control-sm custom-file-input" id="filetoupload-${myCard.id}" name="filetoupload">
-      <label class="form-control form-control-sm custom-file-label text-truncate" for="filetoupload-${myCard.id}">${locale.placeholder.attachment[config.lang]}...</label>
-      <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
-    </div>
-  `;
   let cardLink = `
     <label for="link-field">Link</label>
     <input type="text" class="form-control board-form form-control-sm" id="link-field" name="link" value="${myCard.link}">
