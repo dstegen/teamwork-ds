@@ -13,9 +13,9 @@ const bcrypt = require('bcryptjs');
 const { cookie, uniSend, getFormObj, SendObj, Auth } = require('webapputils-ds');
 const locale = require('../lib/locale');
 const config = require('../main/models/model-config').getConfig();
-const { initUsers, getPasswdObj, getUserDetails, updatePassword } = require('./models/model-user');
+const { initUsers, getPasswdObj, getUserDetails, updatePassword, updateUser } = require('./models/model-user');
 const getNaviObj = require('../lib/getNaviObj');
-const setpasswordView = require('./views/setpassword-view');
+const settingsView = require('./views/settings-view');
 const view = require('../main/views/base-view');
 
 const authenticate = new Auth(path.join(__dirname, '../sessionids.json'));
@@ -48,7 +48,7 @@ function userDetails (request) {
 }
 
 function setPasswordAction (request, response) {
-  uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), setpasswordView(authenticate.getUserId(cookie(request).sessionid))),response);
+  uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), settingsView(authenticate.getUserId(cookie(request).sessionid))),response);
 }
 
 function updatePasswordAction (request, response) {
@@ -57,10 +57,10 @@ function updatePasswordAction (request, response) {
       if (bcrypt.compareSync(data.fields.password, passwd[data.fields.userId]) && data.fields.new_password === data.fields.retype_password) {
         passwd = authenticate.addPasswd(passwd, data.fields.userId, data.fields.new_password);
         updatePassword(data.fields);
-        uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), setpasswordView(authenticate.getUserId(cookie(request).sessionid), locale.login.update_password_sucessfully[config.lang])),response);
+        uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), settingsView(authenticate.getUserId(cookie(request).sessionid), locale.login.update_password_sucessfully[config.lang])),response);
       } else {
         console.log('- ERROR passwords didn\'t match for userId: '+data.fields.userId);
-        uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), setpasswordView(authenticate.getUserId(cookie(request).sessionid), locale.errors.old_password_wrong[config.lang])),response);
+        uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), settingsView(authenticate.getUserId(cookie(request).sessionid), locale.errors.old_password_wrong[config.lang])),response);
       }
     }
   ).catch(
@@ -69,5 +69,17 @@ function updatePasswordAction (request, response) {
   });
 }
 
+function updateUserAction (request, response) {
+  getFormObj(request).then(
+    data => {
+      updateUser(data.fields);
+      uniSend(new SendObj(302, [], '', '/setpassword'), response);
+    }
+  ).catch(
+    error => {
+      console.log('ERROR can\'t update user seetings: '+error.message);
+  });
+}
 
-module.exports = { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction };
+
+module.exports = { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction, updateUserAction };
