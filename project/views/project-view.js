@@ -9,7 +9,8 @@
 
 // Required modules
 const projectCard = require('../templates/project-card');
-const issueList = require('../../issue/templates/issue-list');
+const { getAllIssues } = require('../../issue/models/model-issue');
+const issueList2 = require('../../issue/templates/issue-list2');
 const chat = require('../../communication/templates/chat');
 
 
@@ -30,9 +31,9 @@ function projectView (project, user) {
               </div>
             </div>
           </div>
-          ${issueList(project.id, undefined, '')}
+          ${issueList2(getAllIssues(project.id), undefined, '')}
           <hr class="my-4" />
-          ${issueList(project.id, undefined, 'closed')}
+          ${issueList2(getAllIssues(project.id), undefined, 'closed')}
         </div>
       </div>
     </div>

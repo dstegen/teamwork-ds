@@ -9,7 +9,8 @@
 
 // Required modules
 const { getAllProjects } = require('../../project/models/model-project');
-const issueList = require('../../issue/templates/issue-list');
+const { getAllIssues } = require('../../issue/models/model-issue');
+const issueList2 = require('../../issue/templates/issue-list2');
 const { getAllEvents } =require('../../calendar/models/model-calendar');
 const calendarListView = require('../../calendar/views/calendar-list-view');
 const activitiesList = require('../templates/activities-list');
@@ -64,7 +65,7 @@ function issueListWrapper (projectId, user, state) {
           <a href="/calendar/project/${projectId}" class="text-muted">Calendar view</a>
         </span>
       </div>
-      ${issueList(projectId, user, state)}
+      ${issueList2(getAllIssues(projectId), user, state)}
       <div class="mb-5"></div>
   `;
 }

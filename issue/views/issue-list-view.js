@@ -10,7 +10,7 @@
 // Required modules
 const { getAllIssues } = require('../../issue/models/model-issue');
 const { getAllProjects } = require('../../project/models/model-project');
-const issueList = require('../templates/issue-list');
+const issueList2 = require('../templates/issue-list2');
 
 
 function issueListView (user) {
@@ -36,7 +36,7 @@ function issueListWrapper (projectId, user) {
   return `
     <div class="col-12 col-md-6 p-3">
       <h5>Project: ${getAllProjects().filter(item => item.id === projectId)[0].name}</h5>
-      ${issueList(projectId, user, '')}
+      ${issueList2(getAllIssues(projectId), user, '')}
     </div>
   `;
 }

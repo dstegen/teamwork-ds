@@ -10,7 +10,7 @@
 // Required modules
 const { getUserFullName } = require('../../user/models/model-user');
 const { getProjectById } = require('../../project/models/model-project');
-const { humanDate } = require('../../lib/dateJuggler');
+const { humanDate, dateIsRecent } = require('../../lib/dateJuggler');
 const issuePills = require('./issue-pills');
 const issueTypeIcon = require('./issue-type-icon');
 const sortItemsByDate = require('../../utils/sort-items-by-date');
@@ -60,6 +60,7 @@ function issueListItem (item) {
       <span>
         ${issueTypeIcon(item.type, true)}
         <strong>${item.name}</strong>
+        ${dateIsRecent(item.createDate, 2) ? '<span class="fst-italic fw-bolder text-primary small align-top">new</span> ' : ''}
         <span class="d-none d-lg-inline text-muted small"> - ${getUserFullName(item.assignee)}</span>
         <small class="d-block text-muted supersmall">${humanDate(item.updateDate)} [${getProjectById(item.projectId).name}]</small>
       </span>
