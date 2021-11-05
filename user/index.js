@@ -17,10 +17,28 @@ const { initUsers, getPasswdObj, getUserDetails, updatePassword, updateUser } = 
 const getNaviObj = require('../lib/getNaviObj');
 const settingsView = require('./views/settings-view');
 const view = require('../main/views/base-view');
+const userOverView = require('./views/user-over-view');
 
 const authenticate = new Auth(path.join(__dirname, '../sessionids.json'));
 initUsers();
 let passwd = getPasswdObj();
+
+
+function userController (request, response) {
+  let route = request.url.substr(1).split('?')[0];
+  //console.log(route);
+  if (route === 'user/settings') {
+    uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), settingsView(authenticate.getUserId(cookie(request).sessionid))),response);
+  } else if (route === 'user/updatepassword') {
+    updatePasswordAction(request, response);
+  } else if (route === 'user/updateuser') {
+    updateUserAction(request, response);
+  } else if (route === 'user/overview') {
+    uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), userOverView()),response);
+  } else {
+    uniSend(new SendObj(302, [], '', '/'), response);
+  }
+}
 
 
 function login (request, response) {
@@ -47,9 +65,6 @@ function userDetails (request) {
   return getUserDetails(authenticate.getUserId(cookie(request).sessionid));
 }
 
-function setPasswordAction (request, response) {
-  uniSend(view('', getNaviObj(getUserDetails(authenticate.getUserId(cookie(request).sessionid))), settingsView(authenticate.getUserId(cookie(request).sessionid))),response);
-}
 
 function updatePasswordAction (request, response) {
   getFormObj(request).then(
@@ -73,7 +88,7 @@ function updateUserAction (request, response) {
   getFormObj(request).then(
     data => {
       updateUser(data.fields);
-      uniSend(new SendObj(302, [], '', '/setpassword'), response);
+      uniSend(new SendObj(302, [], '', '/user/settings'), response);
     }
   ).catch(
     error => {
@@ -82,4 +97,4 @@ function updateUserAction (request, response) {
 }
 
 
-module.exports = { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction, updateUserAction };
+module.exports = { userController, login, logout, userLoggedIn, userDetails, updateUserAction };

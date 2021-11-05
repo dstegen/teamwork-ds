@@ -9,7 +9,7 @@
 
 // Required modules
 const { deliver, uniSend } = require('webapputils-ds');
-const { login, logout, userLoggedIn, userDetails, setPasswordAction, updatePasswordAction, updateUserAction } = require('./user');
+const { userController, login, logout, userLoggedIn, userDetails } = require('./user');
 const mainController = require('./main');
 const issueController = require('./issue');
 const communicationController = require('./communication');
@@ -39,12 +39,8 @@ function router (request, response, wss, wsport) {
       deliver(request, response);
     } else if (route.startsWith('file')) {
       fileController(request, response, user);
-    } else if (route === 'setpassword') {
-      setPasswordAction(request, response);
-    } else if (route === 'updatepassword') {
-      updatePasswordAction(request, response);
-    } else if (route === 'user/updateuser') {
-      updateUserAction(request, response);
+    } else if (route.startsWith('user')) {
+      userController(request, response);
     } else if (route.startsWith('issue')) {
       issueController(request, response, wss, wsport, user);
     } else if (route.startsWith('communication')) {

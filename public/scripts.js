@@ -225,7 +225,7 @@ function fileDelete (formId) {
 
 // Check if new password and retype match
 $(document).ready(function () {
-  if (window.location.pathname === '/setpassword') {
+  if (window.location.pathname === '/user/settings') {
     $("#txtConfirmPassword").keyup(isPasswordMatch());
   }
 });

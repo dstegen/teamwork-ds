@@ -39,10 +39,7 @@ function fileUploadAction (request, response, user) {
       }
       if (user.role === 'member') {
         if (fileUpload(data.fields, data.files, filePath)) {
-          let addFields = {
-            files: path.join('/data/attachements', data.fields.id, filePath, data.files.filetoupload.name)
-          }
-          // add to issues files list
+          // TODO: add to issues files list
         }
       }
       uniSend(new SendObj(302, [], '', urlPath), response);

@@ -11,6 +11,7 @@
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { getUserDetails } = require('../models/model-user');
+const tooltip = require('../../main/templates/tooltip');
 
 
 function settingsView (userId, message='') {
@@ -51,13 +52,13 @@ function settingsView (userId, message='') {
         <div class="col">
           <div class="card" style="min-height: 360px;">
             <div class="card-body">
-              <h2 class="mb-3">User photo</h2>
+              <h2 class="mb-3">User photo ${tooltip('Pls only upload square jpgs!')}</h2>
               <div class="d-flex justify-content-center mb-4">
                 <img src="/data/users/pics/${user.id}.jpg" height="200" width="200" class="img-fluid border rounded-circle"/>
               </div>
               <form class="row mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
                 <input type="text" readonly class="d-none" id="id" name="id" value="${user.id}" />
-                <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/setpassword" />
+                <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/user/settings" />
                 <input type="text" readonly class="d-none" id="filePath" name="filePath" value="/data/users/pics/" />
                 <div class="col-sm-9">
                   <input type="file" class="form-control form-control-sm" id="filetoupload-${user.id}" name="filetoupload">
@@ -74,7 +75,7 @@ function settingsView (userId, message='') {
           <div class="card" style="min-height: 360px;">
             <div class="card-body">
               <h2 class="mb-3">${locale.headlines.set_new_password[config.lang]}</h2>
-              <form action="/updatepassword" method="post" enctype="application/x-www-form-urlencoded" name="setpassword-form">
+              <form action="/user/updatepassword" method="post" enctype="application/x-www-form-urlencoded" name="setpassword-form">
                 <input type="text" readonly class="d-none" id="userId" name="userId" value="${userId}">
                 <div class="form-group">
                   <label for="login-password">${locale.placeholder.old_password[config.lang]}</label>
