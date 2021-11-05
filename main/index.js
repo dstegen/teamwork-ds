@@ -13,10 +13,16 @@ const { thisWeek } = require('../lib/dateJuggler');
 const getNaviObj = require('../lib/getNaviObj');
 const mainView = require('./views/main-view');
 const view = require('../main/views/base-view');
+const resourcesView = require('./views/resources-view');
 
 
 function mainController (request, response, wss, wsport, user) {
-  uniSend(view(wsport, getNaviObj(user), mainView([], thisWeek(), user, wsport)), response);
+  let route = request.url.substr(1).split('?')[0];
+  if (route === 'resource') {
+    uniSend(view(wsport, getNaviObj(user), resourcesView()), response);
+  } else {
+    uniSend(view(wsport, getNaviObj(user), mainView([], thisWeek(), user, wsport)), response);
+  }
 }
 
 
