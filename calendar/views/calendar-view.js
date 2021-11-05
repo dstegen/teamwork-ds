@@ -70,6 +70,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
                 dataType : 'json', // data type
                 data : {
                   "id": info.event.id,
+                  "title": info.event.title,
                   "start": moment(info.event.start).format('YYYY-MM-DD HH:mm'),
                   "end": endDate,
                   "allDay": allDay
