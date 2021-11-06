@@ -61,6 +61,7 @@ function updateEvent (fields, user) {
       allEvents.filter(item => item.id === Number(fields.id))[0].allDay = false;
     }
     Object.keys(fields).forEach( key => {
+      allEvents.filter(item => item.id === Number(fields.id))[0].online = false;
       if (key.startsWith('membersItems')) {
         if (fields[key] != '') membersArray.push(sani(fields[key]));
       } else if (key === 'online') {
@@ -69,8 +70,6 @@ function updateEvent (fields, user) {
           allEvents.filter(item => item.id === Number(fields.id))[0].online = true;
           allEvents.filter(item => item.id === Number(fields.id))[0].url = '/meeting/attend/'+fields.id;
           allEvents.filter(item => item.id === Number(fields.id))[0].key = uuidv4();
-        } else {
-          allEvents.filter(item => item.id === Number(fields.id))[0].online = false;
         }
       } else if (key !== 'id' && key !== 'allDay') {
         allEvents.filter(item => item.id === Number(fields.id))[0][key] = sani(fields[key]);

@@ -19,10 +19,11 @@ function recentMessages (userId) {
     let allMessages = item.messages.filter( item => item.chaterId !== userId);
     let message = allMessages[allMessages.length-1];
     if (message !== undefined) {
-      itemsList.push(`<a href="/communication">${message.chat} (${getUserById(message.chaterId).fname}, ${getUserById(message.chaterId).group})</a>`);
+      itemsList.push(`<a href="/communication">${message.chat} (${getUserById(message.chaterId).fname})</a>`);
     }
   });
-  return simpleList('', itemsList);
+  console.log(itemsList);
+  return simpleList('<h5>Recent messages</h5>', itemsList);
 }
 
 module.exports = recentMessages;
