@@ -12,14 +12,30 @@ const fs = require('fs');
 const path = require('path');
 const { getUserFullName } = require('../../user/models/model-user');
 const { getAllProjects } = require('../../project/models/model-project');
+const { getAllIssues,getIssue } = require('../models/model-issue');
 const { humanDate } = require('../../lib/dateJuggler');
 const issueComments = require('../templates/issue-comments');
 const issuePills = require('../templates/issue-pills');
 const issueTypeIcon = require('../templates/issue-type-icon');
+const issueList2 = require('../templates/issue-list2');
 const uploadForm = require('../templates/upload-form');
 
 
 function issueView (issue, user) {
+  let subTaskHtml = '';
+  if (issue.type !== 'SubTask') {
+    subTaskHtml = `
+      <div class="mt-5">
+        <h5>SubTasks:</h5>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            ${issueList2(getAllIssues().filter(item => Number(item.masterId) === issue.id))}
+          </div>
+        </div>
+        <hr />
+      </div>
+    `;
+  }
   return `
     <div id="issue-view" class="container py-3">
       <div class=" p-3 my-3 border">
@@ -41,6 +57,7 @@ function issueView (issue, user) {
         </div>
         <hr />
         ${issueDetails(issue)}
+        ${subTaskHtml}
         <div class="mt-5">
           <h5>Attachements:</h5>
           ${uploadForm(issue)}
@@ -59,7 +76,7 @@ function issueDetails (issue) {
   let returnHtml1 = '<div class="col-12 col-lg-6 row">';
   let returnHtml2 = '<div class="col-12 col-lg-6 row">';
   Object.keys(issue).forEach( key => {
-    if (!['id','name','description','projectId'].includes(key)) {
+    if (!['id','name','description','projectId','masterId'].includes(key)) {
       let value = issue[key];
       if (key === 'reporter' || key === 'assignee') {
         let fullName = getUserFullName(issue[key]);
@@ -81,8 +98,11 @@ function issueDetails (issue) {
       } else if (key === 'priority') {
         value = issuePills(issue.priority, issue.priority);
       } else if (key === 'type') {
-        //value = issuePills(issue.type, issue.type);
-        value = issueTypeIcon(issue.type);
+        if (issue.masterId > -1) {
+          value = issueTypeIcon(issue.type)+' [<a href="/issue/view/'+issue.masterId+'">'+getIssue(Number(issue.masterId)).name+'</a>]';
+        } else {
+          value = issueTypeIcon(issue.type);
+        }
       }
       if (key.includes('Date') || key.includes('watchers')) {
         returnHtml2 += `

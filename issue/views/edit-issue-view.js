@@ -9,7 +9,8 @@
 
 // Required modules
 const { getAllUsers } = require('../../user/models/model-user');
-const { getAllProjects } = require('../../project/models/model-project');
+const { getAllIssues } = require('../models/model-issue');
+const { getAllProjects, getProjectById } = require('../../project/models/model-project');
 const formTextInput = require('../../main/templates/form-textinput');
 const formTextArea = require('../../main/templates/form-textarea');
 const formSelect = require('../../main/templates/form-select');
@@ -17,6 +18,7 @@ const formSelect = require('../../main/templates/form-select');
 
 function editIssueView (issue) {
   let allUserObj = getAllUsers().map( item => { return {id: item.id, name: item.fname+' '+item.lname}; });
+  if (!issue.masterId) issue.masterId = '';
   return `
     <div id="edit-issue-view" class="container py-3">
       <div class="p-3 my-3 border">
@@ -39,6 +41,18 @@ function editIssueView (issue) {
       </div>
       <script>
         var watchersArray = ${JSON.stringify(allUserObj)};
+        document.getElementById("masterId-field").style.display = "none";
+        function chooseMasterId (type) {
+          //console.log(type);
+          if (type === 'SubTask') {
+            document.getElementById('masterId-field').style.display = 'block';
+            document.getElementById('masterId-field').attributes.removeNamedItem('disabled');
+          } else {
+            document.getElementById('masterId-field').setAttribute('disabled','disabled')
+            document.getElementById('masterId-field').style.display = 'none';
+          }
+        }
+        if (document.getElementById("type-field").value === 'SubTask') chooseMasterId('SubTask');
       </script>
     </div>
   `;
@@ -54,9 +68,11 @@ function helperIssueForm (issue) {
   allUserList.unshift([0,'']);
   let allProjectsList = getAllProjects().map( item => { return [item.id, item.name]; });
   Object.keys(issue).forEach( key => {
-    if (!['id'].includes(key)) {
+    if (key !== 'id') {
       if (key === 'projectId') {
-        returnHtml1 += formSelect(allProjectsList, issue.projectId, 'projectId', '', '', 'required') + '<div class="col-3"></div>';
+        let projectDisabled = 'required';
+        if (issue.projectId > -1) projectDisabled = 'disabled';
+        returnHtml1 += formSelect(allProjectsList, issue.projectId, 'projectId', '', '', projectDisabled) + '<div class="col-3"></div>';
       } else if (key === 'name') {
         returnHtml1 += formTextInput(issue.name, 'name', 'required', '') + '<div class="col-3"></div>';
       } else if (key === 'description') {
@@ -64,7 +80,15 @@ function helperIssueForm (issue) {
       } else if (key === 'state') {
         returnHtml1 += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'type') {
-        returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
+        let typeDisabled = '';
+        if (issue.type === 'SubTask') typeDisabled = 'disabled';
+        returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', 'onchange="chooseMasterId(this.value)"', typeDisabled) + '<div class="col-3"></div>';
+      } else if (key === 'masterId') {
+        let masterIdDisplay = 'disabled';
+        if (issue.type === 'SubTask') masterIdDisplay = 'required';
+        let myOptions = getAllIssues().map(item => {return [item.id, item.name+' ['+getProjectById(item.projectId).name+']']});
+        if (issue.projectId > -1) myOptions = getAllIssues().filter(item => item.projectId === Number(issue.projectId)).map(item => {return [item.id, item.name+' ['+getProjectById(item.projectId).name+']']});
+        returnHtml1 += formSelect (myOptions, Number(issue[key]), key, '', '', masterIdDisplay) + '<div class="col-3"></div>';
       } else if (key === 'priority') {
         returnHtml1 += formSelect (['blocker','critical','high','medium','low'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'reporter' || key === 'assignee') {
