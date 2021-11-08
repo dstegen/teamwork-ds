@@ -60,8 +60,8 @@ function updateEvent (fields, user) {
     } else {
       allEvents.filter(item => item.id === Number(fields.id))[0].allDay = false;
     }
+    allEvents.filter(item => item.id === Number(fields.id))[0].online = false;
     Object.keys(fields).forEach( key => {
-      allEvents.filter(item => item.id === Number(fields.id))[0].online = false;
       if (key.startsWith('membersItems')) {
         if (fields[key] != '') membersArray.push(sani(fields[key]));
       } else if (key === 'online') {
