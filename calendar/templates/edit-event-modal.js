@@ -10,6 +10,7 @@
 // Required modules
 const { getAllUsers } = require('../../user/models/model-user');
 const formTextInput = require('../../main/templates/form-textinput');
+const formTextArea = require('../../main/templates/form-textarea');
 const formCheckbox = require('../../main/templates/form-checkbox');
 
 
@@ -34,6 +35,8 @@ function editEventModal () {
                 ${formTextInput('', 'end', '', '', '', 'text')} <div class="col-3"></div>
                 ${formCheckbox (['true'], 'allDay', [], [], true)} <div class="col-3"></div>
                 ${formTextInput('', 'members', '', '', '', 'text')} <div class="col-3"></div>
+                <div class="col-12 mt-1"></div>
+                ${formTextArea('', 'description', '')} <div class="col-3"></div>
               </div>
               <div class="d-flex justify-content-between mt-3">
                 <span>
