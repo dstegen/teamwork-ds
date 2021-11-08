@@ -21,7 +21,7 @@ const issueList2 = require('../templates/issue-list2');
 const uploadForm = require('../templates/upload-form');
 
 
-function issueView (issue, user) {
+function issueView (issue, user, wsport) {
   let subTaskHtml = '';
   if (issue.type !== 'SubTask') {
     subTaskHtml = `
@@ -66,6 +66,16 @@ function issueView (issue, user) {
         ${issueComments(issue.id, user)}
       </div>
     </div>
+    <script>
+      // Websockets
+      const hostname = window.location.hostname ;
+      const wsProtocol = location.protocol.replace('http','ws');
+      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+      socket.onmessage = function (msg) {
+        location.reload();
+        console.log(msg.data);
+      };
+    </script>
   `;
 }
 

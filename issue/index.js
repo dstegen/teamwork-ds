@@ -44,7 +44,7 @@ function issueController (request, response, wss, wsport, user) {
   } else if (route.startsWith('issue/edit')) {
     uniSend(view(wsport, naviObj, editIssueView(issue, user)), response);
   } else if (route.startsWith('issue/view')) {
-    uniSend(view(wsport, naviObj, issueView(issue, user)), response);
+    uniSend(view(wsport, naviObj, issueView(issue, user, wsport)), response);
   } else if (route.startsWith('issue/comment')) {
     communicationController (request, response, wss, wsport, user);
   } else if (['backlog','open','start','resolved','closed'].includes(route.split('/')[1])) {

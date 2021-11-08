@@ -44,7 +44,7 @@ function projectController (request, response, wss, wsport, user) {
   } else if (route.startsWith('project/edit')) {
     uniSend(view(wsport, naviObj, editProjectView(project)), response);
   } else if (route.startsWith('project/view')) {
-    uniSend(view(wsport, naviObj, projectView(project, user)), response);
+    uniSend(view(wsport, naviObj, projectView(project, user, wsport)), response);
   } else {
     uniSend(view(wsport, naviObj, projectListView()), response);
   }
