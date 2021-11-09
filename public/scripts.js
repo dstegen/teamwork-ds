@@ -288,6 +288,7 @@ $(".sortable").on("sortstop", function(event, ui) {
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );
 
+
 // Filter activities
 
 function filterActivities (type) {
@@ -299,4 +300,19 @@ function filterActivities (type) {
       $('.type-'+item).show();
     }
   });
+}
+
+// Calendar
+
+function toggleCalendar (id, color='primary') {
+  if (calendar.getEventSources().filter(item => item.url && item.url.includes(id)).length > 0) {
+    calendar.getEventSources().filter(item => item.url.includes(id))[0].remove();
+    $('#events-'+id).removeClass('btn-'+color);
+    $('#events-'+id).addClass('btn-outline-'+color);
+  } else {
+    let test = calendar.addEventSource('/calendar/load/'+id);
+    $('#events-'+id).removeClass('btn-outline-'+color);
+    $('#events-'+id).addClass('btn-'+color);
+    console.log(test);
+  }
 }

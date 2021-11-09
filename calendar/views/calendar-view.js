@@ -8,12 +8,22 @@
 'use strict';
 
 // Required modules
+const { getCalendarUrls } = require('../models/model-calendar');
 const editEventModal = require('../templates/edit-event-modal');
 
 
 function calendarView (events, calHeadline='Calendar', user={}) {
   let editable = false;
   if (calHeadline === 'Calendar') editable = true;
+  let eventSources = getCalendarUrls();
+  if (calHeadline !== 'Calendar') eventSources = [ {events: events} ];
+  let calendarButtons = '';
+  let colorList = ['primary','success','warning'];
+  getCalendarUrls().forEach( (item, i) => {
+    let id = item.split('/')[3];
+    calendarButtons += '<button id="events-'+id+'" type="button" class="me-2 btn btn-sm btn-'+colorList[i]+'" onclick="toggleCalendar('+id+', \''+colorList[i]+'\')">Calendar '+id+'</button>'
+  });
+
   return `
     <script>
       let eventId = '';
@@ -82,7 +92,8 @@ function calendarView (events, calHeadline='Calendar', user={}) {
                   "title": info.event.title,
                   "start": moment(info.event.start).format('YYYY-MM-DD HH:mm'),
                   "end": endDate,
-                  "allDay": allDay
+                  "allDay": allDay,
+                  "sourceUrl": info.event.source.url
                 },
                 success : function(result) {
                     console.log(result);
@@ -92,7 +103,8 @@ function calendarView (events, calHeadline='Calendar', user={}) {
           },
 
           eventClick: function(info) {
-            info.jsEvent.preventDefault();
+            ${editable === true ? 'info.jsEvent.preventDefault();' : ''}
+            $('#sourceUrl-field').val(info.event.source.url);
             $('#id-field').val(info.event.id);
             $('#eventId').text(info.event.id);
             $('#start-field').val(moment(info.event.start).format('YYYY-MM-DD HH:mm'));
@@ -145,7 +157,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             initFlatpickr();
           },
 
-          events: ${JSON.stringify(events)}
+          eventSources: ${JSON.stringify(eventSources)}
         });
         calendar.render();
       });
@@ -155,6 +167,12 @@ function calendarView (events, calHeadline='Calendar', user={}) {
         <span>${calHeadline}</span>
         <span id="clock" class="d-none d-md-block">19:52:41</span>
       </h2>
+      <div class="py-2 px-3 d-flex justify-content-between mb-3 border">
+        <span>
+          ${calendarButtons}
+        </span>
+        <a href="/calendar/create" class="btn btn-sm btn-primary ms-2"> + </a>
+      </div>
       <div class="border p-3">
         <div id="calendar"></div>
       </div>

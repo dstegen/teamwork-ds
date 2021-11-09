@@ -8,6 +8,7 @@
 'use strict';
 
 // Required modules
+const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
 const loadFile = require('../../utils/load-file');
@@ -17,8 +18,8 @@ const { getAllIssues } = require('../../issue/models/model-issue');
 const { addActivity } = require('../../main/models/model-activity');
 
 
-function getAllEvents () {
-  let allEvents = loadFile(path.join(__dirname, '../../data/events.json'));
+function getAllEvents (id) {
+  let allEvents = loadFile(path.join(__dirname, '../../data/calendars/'+id+'_events.json'));
   return allEvents;
 }
 
@@ -44,13 +45,41 @@ function getProjectEvents (projectId) {
   return returnEvents;
 }
 
-function getEvent (eventId) {
-  return getAllEvents().filter(item => item.id === Number(eventId))[0];
+function getEvent (eventId, sourceId='/calendar/load/101') {
+  return getAllEvents(sourceId.split('/')[3]).filter(item => item.id === Number(eventId))[0];
+}
+
+function createCalendar () {
+  try {
+    let nextCalId = fs.readdirSync(path.join(__dirname, '../../data/calendars')).length+100;
+    saveFile(path.join(__dirname, '../../data/calendars'), nextCalId+'_events.json', []);
+    console.log('+ Created new calendar successfully: '+nextCalId);
+  } catch (e) {
+    console.log('- ERROR while creating new calendar: '+e);
+  }
+}
+
+function getCalendarUrls () {
+  try {
+    let returnList = [];
+    let allCalendars = fs.readdirSync(path.join(__dirname, '../../data/calendars'));
+    if (allCalendars.length > 0) {
+      allCalendars.forEach( item => {
+        if (item.includes('event')) {
+          returnList.push('/calendar/load/'+item.split('_')[0]);
+        }
+      });
+    return returnList;
+    }
+  } catch (e) {
+    console.log('- ERROR reading all calendars: '+e);
+    return [];
+  }
 }
 
 function updateEvent (fields, user) {
-  let allEvents = getAllEvents();
-  //console.log(fields);
+  console.log(fields);
+  let allEvents = getAllEvents(fields.sourceUrl.split('/')[3]);
   let membersArray = [];
   if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
     // update
@@ -81,7 +110,8 @@ function updateEvent (fields, user) {
   } else {
     // add
     let tmpEvent = {};
-    tmpEvent.id = Math.max(...allEvents.map( item => item.id)) + 1;
+    tmpEvent.id = Math.max(...getAllEvents(fields.sourceUrl.split('/')[3]).map( item => item.id)) + 1;
+    if (tmpEvent.id < 1) tmpEvent.id = Number(fields.sourceUrl.split('/')[3])*1000000+1;
     Object.keys(fields).forEach( key => {
       if (key.startsWith('membersItems')) {
         if (fields[key] != '') membersArray.push(sani(fields[key]));
@@ -106,18 +136,18 @@ function updateEvent (fields, user) {
     //console.log(tmpEvent);
     allEvents.push(tmpEvent);
   }
-  saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
+  saveFile(path.join(__dirname, '../../data/calendars'), fields.sourceUrl.split('/')[3]+'_events.json', allEvents);
   addActivity('updated calendar event "'+fields.title+'" updated', user.id, 'calendar', fields.id);
   console.log('+ Event updated/added: '+fields.title+' '+fields.start);
 }
 
-function deleteEvent (eventId, user) {
+function deleteEvent (eventId, user, calId=101) {
   let delEventTitle = getEvent(eventId).title;
-  let allEvents = getAllEvents().filter(item => item.id !== Number(eventId));
-  saveFile(path.join(__dirname, '../../data/'), 'events.json', allEvents);
+  let allEvents = getAllEvents(calId).filter(item => item.id !== Number(eventId));
+  saveFile(path.join(__dirname, '../../data/calendars'), calId+'_events.json', allEvents);
   addActivity('Calendar event "'+delEventTitle+'" deleted', user.id, 'calendar', Number(eventId));
   console.log('- Deleted event with ID: '+eventId);
 }
 
 
-module.exports = { getAllEvents, getProjectEvents, getEvent, updateEvent, deleteEvent };
+module.exports = { getAllEvents, getProjectEvents, getEvent, updateEvent, deleteEvent, createCalendar, getCalendarUrls };

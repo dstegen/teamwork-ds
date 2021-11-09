@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { getAllEvents, getProjectEvents, updateEvent, deleteEvent } = require('./models/model-calendar');
+const { getAllEvents, getProjectEvents, updateEvent, deleteEvent, createCalendar } = require('./models/model-calendar');
 const calendarView = require('./views/calendar-view');
 const { getProjectById } = require('../project/models/model-project');
 
@@ -40,7 +40,7 @@ function calendarController (request, response, wss, wsport, user) {
   } else if (route.startsWith('calendar/delete')) {
     getFormObj(request).then(
       data => {
-        deleteEvent(Number(data.fields.id), user);
+        deleteEvent(Number(data.fields.id), user, data.fields.sourceUrl.split('/')[3]);
         uniSend(new SendObj(302, [], '', '/calendar/'), response);
       }
     ).catch(
@@ -48,8 +48,17 @@ function calendarController (request, response, wss, wsport, user) {
         console.log('ERROR can\'t delete event: '+error.message);
         uniSend(new SendObj(302, [], '', '/'), response);
     });
+  } else if (route.startsWith('calendar/load')) {
+    let sendObj = new SendObj();
+    sendObj.contentType = 'application/json';
+    sendObj.statusCode = 200;
+    sendObj.data = JSON.stringify(getAllEvents(route.split('/')[2]));
+    uniSend(sendObj, response);
+  } else if (route.startsWith('calendar/create')) {
+    createCalendar();
+    uniSend(new SendObj(302, [], '', '/calendar/'), response);
   } else {
-    events = getAllEvents();
+    events = getAllEvents(101);
     uniSend(view(wsport, naviObj, calendarView(events, 'Calendar', user)), response);
   }
 }

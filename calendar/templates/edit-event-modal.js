@@ -9,9 +9,11 @@
 
 // Required modules
 const { getAllUsers } = require('../../user/models/model-user');
+const { getCalendarUrls } = require('../models/model-calendar');
 const formTextInput = require('../../main/templates/form-textinput');
 const formTextArea = require('../../main/templates/form-textarea');
 const formCheckbox = require('../../main/templates/form-checkbox');
+const formSelect = require('../../main/templates/form-select');
 
 
 function editEventModal () {
@@ -30,10 +32,11 @@ function editEventModal () {
               <input type="text" id="id-field" name="id" class="d-none" hidden value="" />
               <div class="form-group row">
                 ${formTextInput('', 'title', 'required', '', '', 'text')} <div class="col-3"></div>
-                ${formCheckbox (['true'], 'online', [], [], true)} <div class="col-3"></div>
+                ${formCheckbox(['true'], 'online', [], [], true)} <div class="col-3"></div>
+                ${formSelect(getCalendarUrls(), '/calendar/load/101', 'sourceUrl', '', '', 'required')} <div class="col-3"></div>
                 ${formTextInput('', 'start', 'required', '', '', 'text')} <div class="col-3"></div>
                 ${formTextInput('', 'end', '', '', '', 'text')} <div class="col-3"></div>
-                ${formCheckbox (['true'], 'allDay', [], [], true)} <div class="col-3"></div>
+                ${formCheckbox(['true'], 'allDay', [], [], true)} <div class="col-3"></div>
                 ${formTextInput('', 'members', '', '', '', 'text')} <div class="col-3"></div>
                 <div class="col-12 mt-1"></div>
                 ${formTextArea('', 'description', '')} <div class="col-3"></div>
