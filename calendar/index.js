@@ -40,7 +40,7 @@ function calendarController (request, response, wss, wsport, user) {
   } else if (route.startsWith('calendar/delete')) {
     getFormObj(request).then(
       data => {
-        deleteEvent(Number(data.fields.id), user, data.fields.sourceUrl.split('/')[3]);
+        deleteEvent(Number(data.fields.id), user);
         uniSend(new SendObj(302, [], '', '/calendar/'), response);
       }
     ).catch(
@@ -55,8 +55,17 @@ function calendarController (request, response, wss, wsport, user) {
     sendObj.data = JSON.stringify(getAllEvents(route.split('/')[2]));
     uniSend(sendObj, response);
   } else if (route.startsWith('calendar/create')) {
-    createCalendar();
-    uniSend(new SendObj(302, [], '', '/calendar/'), response);
+    getFormObj(request).then(
+      data => {
+        createCalendar(data.fields, user);
+        uniSend(new SendObj(302, [], '', '/calendar/'), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR creating new calendar: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+      }
+    );
   } else {
     events = getAllEvents(101);
     uniSend(view(wsport, naviObj, calendarView(events, 'Calendar', user)), response);

@@ -55,7 +55,9 @@ function individualMeetings (weeksArray) {
         end: '',
         members: userId.toString(),
         allDay: false,
-        online: false
+        online: false,
+        sourceUrl: '/calendar/load/101',
+        description: ''
       }
     );
   });
@@ -74,7 +76,9 @@ function weeklyMeetings (weeksArray) {
         allDay: false,
         online: true,
         url: '/meeting/attend/'+eventId,
-        key: uuidv4()
+        key: uuidv4(),
+        sourceUrl: '/calendar/load/101',
+        description: ''
       }
     );
   });
@@ -88,7 +92,9 @@ function weekendWorkshop (weeksArray) {
       start: weeksArray[4].split('T')[0],
       end: weeksArray[6].split('T')[0],
       members: allUserIds.toString(),
-      allDay: true
+      allDay: true,
+      sourceUrl: '/calendar/load/101',
+      description: ''
     }
   );
 }

@@ -9,7 +9,7 @@
 
 // Required modules
 const { getAllUsers } = require('../../user/models/model-user');
-const { getCalendarUrls } = require('../models/model-calendar');
+const { getAllCalendars } = require('../models/model-calendar');
 const formTextInput = require('../../main/templates/form-textinput');
 const formTextArea = require('../../main/templates/form-textarea');
 const formCheckbox = require('../../main/templates/form-checkbox');
@@ -33,7 +33,7 @@ function editEventModal () {
               <div class="form-group row">
                 ${formTextInput('', 'title', 'required', '', '', 'text')} <div class="col-3"></div>
                 ${formCheckbox(['true'], 'online', [], [], true)} <div class="col-3"></div>
-                ${formSelect(getCalendarUrls(), '/calendar/load/101', 'sourceUrl', '', '', 'required')} <div class="col-3"></div>
+                ${formSelect(getAllCalendars().map(item => {return [item.url, item.name]}), '/calendar/load/101', 'sourceUrl', '', '', '')} <div class="col-3"></div>
                 ${formTextInput('', 'start', 'required', '', '', 'text')} <div class="col-3"></div>
                 ${formTextInput('', 'end', '', '', '', 'text')} <div class="col-3"></div>
                 ${formCheckbox(['true'], 'allDay', [], [], true)} <div class="col-3"></div>

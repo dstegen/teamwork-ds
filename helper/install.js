@@ -76,6 +76,15 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
     }
   ];
   saveFile(path.join(__dirname, '../data'), 'events.json', allEvents);
+  let allCalendars = [
+    {
+      id: 101,
+      name: 'Team calendar',
+      color: 'primary',
+      url: '/calendar/load/101'
+    }
+  ];
+  saveFile(path.join(__dirname, '../data'), 'calendars.json', allCalendars);
   // Install steps: 0=install, 1=email, 2=passwd, 3=passwd complete, 4=install complete
   let steps = [false, false, false, false, false];
   console.log('\nFor loggin into the TeamWork-DS pls setup login credentials now!');

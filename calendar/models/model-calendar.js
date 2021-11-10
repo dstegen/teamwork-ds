@@ -8,7 +8,6 @@
 'use strict';
 
 // Required modules
-const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid').v4;
 const loadFile = require('../../utils/load-file');
@@ -19,7 +18,20 @@ const { addActivity } = require('../../main/models/model-activity');
 
 
 function getAllEvents (id) {
-  let allEvents = loadFile(path.join(__dirname, '../../data/calendars/'+id+'_events.json'));
+  let allEvents = loadFile(path.join(__dirname, '../../data/events.json'));
+  let myColors = {
+    101: 'var(--bs-primary)',
+    102: 'var(--bs-success)',
+    103: 'var(--bs-secondary)',
+    104: 'var(--bs-warning)',
+    105: 'var(--bs-info)'
+  }
+  if (id !== undefined) {
+    allEvents = allEvents.filter(item => item.sourceUrl === '/calendar/load/'+id);
+    allEvents.forEach( item => {
+      item.color = myColors[item.sourceUrl.split('/')[3]];
+    });
+  }
   return allEvents;
 }
 
@@ -45,109 +57,82 @@ function getProjectEvents (projectId) {
   return returnEvents;
 }
 
-function getEvent (eventId, sourceId='/calendar/load/101') {
-  return getAllEvents(sourceId.split('/')[3]).filter(item => item.id === Number(eventId))[0];
+function getEvent (eventId) {
+  return getAllEvents().filter(item => item.id === Number(eventId))[0];
 }
 
-function createCalendar () {
+function createCalendar (fields) {
+  console.log(fields);
+  let allCalendars = loadFile(path.join(__dirname, '../../data/calendars.json'));
+  let newCal = {};
   try {
-    let nextCalId = fs.readdirSync(path.join(__dirname, '../../data/calendars')).length+100;
-    saveFile(path.join(__dirname, '../../data/calendars'), nextCalId+'_events.json', []);
+    let nextCalId = Math.max(...allCalendars.map( item => item.id)) + 1;
+    newCal.id = nextCalId;
+    newCal.name = sani(fields.name);
+    newCal.color = sani(fields.color);
+    newCal.url = '/calendar/load/'+nextCalId;
+    allCalendars.push(newCal);
+    saveFile(path.join(__dirname, '../../data'), 'calendars.json', allCalendars);
     console.log('+ Created new calendar successfully: '+nextCalId);
   } catch (e) {
     console.log('- ERROR while creating new calendar: '+e);
   }
 }
 
-function getCalendarUrls () {
-  try {
-    let returnList = [];
-    let allCalendars = fs.readdirSync(path.join(__dirname, '../../data/calendars'));
-    if (allCalendars.length > 0) {
-      allCalendars.forEach( item => {
-        if (item.includes('event')) {
-          returnList.push('/calendar/load/'+item.split('_')[0]);
-        }
-      });
-    return returnList;
-    }
-  } catch (e) {
-    console.log('- ERROR reading all calendars: '+e);
-    return [];
-  }
+function getAllCalendars () {
+  return loadFile(path.join(__dirname, '../../data/calendars.json'));
 }
 
 function updateEvent (fields, user) {
   console.log(fields);
-  let allEvents = getAllEvents(fields.sourceUrl.split('/')[3]);
+  let tmpEvent = {};
   let membersArray = [];
-  if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
-    // update
-    //console.log('+ Update event: '+fields.title+' '+fields.start);
-    if (Object.keys(fields).includes('allDay') && fields.allDay === 'true') {
-      allEvents.filter(item => item.id === Number(fields.id))[0].allDay = true;
+  let allEvents = getAllEvents();
+  Object.keys(fields).forEach(key => {
+    if (key === 'id') {
+      if (fields.id === null || fields.id === '' || fields.id === undefined) {
+        tmpEvent.id = Math.max(...allEvents.map( item => item.id)) + 1;
+      } else {
+        fields.id = sani(fields.id);
+      }
+    } else if (key === 'online' && fields.online === 'true') {
+      // Online meeting
+      tmpEvent.online = true;
+      tmpEvent.url = '/meeting/attend/'+tmpEvent.id;
+      tmpEvent.key = uuidv4();
+    } else if (key.startsWith('membersItems')) {
+      if (fields[key] != '') membersArray.push(sani(fields[key]));
     } else {
-      allEvents.filter(item => item.id === Number(fields.id))[0].allDay = false;
+      tmpEvent[key] = sani(fields[key]);
     }
-    allEvents.filter(item => item.id === Number(fields.id))[0].online = false;
-    Object.keys(fields).forEach( key => {
-      if (key.startsWith('membersItems')) {
-        if (fields[key] != '') membersArray.push(sani(fields[key]));
-      } else if (key === 'online') {
-        // Online meeting
-        if (fields[key] === 'true') {
-          allEvents.filter(item => item.id === Number(fields.id))[0].online = true;
-          allEvents.filter(item => item.id === Number(fields.id))[0].url = '/meeting/attend/'+fields.id;
-          allEvents.filter(item => item.id === Number(fields.id))[0].key = uuidv4();
-        }
-      } else if (key !== 'id' && key !== 'allDay') {
-        allEvents.filter(item => item.id === Number(fields.id))[0][key] = sani(fields[key]);
+  });
+  tmpEvent.members = membersArray.toString();
+  console.log(tmpEvent);
+  if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
+    // Update event
+    Object.keys(tmpEvent).forEach( key => {
+      if (!['id','url','key'].includes(key)) {
+        allEvents.filter(item => item.id === Number(fields.id))[0][key] = tmpEvent[key];
       }
     });
-    if (membersArray.length > 0) {
-      allEvents.filter(item => item.id === Number(fields.id))[0]['members'] = membersArray.toString();
-    }
+    addActivity('updated calendar event "'+tmpEvent.title+'"', user.id, 'calendar', tmpEvent.id);
+    console.log('+ Event updated: '+tmpEvent.title+' '+tmpEvent.start);
   } else {
-    // add
-    let tmpEvent = {};
-    tmpEvent.id = Math.max(...getAllEvents(fields.sourceUrl.split('/')[3]).map( item => item.id)) + 1;
-    if (tmpEvent.id < 1) tmpEvent.id = Number(fields.sourceUrl.split('/')[3])*1000000+1;
-    Object.keys(fields).forEach( key => {
-      if (key.startsWith('membersItems')) {
-        if (fields[key] != '') membersArray.push(sani(fields[key]));
-      } else if (key === 'allDay') {
-        if (fields.allDay === 'true') {
-          tmpEvent.allDay = true;
-        } else {
-          tmpEvent.allDay = false;
-        }
-      } else if (key === 'online' && fields[key] === 'true') {
-        // Online meeting
-        tmpEvent.online = true;
-        tmpEvent.url = '/meeting/attend/'+tmpEvent.id;
-        tmpEvent.key = uuidv4();
-      } else if (key !== 'id') {
-        tmpEvent[key] = sani(fields[key]);
-      }
-    });
-    if (membersArray.length > 0) {
-      tmpEvent['members'] = membersArray.toString();
-    }
-    //console.log(tmpEvent);
+    // Add event
     allEvents.push(tmpEvent);
+    addActivity('added calendar event "'+tmpEvent.title+'"', user.id, 'calendar', tmpEvent.id);
+    console.log('+ Event added: '+tmpEvent.title+' '+tmpEvent.start);
   }
-  saveFile(path.join(__dirname, '../../data/calendars'), fields.sourceUrl.split('/')[3]+'_events.json', allEvents);
-  addActivity('updated calendar event "'+fields.title+'" updated', user.id, 'calendar', fields.id);
-  console.log('+ Event updated/added: '+fields.title+' '+fields.start);
+  saveFile(path.join(__dirname, '../../data'), 'events.json', allEvents);
 }
 
-function deleteEvent (eventId, user, calId=101) {
+function deleteEvent (eventId, user) {
   let delEventTitle = getEvent(eventId).title;
-  let allEvents = getAllEvents(calId).filter(item => item.id !== Number(eventId));
-  saveFile(path.join(__dirname, '../../data/calendars'), calId+'_events.json', allEvents);
+  let allEvents = getAllEvents().filter(item => item.id !== Number(eventId));
+  saveFile(path.join(__dirname, '../../data'), 'events.json', allEvents);
   addActivity('Calendar event "'+delEventTitle+'" deleted', user.id, 'calendar', Number(eventId));
   console.log('- Deleted event with ID: '+eventId);
 }
 
 
-module.exports = { getAllEvents, getProjectEvents, getEvent, updateEvent, deleteEvent, createCalendar, getCalendarUrls };
+module.exports = { getAllEvents, getProjectEvents, getEvent, updateEvent, deleteEvent, createCalendar, getAllCalendars };

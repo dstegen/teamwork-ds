@@ -8,20 +8,19 @@
 'use strict';
 
 // Required modules
-const { getCalendarUrls } = require('../models/model-calendar');
+const { getAllCalendars } = require('../models/model-calendar');
 const editEventModal = require('../templates/edit-event-modal');
+const newCalendarModal = require('../templates/new-calendar-modal');
 
 
 function calendarView (events, calHeadline='Calendar', user={}) {
   let editable = false;
   if (calHeadline === 'Calendar') editable = true;
-  let eventSources = getCalendarUrls();
+  let eventSources = getAllCalendars().map(item => { return item.url; });
   if (calHeadline !== 'Calendar') eventSources = [ {events: events} ];
   let calendarButtons = '';
-  let colorList = ['primary','success','warning'];
-  getCalendarUrls().forEach( (item, i) => {
-    let id = item.split('/')[3];
-    calendarButtons += '<button id="events-'+id+'" type="button" class="me-2 btn btn-sm btn-'+colorList[i]+'" onclick="toggleCalendar('+id+', \''+colorList[i]+'\')">Calendar '+id+'</button>'
+  getAllCalendars().forEach( item => {
+    calendarButtons += '<button id="events-'+item.id+'" type="button" class="me-2 btn btn-sm btn-'+item.color+'" onclick="toggleCalendar('+item.id+', \''+item.color+'\')">'+item.name+'</button>'
   });
 
   return `
@@ -129,6 +128,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             } else {
               document.getElementById("online-true").checked = false;
             }
+            $('#description-field').val(info.event.extendedProps.description);
             $("#editEventModal").modal('show');
             initFlatpickr();
           },
@@ -138,6 +138,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             $('#start-field').val(moment(info.dateStr).format('YYYY-MM-DD HH:mm'));
             $('#end-field').val('');
             $('#title-field').val('');
+            $('#description-field').val('');
             document.getElementById("allDay-true").checked = false;
             $('#members-field').val('');
             document.getElementById("online-true").checked = false;
@@ -150,6 +151,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             $('#start-field').val(moment(info.startStr).format('YYYY-MM-DD HH:mm'));
             $('#end-field').val(moment(info.endStr).format('YYYY-MM-DD HH:mm'));
             $('#title-field').val('');
+            $('#description-field').val('');
             document.getElementById("allDay-true").checked = false;
             $('#members-field').val('');
             document.getElementById("online-true").checked = false;
@@ -171,13 +173,14 @@ function calendarView (events, calHeadline='Calendar', user={}) {
         <span>
           ${calendarButtons}
         </span>
-        <a href="/calendar/create" class="btn btn-sm btn-primary ms-2"> + </a>
+        <button type="button" class="btn btn-sm btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#newCalendarModal"> + </button>
       </div>
       <div class="border p-3">
         <div id="calendar"></div>
       </div>
     </div>
     ${editEventModal()}
+    ${newCalendarModal()}
   `;
 }
 
