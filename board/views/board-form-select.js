@@ -28,7 +28,7 @@ function helperSelectOption (item, value) {
     item = item[1];
   }
   let selected = '';
-  if (value && value.includes(item)) selected = 'selected'
+  if (value && value.includes(myValue)) selected = 'selected'
   return `
     <option ${selected} value="${myValue}">${item}</option>
   `;
