@@ -75,6 +75,17 @@ node helper/add-example-events.js
 
 ## Changelog ##
 
+#### v0.1.4 ####
+- added multiple calendars
+- refactored & improved calendars
+- added event description
+- added subtasks to issues
+- added basic people resource page
+- added team member overview page
+- refactored user controller
+- several bugfixes and usability improvements
+
+
 #### v0.1.3 ####
 - important security fix in router
 - added members settings
@@ -84,7 +95,7 @@ node helper/add-example-events.js
 - some bugfixes and cleanups
 
 #### v0.1.2 ####
-- added jitsi online viedoe meetings
+- added jitsi online video meetings
 - added example data install script
 - refactored & improved activities
 - bugfixes and visual improvements
