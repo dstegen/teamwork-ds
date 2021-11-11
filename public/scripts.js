@@ -246,12 +246,14 @@ function selectUser (userId) {
 }
 
 // Edit boards
-function enableDisableInput (checkbox, enableElement, disableElement) {
+function enableDisableInput (checkbox, enableElement, disableElement, enableElement2) {
   if(checkbox.checked == true) {
     $(enableElement).prop('disabled', false);
+    if (enableElement2) $(enableElement2).prop('disabled', false);
     if (disableElement) $(disableElement).prop('disabled', 'disabled');
   } else {
     $(enableElement).prop('disabled', 'disabled');
+    if (enableElement2) $(enableElement2).prop('disabled', 'disabled');
     if (disableElement) $(disableElement).prop('disabled', false);
   }
 }

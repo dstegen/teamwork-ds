@@ -76,6 +76,7 @@ function updateTopic (fields) {
   if (fields.id === 'null') {
     tmpBoard.topics.push(newTopic);
   }
+  newTopic.projectState = fields.projectState;
   saveFile(path.join(__dirname, '../../data/boards', fields.group), 'board.json', tmpBoard);
   console.log('+ Updated/added group board topic successfully!');
 }

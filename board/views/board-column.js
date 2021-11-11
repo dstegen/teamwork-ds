@@ -18,7 +18,11 @@ function boardColumn (myTopic, myBoard, group, user) {
   let editor = true;
   let cardsArray = myBoard.cards.filter( item => item.topicId === myTopic.id);
   if (myTopic.autofill === true) {
-    cardsArray = getAllIssues().filter( item => (item.projectId === Number(myTopic.autofillWith) && item.state !== 'closed'));
+    if (myTopic.projectState && myTopic.projectState !== '' && myTopic.projectState !== 'all') {
+      cardsArray = getAllIssues().filter( item => (item.projectId === Number(myTopic.autofillWith) && item.state === myTopic.projectState));
+    } else {
+      cardsArray = getAllIssues().filter( item => (item.projectId === Number(myTopic.autofillWith) && item.state !== 'closed'));
+    }
     cardsArray = cardsArray.map( issue => { return {
       title: issue.name,
       description: issue.description,
