@@ -305,14 +305,15 @@ function filterActivities (type) {
 // Calendar
 
 function toggleCalendar (id, color='primary') {
-  if (calendar.getEventSources().filter(item => item.url && item.url.includes(id)).length > 0) {
-    calendar.getEventSources().filter(item => item.url.includes(id))[0].remove();
+  let sourceUrl = '/calendar/load/'+id;
+  if (id.includes('project')) sourceUrl = '/calendar/load/'+id.replace('-','/');
+  if (calendar.getEventSources().filter(item => item.url && item.url === sourceUrl).length > 0) {
+    calendar.getEventSources().filter(item => item.url && item.url === sourceUrl)[0].remove();
     $('#events-'+id).removeClass('btn-'+color);
     $('#events-'+id).addClass('btn-outline-'+color);
   } else {
-    let test = calendar.addEventSource('/calendar/load/'+id);
+    let test = calendar.addEventSource(sourceUrl);
     $('#events-'+id).removeClass('btn-outline-'+color);
     $('#events-'+id).addClass('btn-'+color);
-    console.log(test);
   }
 }

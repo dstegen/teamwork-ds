@@ -13,16 +13,20 @@ const editEventModal = require('../templates/edit-event-modal');
 const newCalendarModal = require('../templates/new-calendar-modal');
 
 
-function calendarView (events, calHeadline='Calendar', user={}) {
+function calendarView (calHeadline='Calendar', user={}, project) {
   let editable = false;
   if (calHeadline === 'Calendar') editable = true;
   let eventSources = getAllCalendars().map(item => { return item.url; });
-  if (calHeadline !== 'Calendar') eventSources = [ {events: events} ];
+  let outline = '';
   let calendarButtons = '';
+  if (project && project.name) {
+    eventSources = [ '/calendar/load/project/'+project.id ];
+    calendarButtons = '<button id="events-project-'+project.id+'" type="button" class="me-2 btn btn-sm btn-danger" onclick="toggleCalendar(\'project-'+project.id+'\', \'danger\')">'+project.name+'</button>';
+    outline = 'outline-';
+  }
   getAllCalendars().forEach( item => {
-    calendarButtons += '<button id="events-'+item.id+'" type="button" class="me-2 btn btn-sm btn-'+item.color+'" onclick="toggleCalendar('+item.id+', \''+item.color+'\')">'+item.name+'</button>'
+    calendarButtons += '<button id="events-'+item.id+'" type="button" class="me-2 btn btn-sm btn-'+outline+item.color+'" onclick="toggleCalendar(\''+item.id+'\', \''+item.color+'\')">'+item.name+'</button>';
   });
-
   return `
     <script>
       let eventId = '';
@@ -47,7 +51,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
           },
           height: 600,
           editable: ${editable},
-          selectable: ${editable},
+          selectable: true,
           eventContent: function(arg) {
             if (arg.event.extendedProps.online === true) {
               let italicEl = document.createElement('span')
@@ -152,7 +156,7 @@ function calendarView (events, calHeadline='Calendar', user={}) {
             $('#end-field').val(moment(info.endStr).format('YYYY-MM-DD HH:mm'));
             $('#title-field').val('');
             $('#description-field').val('');
-            document.getElementById("allDay-true").checked = false;
+            document.getElementById("allDay-true").checked = true;
             $('#members-field').val('');
             document.getElementById("online-true").checked = false;
             $("#editEventModal").modal('show');

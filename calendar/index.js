@@ -19,12 +19,10 @@ const { getProjectById } = require('../project/models/model-project');
 function calendarController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
-  let events = [];
   if (route.split('/')[1] === 'project' && Number(route.split('/')[2]) > -1) {
-    events = getProjectEvents(Number(route.split('/')[2]));
     let project = getProjectById(Number(route.split('/')[2]));
     let calHeadline = 'Calendar for <a href="/project/view/'+project.id+'">'+project.name+'<a/>';
-    uniSend(view(wsport, naviObj, calendarView(events, calHeadline, user)), response);
+    uniSend(view(wsport, naviObj, calendarView(calHeadline, user, project)), response);
   } else if (route.startsWith('calendar/update')) {
     //add/updateIssue
     getFormObj(request).then(
@@ -52,7 +50,11 @@ function calendarController (request, response, wss, wsport, user) {
     let sendObj = new SendObj();
     sendObj.contentType = 'application/json';
     sendObj.statusCode = 200;
-    sendObj.data = JSON.stringify(getAllEvents(route.split('/')[2]));
+    if (route.includes('project')) {
+      sendObj.data = JSON.stringify(getProjectEvents(route.split('/')[3]));
+    } else {
+      sendObj.data = JSON.stringify(getAllEvents(route.split('/')[2]));
+    }
     uniSend(sendObj, response);
   } else if (route.startsWith('calendar/create')) {
     getFormObj(request).then(
@@ -67,8 +69,7 @@ function calendarController (request, response, wss, wsport, user) {
       }
     );
   } else {
-    events = getAllEvents(101);
-    uniSend(view(wsport, naviObj, calendarView(events, 'Calendar', user)), response);
+    uniSend(view(wsport, naviObj, calendarView('Calendar', user)), response);
   }
 }
 
