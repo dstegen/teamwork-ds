@@ -18,7 +18,7 @@ const sani = require('../../utils/sanitizer');
 const { addActivity } = require('../../main/models/model-activity');
 const issuePills = require('../templates/issue-pills');
 
-function createIssue (user, projectId) {
+function createIssue (user, projectId, masterId) {
   let newIssue = loadFile(path.join(__dirname, './blueprint-issue.json'));
   let allIssues = getAllIssues();
   if (allIssues.length > 0) {
@@ -31,6 +31,8 @@ function createIssue (user, projectId) {
   newIssue.reporter = user.id;
   newIssue.createDate = newDate();
   newIssue.updateDate = newDate();
+  newIssue.type = masterId !== undefined ? 'SubTask' : 'Taks';
+  newIssue.masterId = masterId;
   return newIssue;
 }
 

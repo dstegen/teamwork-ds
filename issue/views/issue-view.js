@@ -26,7 +26,10 @@ function issueView (issue, user, wsport) {
   if (issue.type !== 'SubTask') {
     subTaskHtml = `
       <div class="mt-5">
-        <h5>SubTasks:</h5>
+        <div class="d-flex justify-content-between mb-2">
+          <h5>SubTasks:</h5>
+          <a href="/issue/create?projectId=${issue.projectId}&masterId=${issue.id}" class="btn btn-sm btn-primary">Add SubTask </a>
+        </div>
         <div class="row">
           <div class="col-12 col-lg-6">
             ${issueList2(getAllIssues().filter(item => Number(item.masterId) === issue.id))}

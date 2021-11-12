@@ -24,11 +24,22 @@ function issueController (request, response, wss, wsport, user) {
   let issue = getIssue(Number(route.split('/')[2]));
   let naviObj = getNaviObj(user);
   if (route.startsWith('issue/create')) {
+    let queryObj = {};
     let projectId = undefined;
-    if (request.url.substr(1).includes('?projectId=')) {
-      projectId = Number(request.url.substr(1).split('?')[1].split('=')[1]);
+    let masterId = undefined;
+    if (request.url.includes('?')) {
+      let query = request.url.substr(1).split('?')[1].split('&');
+      for (let i=0; i<query.length; i++) {
+        queryObj[query[i].split('=')[0]] = query[i].split('=')[1]
+      }
+      if (request.url.substr(1).split('?')[1].includes('masterId')) {
+        masterId = Number(queryObj.masterId);
+      }
+      if (request.url.substr(1).split('?')[1].includes('projectId')) {
+        projectId = Number(queryObj.projectId);
+      }
     }
-    uniSend(view(wsport, naviObj, editIssueView(createIssue(user, projectId))), response);
+    uniSend(view(wsport, naviObj, editIssueView(createIssue(user, projectId, masterId))), response);
   } else if (route.startsWith('issue/update')) {
     //add/updateIssue
     getFormObj(request).then(
