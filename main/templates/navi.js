@@ -69,8 +69,8 @@ function helperMenuItem (item) {
       <div class="nav-item">
         <a href="${item.link}" class="btn btn-light btn-sm mt-1 mx-3 text-capitalize" id="topnavi-${item.link.replace(/\//g,'')}" ${onClick}>${item.name}</a>
       </div>
-      <form class="d-flex my-1">
-        <input class="form-control-sm me-2" type="search" placeholder="Search" aria-label="Search">
+      <form id="navi-search-form" name="navi-search-form" action="/search" method="post" class="d-flex my-1">
+        <input type="text" class="form-control-sm me-2" id="searchTerm" name="searchTerm" placeholder="Search" aria-label="Search" value="">
         <button class="btn btn-sm btn-outline-light" type="submit">Search</button>
       </form>
     `;

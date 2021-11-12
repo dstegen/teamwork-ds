@@ -18,6 +18,7 @@ const fileController = require('./main/file-controller');
 const boardController = require('./board');
 const calendarController = require('./calendar');
 const meetingController = require('./meeting');
+const searchController = require('./main/search-controller');
 const adminController = require('./admin');
 const loginView = require('./user/views/login-view');
 
@@ -53,6 +54,8 @@ function router (request, response, wss, wsport) {
       calendarController(request, response, wss, wsport, user);
     } else if (route.startsWith('meeting')) {
       meetingController(request, response, wss, wsport, user);
+    } else if (route.startsWith('search')) {
+      searchController(request, response, wss, wsport, user);
     } else if (route.startsWith('admin') && user.admin) {
       adminController(request, response, wss, wsport, user);
     } else {
