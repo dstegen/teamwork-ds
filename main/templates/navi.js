@@ -71,7 +71,7 @@ function helperMenuItem (item) {
       </div>
       <form id="navi-search-form" name="navi-search-form" action="/search" method="post" class="d-flex my-1">
         <input type="text" class="form-control-sm me-2" id="searchTerm" name="searchTerm" placeholder="Search" aria-label="Search" value="">
-        <button class="btn btn-sm btn-outline-light" type="submit">Search</button>
+        <button class="btn btn-sm btn-outline-light" type="submit" hidden>Search</button>
       </form>
     `;
   } else {

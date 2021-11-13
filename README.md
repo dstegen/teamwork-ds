@@ -75,6 +75,11 @@ node helper/add-example-events.js
 
 ## Changelog ##
 
+### v0.1.5 ####
+- added simple full text search
+- added personal todo lists
+- improved subtasks handling
+
 #### v0.1.4 ####
 - added multiple calendars
 - refactored & improved calendars
@@ -84,7 +89,6 @@ node helper/add-example-events.js
 - added team member overview page
 - refactored user controller
 - several bugfixes and usability improvements
-
 
 #### v0.1.3 ####
 - important security fix in router
