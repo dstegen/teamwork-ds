@@ -319,3 +319,24 @@ function toggleCalendar (id, color='primary') {
     $('#events-'+id).addClass('btn-'+color);
   }
 }
+
+// Todolist
+
+function toggleDone (item, state) {
+  let listId = item.split('-')[1];
+  let itemId = item.split('-')[2]
+  $.ajax({
+    url: '/todolist/update', // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"listId": listId, "itemId": itemId, "done": state.toString()},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+  if (state === false) {
+    $('#item-'+listId+'-'+itemId).removeClass('text-decoration-line-through text-muted');
+  } else if (state === true) {
+    $('#item-'+listId+'-'+itemId).addClass('text-decoration-line-through text-muted');
+  }
+}
