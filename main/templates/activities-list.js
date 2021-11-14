@@ -15,8 +15,9 @@ const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
 
 
-function activitiesList () {
+function activitiesList (user=undefined) {
   let allActivities = getAllActivties().slice(0,20);
+  if (user) allActivities = getAllActivties().filter(item => item.member !== user.id);
   return `
     <div class="d-flex justify-content-between p-3 mb-3 border">
       <h5 class="m-0">Recent activities</h5>

@@ -12,6 +12,7 @@ const { uniSend } = require('webapputils-ds');
 const { thisWeek } = require('../lib/dateJuggler');
 const getNaviObj = require('../lib/getNaviObj');
 const mainView = require('./views/main-view');
+const mydashboardView = require('./views/mydashboard-view');
 const view = require('../main/views/base-view');
 const resourcesView = require('./views/resources-view');
 
@@ -20,8 +21,10 @@ function mainController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   if (route === 'resource') {
     uniSend(view(wsport, getNaviObj(user), resourcesView()), response);
-  } else {
+  } else if (route === 'dashboard') {
     uniSend(view(wsport, getNaviObj(user), mainView([], thisWeek(), user, wsport)), response);
+  } else {
+    uniSend(view(wsport, getNaviObj(user), mydashboardView([], thisWeek(), user, wsport)), response);
   }
 }
 

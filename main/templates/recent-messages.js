@@ -1,5 +1,5 @@
 /*!
- * main/views/recent-messages.js
+ * main/templates/recent-messages.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 // Required modules
 const { getUserById } = require('../../user/models/model-user');
 const { getLatestMessages } = require('../../communication/models/model-messages');
-const simpleList = require('../templates/simple-list');
+const simpleList = require('./simple-list');
 
 
 function recentMessages (userId) {
@@ -22,8 +22,8 @@ function recentMessages (userId) {
       itemsList.push(`<a href="/communication">${message.chat} (${getUserById(message.chaterId).fname})</a>`);
     }
   });
-  console.log(itemsList);
-  return simpleList('<h5>Recent messages</h5>', itemsList);
+  return simpleList('<h5 class="border p-3 mt-5">Recent private messages</h5>', itemsList);
 }
+
 
 module.exports = recentMessages;

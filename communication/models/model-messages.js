@@ -35,7 +35,7 @@ function getLatestMessages (userId) {
     allMessages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), true).filter(
       item => item.chatMates.includes(userId)
     ).filter(
-        item => dateIsRecent(item.updated, 5)
+        item => dateIsRecent(item.updated, 10)
       ).filter(
           item => item.messages[item.messages.length-1].chaterId !== userId
         );

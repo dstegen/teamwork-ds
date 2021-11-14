@@ -12,9 +12,11 @@ function simpleList (headline='', itemsList=[]) {
   if (itemsList.length > 0) {
     return `
       ${headline !== '<h5>' ? ''+headline+'' : '</5>'}
-      <ul>
-        ${itemsList.map(listItem).join('')}
-      </ul>
+      <div class="border py-3 mt-3">
+        <ul>
+          ${itemsList.map(listItem).join('')}
+        </ul>
+      </div>
     `;
   } else {
     return '';
@@ -26,7 +28,7 @@ function simpleList (headline='', itemsList=[]) {
 
 function listItem (item) {
   return `
-    <li>${item}</li>
+    <li class="my-2">${item}</li>
   `;
 }
 
