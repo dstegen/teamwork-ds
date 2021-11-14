@@ -55,7 +55,7 @@ function todolistController (request, response, wss, wsport, user) {
         uniSend(new SendObj(302, [], '', '/'), response);
     });
   } else {
-    uniSend(view(wsport, getNaviObj(user), todolistView(getTodolistObj(user), request.headers['user-agent'])), response);
+    uniSend(view(wsport, getNaviObj(user), todolistView(getTodolistObj(user))), response);
   }
 }
 

@@ -84,6 +84,7 @@ function updateTodolistItem (fields, user) {
       }
     );
   }
+  console.log('+ Todo list updated by user: '+user.fname+' '+user.lname);
   saveFile(path.join(__dirname, '../../data/users/todolists'), user.id+'.json', tdListObj);
 }
 
