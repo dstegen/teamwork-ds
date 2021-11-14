@@ -79,6 +79,7 @@ node helper/add-example-events.js
 - added simple full text search
 - added personal todo lists
 - added checklist to issue
+- added personal dashboard (wip)
 - improved issues subtasks handling
 
 #### v0.1.4 ####

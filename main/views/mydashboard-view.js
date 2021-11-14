@@ -11,7 +11,7 @@
 const { getAllIssues } = require('../../issue/models/model-issue');
 const issueList2 = require('../../issue/templates/issue-list2');
 const { getAllEvents } =require('../../calendar/models/model-calendar');
-const calendarListView = require('../../calendar/views/calendar-list-view');
+const calendarDayView = require('../../calendar/views/calendar-day-view');
 const activitiesList = require('../templates/activities-list');
 const recentMessages = require('../templates/recent-messages');
 
@@ -32,8 +32,10 @@ function mydashboardView (lessonsTodayList, curWeek, user, wsport) {
           ${recentMessages(user.id)}
         </div>
         <div class="col-12 col-lg-6">
-          ${activitiesList(user)}
-          ${calendarListView(getAllEvents(101), user)}
+          ${calendarDayView(getAllEvents(), user)}
+          <div class="mt-5">
+            ${activitiesList(user)}
+          <div>
         </div>
       </div>
     </div>
