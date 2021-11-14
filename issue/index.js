@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { createIssue, getIssue, updateIssue, changeIssueState } = require('./models/model-issue');
+const { createIssue, getIssue, updateIssue, changeIssueState, updateChecklist, deleteChecklistItem } = require('./models/model-issue');
 const editIssueView = require('./views/edit-issue-view');
 const issueListView = require('./views/issue-list-view');
 const issueView = require('./views/issue-view');
@@ -58,6 +58,23 @@ function issueController (request, response, wss, wsport, user) {
     uniSend(view(wsport, naviObj, issueView(issue, user, wsport)), response);
   } else if (route.startsWith('issue/comment')) {
     communicationController (request, response, wss, wsport, user);
+  } else if (route.startsWith('issue/checklist')) {
+    console.log(route);
+    getFormObj(request).then(
+      data => {
+        data.fields.id = route.split('/')[2];
+        if (route.includes('delete')) {
+          deleteChecklistItem(data.fields);
+        } else {
+          updateChecklist(data.fields, user);
+        }
+        uniSend(new SendObj(302, [], '', '/issue/view/'+data.fields.id), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t update checklist: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
   } else if (['backlog','open','start','resolved','closed'].includes(route.split('/')[1])) {
     let state = route.split('/')[1];
     let issueId = Number(route.split('/')[2]);

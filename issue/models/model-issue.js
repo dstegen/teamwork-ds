@@ -125,5 +125,49 @@ function deleteIssue (id) {
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
 }
 
+function updateChecklist (fields, user) {
+  //console.log(fields);
+  let allIssues = getAllIssues();
+  let curIssue = allIssues.filter(item => item.id === (Number(fields.id)))[0];
+  if (!curIssue.checklist) {
+    curIssue.checklist = {
+      listId: curIssue.id,
+      items: []
+    }
+  }
+  if (curIssue.checklist.items.filter(item => item.itemId === Number(fields.itemId)).length > 0) {
+    // update
+    let curItem = curIssue.checklist.items.filter(item => item.itemId === Number(fields.itemId))[0];
+    if (fields.item) curItem.item = sani(fields.item);
+    if (fields.done === 'true') {
+      curItem.done = true;
+    } else {
+      curItem.done = false;
+    }
+  } else {
+    // add item
+    curIssue.checklist.items.push(
+      {
+        item: sani(fields.item),
+        itemId: curIssue.checklist.items.length > 0 ? Math.max(...curIssue.checklist.items.map( item => item.itemId)) + 1 : 1001,
+        done: false
+      }
+    );
+  }
+  curIssue.updateDate = newDate();
+  saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
+  addActivity('updated issue checklist: "'+getIssue(Number(curIssue.id)).name+'"', user.id, 'issue', curIssue.id);
+  console.log('+ Issue "'+curIssue.name+'" checklist updated');
+}
 
-module.exports = { createIssue, getAllIssues, getIssue, updateIssue, deleteIssue, changeIssueState };
+function deleteChecklistItem (fields) {
+  //console.log(fields);
+  let allIssues = getAllIssues();
+  let curIssue = allIssues.filter(item => item.id === (Number(fields.id)))[0];
+  curIssue.checklist.items = curIssue.checklist.items.filter(item => item.itemId !== Number(fields.itemId));
+  curIssue.updateDate = newDate();
+  saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
+}
+
+
+module.exports = { createIssue, getAllIssues, getIssue, updateIssue, deleteIssue, changeIssueState, updateChecklist, deleteChecklistItem };

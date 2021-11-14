@@ -32,7 +32,7 @@ function todolistView (tdListObj) {
 function listViewWrapper (list) {
   return `
     <div class="col-12 col-lg-6 col-xl-4 mb-5">
-      ${checklist(list)}
+      ${checklist(list, '/todolist')}
     </div>
   `;
 }

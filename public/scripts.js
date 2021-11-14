@@ -322,11 +322,13 @@ function toggleCalendar (id, color='primary') {
 
 // Todolist
 
-function toggleDone (item, state) {
+function toggleDone (item, state, actionPath) {
+  console.log(actionPath);
+  let postUrl = actionPath+'/update';
   let listId = item.split('-')[1];
-  let itemId = item.split('-')[2]
+  let itemId = item.split('-')[2];
   $.ajax({
-    url: '/todolist/update', // url where to submit the request
+    url: postUrl, // url where to submit the request
     type : "POST", // type of action POST || GET
     dataType : 'json', // data type
     data : {"listId": listId, "itemId": itemId, "done": state.toString()},

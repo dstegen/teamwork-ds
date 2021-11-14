@@ -19,23 +19,21 @@ const issuePills = require('../templates/issue-pills');
 const issueTypeIcon = require('../templates/issue-type-icon');
 const issueList2 = require('../templates/issue-list2');
 const uploadForm = require('../templates/upload-form');
+const checklist = require('../../todolist/templates/checklist');
 
 
 function issueView (issue, user, wsport) {
   let subTaskHtml = '';
   if (issue.type !== 'SubTask') {
     subTaskHtml = `
-      <div class="mt-5">
+      <div class="col-12 col-lg-6 my-3">
         <div class="d-flex justify-content-between mb-2">
           <h5>SubTasks:</h5>
+        </div>
+        ${issueList2(getAllIssues().filter(item => Number(item.masterId) === issue.id))}
+        <div class="d-flex justify-content-end mt-2">
           <a href="/issue/create?projectId=${issue.projectId}&masterId=${issue.id}" class="btn btn-sm btn-primary">Add SubTask </a>
         </div>
-        <div class="row">
-          <div class="col-12 col-lg-6">
-            ${issueList2(getAllIssues().filter(item => Number(item.masterId) === issue.id))}
-          </div>
-        </div>
-        <hr />
       </div>
     `;
   }
@@ -60,8 +58,17 @@ function issueView (issue, user, wsport) {
         </div>
         <hr />
         ${issueDetails(issue)}
-        ${subTaskHtml}
-        <div class="mt-5">
+        <div class="row">
+          ${subTaskHtml}
+          <div class="col-12 col-lg-6 my-3">
+            <div class="d-flex justify-content-between mb-2">
+              <h5>Checklist:</h5>
+            </div>
+            ${issue.checklist ? checklist(issue.checklist, '/issue/checklist/'+issue.id) : checklist({}, '/issue/checklist/'+issue.id)}
+          </div>
+        </div>
+        <hr />
+        <div class="my-3">
           <h5>Attachements:</h5>
           ${uploadForm(issue)}
           <hr />
@@ -86,10 +93,10 @@ function issueView (issue, user, wsport) {
 // Additional functions
 
 function issueDetails (issue) {
-  let returnHtml1 = '<div class="col-12 col-lg-6 row">';
-  let returnHtml2 = '<div class="col-12 col-lg-6 row">';
+  let returnHtml1 = '<div class="col-12 col-lg-6 row mx-0">';
+  let returnHtml2 = '<div class="col-12 col-lg-6 row mx-0">';
   Object.keys(issue).forEach( key => {
-    if (!['id','name','description','projectId','masterId'].includes(key)) {
+    if (!['id','name','description','projectId','masterId','checklist'].includes(key)) {
       let value = issue[key];
       if (key === 'reporter' || key === 'assignee') {
         let fullName = getUserFullName(issue[key]);
