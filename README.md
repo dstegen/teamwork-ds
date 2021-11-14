@@ -78,7 +78,8 @@ node helper/add-example-events.js
 ### v0.1.5 ####
 - added simple full text search
 - added personal todo lists
-- improved subtasks handling
+- added checklist to issue
+- improved issues subtasks handling
 
 #### v0.1.4 ####
 - added multiple calendars

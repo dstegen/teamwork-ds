@@ -16,6 +16,7 @@ const { humanDate } = require('../../lib/dateJuggler');
 
 
 function activitiesList () {
+  let allActivities = getAllActivties().slice(0,20);
   return `
     <div class="d-flex justify-content-between p-3 mb-3 border">
       <h5 class="m-0">Recent activities</h5>
@@ -27,7 +28,7 @@ function activitiesList () {
       </span>
     </div>
     <div class="border p-3 mb-5" style="max-height: 295px; overflow: auto;">
-      ${getAllActivties().map(activityView).join('')}
+      ${allActivities.map(activityView).join('')}
     </div>
   `;
 }
