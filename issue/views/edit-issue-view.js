@@ -76,7 +76,7 @@ function helperIssueForm (issue) {
   allUserList.unshift([0,'']);
   let allProjectsList = getAllProjects().map( item => { return [item.id, item.name]; });
   Object.keys(issue).forEach( key => {
-    if (key !== 'id') {
+    if (!['id','checklist'].includes(key)) {
       if (key === 'projectId') {
         let projectDisabled = 'required';
         if (issue.projectId > -1) projectDisabled = 'disabled';

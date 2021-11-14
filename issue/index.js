@@ -59,7 +59,6 @@ function issueController (request, response, wss, wsport, user) {
   } else if (route.startsWith('issue/comment')) {
     communicationController (request, response, wss, wsport, user);
   } else if (route.startsWith('issue/checklist')) {
-    console.log(route);
     getFormObj(request).then(
       data => {
         data.fields.id = route.split('/')[2];
