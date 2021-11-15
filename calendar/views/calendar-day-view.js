@@ -42,7 +42,8 @@ function calendarDayView (events, user) {
           editable: true,
           selectable: true,
           eventContent: function(arg) {
-            if (arg.event.extendedProps.online === true) {
+            //console.log(calendar.view.type);
+            if (arg.event.extendedProps.online === true && calendar.view.type !== 'dayGridWeek') {
               let italicEl = document.createElement('span')
               italicEl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="fillColor" class="bi bi-camera-video mx-1 mb-1" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175l3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"/></svg>';
               italicEl.innerHTML += moment(arg.event.start).format('HH:mm')+' '+arg.event.title;
@@ -167,6 +168,9 @@ function calendarDayView (events, user) {
     </script>
       <div class="border p-3">
         <div id="calendar"></div>
+        <div class="d-flex justify-content-end mt-2">
+          <a class="small text-muted" href="/calendar">Team calendar</a>
+        </div>
       </div>
       ${editEventModal()}
     `;

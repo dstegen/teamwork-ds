@@ -7,11 +7,12 @@ TeamWork-DS intends to integrate many modern team working tools in one App. Proj
 ## Features ##
 - Organize your work in projects with tasks/issues/bugs
 - Comment on issues
+- Add subtasks and checklists to issues
 - Communicate about projects and in private chats
 - View projects on kanban boards
 - View projects on calendar
 - Trello-like free boards for additional orangisation
-- Team calendar
+- Team calendar with additional calendars
 - Jitsi online video meetings
 
 
@@ -81,6 +82,7 @@ node helper/add-example-events.js
 - added checklist to issue
 - added personal dashboard (wip)
 - improved issues subtasks handling
+- several bugfixes and usability improvements
 
 #### v0.1.4 ####
 - added multiple calendars
