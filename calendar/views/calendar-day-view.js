@@ -18,8 +18,8 @@ function calendarDayView (events, user) {
     <script>
       let eventId = '';
       document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendarDay');
-        var calendarDay = new FullCalendar.Calendar(calendarEl, {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridDay',
           headerToolbar: {
             left: 'prev,next',
@@ -41,6 +41,16 @@ function calendarDayView (events, user) {
           height: 300,
           editable: true,
           selectable: true,
+          eventContent: function(arg) {
+            if (arg.event.extendedProps.online === true) {
+              let italicEl = document.createElement('span')
+              italicEl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="fillColor" class="bi bi-camera-video mx-1 mb-1" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175l3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"/></svg>';
+              italicEl.innerHTML += moment(arg.event.start).format('HH:mm')+' '+arg.event.title;
+              let arrayOfDomNodes = [ italicEl ];
+              return { domNodes: arrayOfDomNodes };
+            }
+          },
+
           eventDidMount: function(info) {
             if (info.event.extendedProps.members && info.event.extendedProps.members.includes(${user.id})) {
               // Change background color of row
@@ -84,7 +94,6 @@ function calendarDayView (events, user) {
                   "start": moment(info.event.start).format('YYYY-MM-DD HH:mm'),
                   "end": endDate,
                   "allDay": allDay,
-                  "members": info.event.extendedProps.members,
                   "sourceUrl": info.event.source.url
                 },
                 success : function(result) {
@@ -153,11 +162,11 @@ function calendarDayView (events, user) {
 
           events: ${JSON.stringify(events)}
         });
-        calendarDay.render();
+        calendar.render();
       });
     </script>
       <div class="border p-3">
-        <div id="calendarDay"></div>
+        <div id="calendar"></div>
       </div>
       ${editEventModal()}
     `;

@@ -23,7 +23,7 @@ $(document).ready(function () {
   if (window.location.toString().includes('issue/create') || window.location.toString().includes('issue/edit')) {
     initTokenfield();
   }
-  if (window.location.toString().includes('calendar') || window.location.toString().includes('meeting')) {
+  if (window.location.pathname === '/' || window.location.toString().includes('calendar') || window.location.toString().includes('meeting')) {
     initTokenfieldForCalendar();
   }
 });

@@ -106,8 +106,8 @@ function updateEvent (fields, user) {
       tmpEvent[key] = sani(fields[key]);
     }
   });
-  tmpEvent.members = membersArray.toString();
-  console.log(tmpEvent);
+  if (membersArray.length > 0) tmpEvent.members = membersArray.toString();
+  //console.log(tmpEvent);
   if (allEvents.filter(item => item.id === Number(fields.id)).length > 0) {
     // Update event
     Object.keys(tmpEvent).forEach( key => {
