@@ -32,7 +32,7 @@ function createIssue (user, projectId, masterId) {
   newIssue.createDate = newDate();
   newIssue.updateDate = newDate();
   newIssue.type = masterId !== undefined ? 'SubTask' : 'Taks';
-  newIssue.masterId = masterId;
+  newIssue.masterId = Number(masterId);
   return newIssue;
 }
 

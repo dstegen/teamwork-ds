@@ -78,9 +78,16 @@ function helperIssueForm (issue) {
   Object.keys(issue).forEach( key => {
     if (!['id','checklist'].includes(key)) {
       if (key === 'projectId') {
-        let projectDisabled = 'required';
-        if (issue.projectId > -1) projectDisabled = 'disabled';
-        returnHtml1 += formSelect(allProjectsList, issue.projectId, 'projectId', '', '', projectDisabled) + '<div class="col-3"></div>';
+        if (issue.projectId > -1) {
+          returnHtml1 += `
+            <input type="text" class="d-none" id="projectId-field" name="projectId" value="${issue.projectId}" hidden />
+            <div class="col-sm-2 text-right text-truncate mb-2 small">Project</div>
+            <div class="col-sm-7">${getProjectById(issue.projectId).name}</div>
+            <div class="col-3"></div>
+          `;
+        } else {
+          returnHtml1 += formSelect(allProjectsList, issue.projectId, 'projectId', '', '', 'required') + '<div class="col-3"></div>';
+        }
       } else if (key === 'name') {
         returnHtml1 += formTextInput(issue.name, 'name', 'required', '') + '<div class="col-3"></div>';
       } else if (key === 'description') {
@@ -88,9 +95,11 @@ function helperIssueForm (issue) {
       } else if (key === 'state') {
         returnHtml1 += formSelect (['backlog','open','in progress','resolved','closed'], issue[key], key, '', '', '') + '<div class="col-3"></div>';
       } else if (key === 'type') {
-        let typeDisabled = '';
-        if (issue.type === 'SubTask') typeDisabled = 'disabled';
-        returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', 'onchange="chooseMasterId(this.value)"', typeDisabled) + '<div class="col-3"></div>';
+        if (issue.type === 'SubTask') {
+          returnHtml1 += formTextInput(issue.type, 'type', 'readonly', '') + '<div class="col-3"></div>';
+        } else {
+          returnHtml1 += formSelect (['Task','SubTask','Bug','Request'], issue[key], key, '', 'onchange="chooseMasterId(this.value)"', 'required') + '<div class="col-3"></div>';
+        }
       } else if (key === 'masterId') {
         let masterIdDisplay = 'disabled';
         if (issue.type === 'SubTask') masterIdDisplay = 'required';
