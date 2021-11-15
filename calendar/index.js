@@ -25,10 +25,11 @@ function calendarController (request, response, wss, wsport, user) {
     uniSend(view(wsport, naviObj, calendarView(calHeadline, user, project)), response);
   } else if (route.startsWith('calendar/update')) {
     //add/updateIssue
+    let urlPath = request.headers.referer.split(request.headers.host)[1];
     getFormObj(request).then(
       data => {
         updateEvent(data.fields, user);
-        uniSend(new SendObj(302, [], '', '/calendar/'), response);
+        uniSend(new SendObj(302, [], '', urlPath), response);
       }
     ).catch(
       error => {
