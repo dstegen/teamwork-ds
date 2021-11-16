@@ -119,6 +119,55 @@ function initTokenfieldForCalendar () {
 }
 
 
+// Init Trumbowyg for better WYSIWYG editing
+function initTrumbowyg (allAreas) {
+  //console.log('Init Trumbowyg...');
+  $('#startEdit').hide();
+  $('#saveEdit').show();
+  $(allAreas).trumbowyg({
+    removeformatPasted: true,
+    autogrow: true,
+    autogrowOnEnter: true,
+    tagsToRemove: ['script'],
+    btns: [
+        ['strong', 'em', 'del'],
+        ['superscript', 'subscript'],
+        ['link'],
+        ['insertImage'],
+        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+        ['unorderedList', 'orderedList'],
+        ['horizontalRule'],
+        ['removeformat'],
+        ['formatting'],
+        ['viewHTML'],
+        ['fullscreen']
+    ]
+  });
+}
+
+function saveDoc (id) {
+  let content = $('#docs-field').trumbowyg('html');
+  let postUrl ='/docs/'+id+'/update'
+  $.ajax({
+    url: postUrl, // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"id": id, "content": content, timeStamp: new Date()},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+  $('#startEdit').show();
+  $('#saveEdit').hide();
+  $('#docs-field').trumbowyg('destroy');
+}
+
+function cancelEditDoc () {
+  $('#startEdit').show();
+  $('#saveEdit').hide();
+  $('#docs-field').trumbowyg('destroy');
+}
+
 //+++ START Chat functions +++//
 
 // Initialize Chat functions

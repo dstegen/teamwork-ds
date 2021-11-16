@@ -24,6 +24,8 @@ function header () {
           <!-- Flatpickr -->
             <link rel="stylesheet" href="/flatpickr/dist/flatpickr.min.css">
             <link rel="stylesheet" type="text/css" href="/flatpickr/dist/themes/material_blue.css">
+          <!-- Trumbowyg -->
+            <link rel="stylesheet" href="/trumbowyg/dist/ui/trumbowyg.min.css">
           <!-- Css Theme -->
             <link rel="stylesheet" href="/public/styles.css">
           <!-- Favicon -->

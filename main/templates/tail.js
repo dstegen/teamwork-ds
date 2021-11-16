@@ -33,6 +33,8 @@ function tail () {
         <script src='/public/fullcalendar/lib/main.js'></script>
       <!-- Flatpickr -->
         <script src="/flatpickr/dist/flatpickr.min.js"></script>
+      <!-- Trumbowyg -->
+        <script src="/trumbowyg/dist/trumbowyg.min.js"></script>
       <!-- Other Scripts -->
         <script src="/public/clock.js"></script>
         <script src="/public/cookie.js"></script>

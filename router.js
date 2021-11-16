@@ -20,6 +20,7 @@ const calendarController = require('./calendar');
 const meetingController = require('./meeting');
 const searchController = require('./main/search-controller');
 const todolistController = require('./todolist');
+const docsController = require('./docs');
 const adminController = require('./admin');
 const loginView = require('./user/views/login-view');
 
@@ -28,7 +29,7 @@ function router (request, response, wss, wsport) {
   let route = request.url.substr(1).split('?')[0];
   if (request.url.includes('public') || request.url.includes('favicon')) {
     deliver(request, response);
-  } else if (request.url.includes('bootstrap') || request.url.includes('jquery') || request.url.includes('tokenfield') || request.url.includes('bs-custom-file') || request.url.includes('moment') || request.url.includes('flatpickr')) {
+  } else if (request.url.includes('bootstrap') || request.url.includes('jquery') || request.url.includes('tokenfield') || request.url.includes('bs-custom-file') || request.url.includes('moment') || request.url.includes('flatpickr') || request.url.includes('trumbowyg')) {
     request.url = 'node_modules/'+request.url;
     deliver(request, response);
   } else if (route === 'login') {
@@ -59,6 +60,8 @@ function router (request, response, wss, wsport) {
       searchController(request, response, wss, wsport, user);
     } else if (route.startsWith('todolist')) {
       todolistController(request, response, wss, wsport, user);
+    } else if (route.startsWith('docs')) {
+      docsController(request, response, wss, wsport, user);
     } else if (route.startsWith('admin') && user.admin) {
       adminController(request, response, wss, wsport, user);
     } else {
