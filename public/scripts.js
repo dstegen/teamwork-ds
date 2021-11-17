@@ -168,6 +168,11 @@ function cancelEditDoc () {
   $('#docs-field').trumbowyg('destroy');
 }
 
+function newDocModal(topicObjId) {
+  $('#add-doc-modal').modal('show');
+  $('#doc-id-field').val(topicObjId);
+}
+
 //+++ START Chat functions +++//
 
 // Initialize Chat functions

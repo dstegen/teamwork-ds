@@ -11,9 +11,8 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { getDocsObj, updateDoc } = require('./models/model-docs');
+const { getDocsObj, updateDoc, addNewTopic, createDoc } = require('./models/model-docs');
 const docsView = require('./views/docs-view');
-//const uuidv4 = require('uuid').v4;
 
 
 function docsController (request, response, wss, wsport, user) {
@@ -32,7 +31,30 @@ function docsController (request, response, wss, wsport, user) {
         console.log('ERROR can\'t update docs: '+error.message);
         uniSend(new SendObj(302, [], '', '/'), response);
     });
-  } else if (route.includes('docs/load')) {
+  } else if (route.startsWith('docs/addtopic')) {
+    getFormObj(request).then(
+      data => {
+        console.log(data.fields);
+        addNewTopic(data.fields, user);
+        uniSend(new SendObj(302, [], '', '/docs'), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t add topic: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
+  } else if (route.startsWith('docs/create')) {
+    getFormObj(request).then(
+      data => {
+        console.log(data.fields);
+        uniSend(view(wsport, naviObj, docsView(createDoc(data.fields, user))), response);
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t add doc: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
+  } else if (route.startsWith('docs/view')) {
     uniSend(view(wsport, naviObj, docsView(getDocsObj(route.split('/')[2]))), response);
   } else {
     uniSend(view(wsport, naviObj, docsView(getDocsObj('93667ae6-50ed-4ddc-873f-4935f56422c8'))), response);

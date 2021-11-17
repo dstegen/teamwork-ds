@@ -77,6 +77,7 @@ node helper/add-example-events.js
 ## Changelog ##
 
 ### v0.1.5 ####
+- added basic docs
 - added simple full text search
 - added personal todo lists
 - added checklist to issue

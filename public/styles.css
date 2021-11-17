@@ -369,7 +369,7 @@ input.form-control.board-form {
 .btn-toggle:hover,
 .btn-toggle:focus {
   color: rgba(0, 0, 0, .85);
-  background-color: #d2f4ea;
+  background-color: #cfe2ff;
 }
 .btn-toggle::before {
   width: 1.25em;
@@ -393,7 +393,10 @@ input.form-control.board-form {
 }
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: #d2f4ea;
+  background-color: #cfe2ff;
+}
+.btn-toggle-nav a.active {
+  font-weight: bold;
 }
 .fw-semibold { font-weight: 600; }
 .main {
