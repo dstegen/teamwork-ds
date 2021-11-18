@@ -169,8 +169,16 @@ function cancelEditDoc () {
 }
 
 function newDocModal(topicObjId) {
+  $('#doc-topicObjId-field').val(topicObjId);
   $('#add-doc-modal').modal('show');
-  $('#doc-id-field').val(topicObjId);
+}
+
+function editDocTitleModal (id, name, topicObjId) {
+  console.log(id+' : '+name+' : '+topicObjId);
+  $('#doc-id-field').val(id);
+  $('#doc-name-field').val(name);
+  $('#doc-topicObjId-field').val(topicObjId);
+  $('#add-doc-modal').modal('show');
 }
 
 //+++ START Chat functions +++//

@@ -47,7 +47,7 @@ function docsController (request, response, wss, wsport, user) {
     getFormObj(request).then(
       data => {
         console.log(data.fields);
-        uniSend(view(wsport, naviObj, docsView(createDoc(data.fields, user))), response);
+        uniSend(new SendObj(302, [], '', '/docs/view/'+createDoc(data.fields, user).id), response);
       }
     ).catch(
       error => {

@@ -33,17 +33,27 @@ function getDocsObj (id) {
 
 function createDoc (fields, user) {
   let docs = getDocs();
-  let newDocsObj = {
-    id: uuidv4(),
-    name: sani(fields.name),
-    content: '<h1>'+sani(fields.name)+'</h1>',
-    timeStamp: newDate()
+  let myDocObj = {};
+  if (docs.filter(item => item.id === fields.topicObjId)[0].docs.filter(item => item.id === fields.id).length > 0) {
+    // Update
+    myDocObj = docs.filter(item => item.id === fields.topicObjId)[0].docs.filter(item => item.id === fields.id)[0];
+    myDocObj.name = sani(fields.name);
+    myDocObj.timeStamp = newDate();
+    addActivity('updated doc name: "'+myDocObj.name+'"', user.id, 'docs', myDocObj.id);
+  } else {
+    // Add
+    myDocObj = {
+      id: uuidv4(),
+      name: sani(fields.name),
+      content: '<h1>'+sani(fields.name)+'</h1>',
+      timeStamp: newDate()
+    }
+    docs.filter(item => item.id === fields.topicObjId)[0].docs.push(myDocObj);
+    saveFile(path.join(__dirname, '../../data/docs'), myDocObj.id+'.html', myDocObj.content, true);
+    addActivity('created doc: "'+myDocObj.name+'"', user.id, 'docs', myDocObj.id);
   }
-  docs.filter(item => item.id === fields.topicObjId)[0].docs.push(newDocsObj);
   saveFile(path.join(__dirname, '../../data'),'docs.json', docs);
-  saveFile(path.join(__dirname, '../../data/docs'), newDocsObj.id+'.html', newDocsObj.content, true);
-  addActivity('created doc: "'+newDocsObj.name+'"', user.id, 'docs', newDocsObj.id);
-  return newDocsObj;
+  return myDocObj;
 }
 
 function updateDoc (fields, user) {
