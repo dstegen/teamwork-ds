@@ -10,28 +10,48 @@
 // Required modules
 const { getDocs } = require('../models/model-docs');
 const addModal = require('../templates/add-modal');
+const { humanDate } = require('../../lib/dateJuggler');
 
 
 function docsView (docsObj) {
   return `
     <div class="main">
-      <div class="flex-shrink-0 p-3 bg-white border" style="width: 280px;">
-        <ul class="list-unstyled ps-0">
-        ${getDocs().map(topicObj => menuTopic(topicObj, docsObj.id)).join('')}
-        </ul>
-        <hr />
-        <div class="d-flex justify-content-end">
-          <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#add-topic-modal">Add new topic</button>
+      <div id="docs-sidebar" class="flex-shrink-0 bg-white">
+        <div class="p-3">
+          <div id="all-inside">
+            <div class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+              <span class="fs-5 fw-semibold">Team docs</span>
+            </div>
+            <ul class="list-unstyled ps-0">
+            ${getDocs().map(topicObj => menuTopic(topicObj, docsObj.id)).join('')}
+            </ul>
+            <hr />
+            <div class="d-flex justify-content-center mb-3">
+              <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#add-topic-modal">Add new topic</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="w-100 h-75">
-        <div id="docs-field" class="p-3">${docsObj.content}</div>
-        <div class="d-flex justify-content-end border-top">
-          <button id="startEdit" type="button" class="btn btn-primary mt-2 me-2" onclick="initTrumbowyg('#docs-field')">Edit</button>
-          <span id="saveEdit" style="display: none;">
-            <button type="button" class="btn btn-outline-secondary mt-2 me-2" onclick="cancelEditDoc()">Cancel</button>
-            <button type="button" class="btn btn-primary mt-2 me-2" onclick="saveDoc('${docsObj.id}')">Update</button>
-          </span>
+
+      <div class="d-flex m-0 p-0">
+        <button class="btn btn-sm btn-light m-0 p-0" onclick="toggleSidebar()">II</button>
+      </div>
+
+      <div class="w-100 mb-5 overflow-auto">
+        <div id="docs-field" class="p-5">${docsObj.content}</div>
+        <div class="bottom-edit-buttons fixed-bottom" style="margin-bottom: 3.25rem; padding-left: 290px;">
+          <div class="d-flex justify-content-end bg-white py-2">
+            <span class="px-3 small text-muted my-auto">
+              last edited: ${humanDate(docsObj.timeStamp)}
+            </span>
+            <span>
+              <button id="startEdit" type="button" class="btn btn-primary mt-2 me-2" onclick="initTrumbowyg('#docs-field')">Edit</button>
+              <span id="saveEdit" style="display: none;">
+                <button type="button" class="btn btn-outline-secondary mt-2 me-2" onclick="cancelEditDoc()">Cancel</button>
+                <button type="button" class="btn btn-primary mt-2 me-2" onclick="saveDoc('${docsObj.id}')">Update</button>
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     </div>

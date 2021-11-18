@@ -23,10 +23,12 @@ function getDocs () {
 }
 
 function getDocsObj (id) {
+  let docs = getDocs().filter(obj => obj.docs.filter(item => item.id === id).length > 0)[0];
+  let timeStamp = docs.docs.filter(item => item.id === id)[0].timeStamp;
   let returnObj = {
     id: id,
     content: loadFile(path.join(__dirname, '../../data/docs', id+'.html'), false, true),
-    timeStamp: newDate()
+    timeStamp: timeStamp
   }
   return returnObj;
 }
@@ -57,9 +59,12 @@ function createDoc (fields, user) {
 }
 
 function updateDoc (fields, user) {
-  let docs = getDocs().filter(obj => obj.docs.filter(item => item.id === fields.id).length > 0)[0];
+  let allDocs = getDocs();
+  let docs = allDocs.filter(obj => obj.docs.filter(item => item.id === fields.id).length > 0)[0];
   let docName = docs.docs.filter(item => item.id === fields.id)[0].name;
+  docs.docs.filter(item => item.id === fields.id)[0].timeStamp = newDate();
   saveFile(path.join(__dirname, '../../data/docs'), fields.id+'.html', fields.content, true);
+  saveFile(path.join(__dirname, '../../data'),'docs.json', allDocs);
   addActivity('updated doc: "'+docName+'"', user.id, 'docs', fields.id);
 }
 
@@ -68,7 +73,7 @@ function addNewTopic (fields, user) {
   let newTopic = {
     id: uuidv4(),
     name: sani(fields.name),
-    order: 1000,
+    order: Math.max(...docs.map( item => item.order)) + 1,
     docs: []
   }
   docs.push(newTopic);

@@ -56,6 +56,8 @@ function docsController (request, response, wss, wsport, user) {
     });
   } else if (route.startsWith('docs/view')) {
     uniSend(view(wsport, naviObj, docsView(getDocsObj(route.split('/')[2]))), response);
+  } else if (route === 'docs/settings') {
+    uniSend(view(wsport, naviObj, 'coming sooon...'), response);
   } else {
     uniSend(view(wsport, naviObj, docsView(getDocsObj('93667ae6-50ed-4ddc-873f-4935f56422c8'))), response);
   }

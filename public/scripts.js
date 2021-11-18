@@ -26,6 +26,9 @@ $(document).ready(function () {
   if (window.location.pathname === '/' || window.location.toString().includes('calendar') || window.location.toString().includes('meeting')) {
     initTokenfieldForCalendar();
   }
+  if (window.location.toString().includes('docs') && window.innerWidth < 576) {
+    toggleSidebar();
+  }
 });
 
 // *** Tokenfield ***//
@@ -179,6 +182,17 @@ function editDocTitleModal (id, name, topicObjId) {
   $('#doc-name-field').val(name);
   $('#doc-topicObjId-field').val(topicObjId);
   $('#add-doc-modal').modal('show');
+}
+
+function toggleSidebar () {
+  //let mySidebar = document.getElementById("docs-sidebar");
+  if ($('#docs-sidebar').width() > "0") {
+    $('#docs-sidebar').width('0');
+    $('.bottom-edit-buttons').css({'padding-left':'14px'})
+  } else {
+    $('#docs-sidebar').width('280');
+    $('.bottom-edit-buttons').css({'padding-left':'294px'})
+  }
 }
 
 //+++ START Chat functions +++//

@@ -402,9 +402,24 @@ input.form-control.board-form {
 .main {
   display: flex;
   flex-wrap: nowrap;
-  height: 100vh;
+  height: 90vh;
   height: -webkit-fill-available;
   max-height: 100vh;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+#docs-sidebar {
+  width: 280px;
+  transition: 0.5s;
+}
+#all-inside {
+  display: block;
+  transition: 0.3s;
+  overflow: auto;
+}
+
+.trumbowyg-box, .trumbowyg-editor {
+  min-height: 75vH;
+  border-bottom: none;
 }
