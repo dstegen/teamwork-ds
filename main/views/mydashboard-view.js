@@ -35,7 +35,7 @@ function mydashboardView (lessonsTodayList, curWeek, user, wsport) {
           ${calendarDayView(getAllEvents(), user)}
           <div class="mt-5">
             ${activitiesList(user)}
-          <div>
+          </div>
         </div>
       </div>
     </div>
