@@ -168,7 +168,7 @@ function calendarView (calHeadline='Calendar', user={}, project) {
         calendar.render();
       });
     </script>
-    <div class="container py-3">
+    <div class="container py-3 mb-5">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         <span>${calHeadline}</span>
         <span id="clock" class="d-none d-md-block">19:52:41</span>

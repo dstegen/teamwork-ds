@@ -15,7 +15,7 @@ const projectCard = require('../templates/project-card');
 function projectListView () {
   let allProjects = getAllProjects();
   return `
-    <div id="project-list-view" class="container py-3" style="min-height: 500px;">
+    <div id="project-list-view" class="container py-3 mb-5">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         Projects overview
         <span id="clock" class="d-none d-md-block">&nbsp;</span>

@@ -12,7 +12,7 @@ const jitsi = require('../templates/jitsi');
 
 function meetingView (meeting, user) {
   return `
-    <div id="meeting" class="container py-3">
+    <div id="meeting" class="container py-3 mb-5">
       <div class="d-flex justify-content-between py-2 px-3 my-3 border">
         <h2 class="m-0">${meeting.title}</h2>
         <button class="btn btn-sm btn-danger mr-3" onclick="api.executeCommand('hangup');">Leave meeting</button>

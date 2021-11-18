@@ -18,7 +18,7 @@ function kanbanBoardView (group, user, single=false) {
   let project = getProjectById(Number(group));
   if (myBoard.topics !== undefined) {
     return `
-      <div ${single ? 'class="board-bg"' : ''}>
+      <div ${single ? 'class="board-bg mb-5"' : ''}>
         <div class="container ${single ? 'py-3' : ''} d-flex justify-content-between">
           <div class="d-flex justify-content-between py-2 px-3 my-3 border w-100 bg-light project-board-headline">
             <h2 class="m-0"><a href="/project/view/${group}">${project.name}</a></h2>

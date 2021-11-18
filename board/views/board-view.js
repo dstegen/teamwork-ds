@@ -17,7 +17,7 @@ function boardView (group, user) {
   let myBoard = getBoard('', group);
   if (myBoard.topics !== undefined) {
     return `
-      <div class="board-bg">
+      <div class="board-bg mb-5">
         <div class="container py-3 px-0">
           <h2 class="d-flex justify-content-between py-2 px-3 border bg-light">
             Free board ${group}

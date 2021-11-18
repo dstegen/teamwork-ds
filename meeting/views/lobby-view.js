@@ -15,7 +15,7 @@ const editEventModal = require('../../calendar/templates/edit-event-modal');
 function lobbyView (user) {
   let meetingEvents = getAllEvents().filter(item => item.online === true);
   return `
-    <div id="meeting" class="container py-3">
+    <div id="meeting" class="container py-3 mb-5">
       <div class="d-flex justify-content-between py-2 px-3 my-3 border align-middle">
         <h2 class="m-0">Meetings overview</h2>
         <span>

@@ -14,7 +14,7 @@ const { getAllProjects } = require('../../project/models/model-project');
 
 function kanbanBoardListView (user) {
   let allProjectIds = getAllProjects().map( item => { return item.id});
-  let returnHtml = `<div class="board-bg py-3">
+  let returnHtml = `<div class="board-bg py-3 mb-5">
                       <div class="container">
                         <h2 class="d-flex justify-content-between py-2 px-3 my-3 border" style="background-color: white;">
                           Kanban Boards

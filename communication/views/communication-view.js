@@ -18,7 +18,7 @@ const { getAllProjects } = require('../../project/models/model-project');
 
 function communicationView (user, wsport) {
   return `
-    <div id="communication-view" class="container py-3">
+    <div id="communication-view" class="container py-3 mb-5">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         ${locale.headlines.navi_communication[config.lang]}
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
