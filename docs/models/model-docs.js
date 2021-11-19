@@ -8,6 +8,7 @@
 'use strict';
 
 // Required modules
+const fs = require('fs');
 const path = require('path');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
@@ -20,20 +21,46 @@ const sortItemsByDate = require('../../utils/sort-items-by-date');
 
 
 function getDocs () {
-  let docs = loadFile(path.join(__dirname, '../../data/docs.json'));
-  for (let i=0; i<docs.length; i++) {
-    docs[i].docs = docs[i].docs.sort((a,b) => sortItemsByDate(a,b,'position'));
+  let docs = [
+    {
+      id: uuidv4(),
+      order: 0,
+      name: 'Home',
+      docs: [
+        {
+          id: uuidv4(),
+          position: 0,
+          name: "Welcome to docs",
+          timeStamp: newDate()
+        }
+      ]
+    }
+  ];
+  if (fs.existsSync(path.join(__dirname, '../../data/docs.json'))) {
+    docs = loadFile(path.join(__dirname, '../../data/docs.json'));
+    for (let i=0; i<docs.length; i++) {
+      docs[i].docs = docs[i].docs.sort((a,b) => sortItemsByDate(a,b,'position'));
+    }
+  } else {
+    saveFile(path.join(__dirname, '../../data'),'docs.json', docs);
   }
   return docs;
 }
 
 function getDocsObj (id) {
-  let docs = getDocs().filter(obj => obj.docs.filter(item => item.id === id).length > 0)[0];
-  let timeStamp = docs.docs.filter(item => item.id === id)[0].timeStamp;
   let returnObj = {
     id: id,
-    content: loadFile(path.join(__dirname, '../../data/docs', id+'.html'), false, true),
-    timeStamp: timeStamp
+    content: '<h1>Welcome to docs</h1>',
+    timeStamp: newDate()
+  }
+  if (fs.existsSync(path.join(__dirname, '../../data/docs', id+'.html'))) {
+    let docs = getDocs().filter(obj => obj.docs.filter(item => item.id === id).length > 0)[0];
+    let timeStamp = docs.docs.filter(item => item.id === id)[0].timeStamp;
+    returnObj = {
+      id: id,
+      content: loadFile(path.join(__dirname, '../../data/docs', id+'.html'), false, true),
+      timeStamp: timeStamp
+    }
   }
   return returnObj;
 }
@@ -100,6 +127,7 @@ function deleteDocs (fields) {
   if (fields.topicObjId === fields.id) {
     // Delete topic
     docs = docs.filter(item => item.id !== fields.id);
+    // TODO: delete all files first
     console.log('- Deleted topic ID: '+fields.id);
   } else {
     // Delete doc
