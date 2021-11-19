@@ -15,7 +15,7 @@ const formSelect = require('../../main/templates/form-select');
 
 function settingsView () {
   return `
-    <div id="dashboard" class="container">
+    <div id="dashboard" class="container py-3">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         General Setup
         <span id="clock" class="d-none d-md-block">&nbsp;</span>

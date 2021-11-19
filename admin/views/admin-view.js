@@ -17,7 +17,7 @@ const getWelcome = require('./get-welcome');
 
 function adminView (user) {
   return `
-    <div id="admin-dashboard" class="container">
+    <div id="admin-dashboard" class="container py-3">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
         Admin Dashboard
         <span id="clock" class="d-none d-md-block">&nbsp;</span>
