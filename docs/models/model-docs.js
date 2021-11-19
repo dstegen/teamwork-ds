@@ -11,6 +11,7 @@
 const path = require('path');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
+const removeFile = require('../../utils/remove-file');
 const sani = require('../../utils/sanitizer');
 const uuidv4 = require('uuid').v4;
 const { newDate } = require('../../lib/dateJuggler');
@@ -102,9 +103,8 @@ function deleteDocs (fields) {
     console.log('- Deleted topic ID: '+fields.id);
   } else {
     // Delete doc
-    let myDocs = docs.filter(item => item.id === fields.topicObjId)[0].docs;
-    myDocs = myDocs.filter(item => item.id !== fields.id);
-    // TODO: delete file
+    docs.filter(item => item.id === fields.topicObjId)[0].docs = docs.filter(item => item.id === fields.topicObjId)[0].docs.filter(item => item.id !== fields.id);
+    removeFile(path.join(__dirname, '../../data/docs'), fields.id+'.html');
     console.log('- Deleted doc ID: '+fields.id);
   }
   saveFile(path.join(__dirname, '../../data'),'docs.json', docs);
