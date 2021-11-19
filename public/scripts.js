@@ -122,7 +122,7 @@ function initTokenfieldForCalendar () {
 }
 
 
-// Init Trumbowyg for better WYSIWYG editing
+// Init Trumbowyg for docs
 function initTrumbowyg (allAreas) {
   //console.log('Init Trumbowyg...');
   $('#startEdit').hide();
@@ -177,15 +177,13 @@ function newDocModal(topicObjId) {
 }
 
 function editDocTitleModal (id, name, topicObjId) {
-  console.log(id+' : '+name+' : '+topicObjId);
-  $('#doc-id-field').val(id);
-  $('#doc-name-field').val(name);
-  $('#doc-topicObjId-field').val(topicObjId);
-  $('#add-doc-modal').modal('show');
+  $('#editdoc-id-field').val(id);
+  $('#editdoc-name-field').val(name);
+  $('#editdoc-topicObjId-field').val(topicObjId);
+  $('#add-editdoc-modal').modal('show');
 }
 
 function toggleSidebar () {
-  //let mySidebar = document.getElementById("docs-sidebar");
   if ($('#docs-sidebar').width() > "0") {
     $('#docs-sidebar').width('0');
     $('.bottom-edit-buttons').css({'padding-left':'14px'})
@@ -194,6 +192,38 @@ function toggleSidebar () {
     $('.bottom-edit-buttons').css({'padding-left':'294px'})
   }
 }
+
+$( function() {
+  $(".sortable-docs").sortable({
+    stop: function( event, ui ) {},
+  });
+  $(".sortable-docs").sortable( "option", "cancel", "form,a,button" );
+
+});
+
+$(".sortable-docs").on("sortstop", function(event, ui) {
+  let topicObjId = ui.item[0].parentElement.id;
+  let linkList = $('#'+topicObjId+' li');
+  let objList = [];
+  for (let i=0; i<linkList.length; i++) {
+    objList.push(
+      linkList[i].id
+    )
+  }
+  $.ajax({
+    url: '/docs/settings/sortdocs', // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"topicObjId": topicObjId, "newOrder": objList},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+  $("#feedback .modal-content").html('Order changed for topic: '+topicObjId);
+  $("#feedback").modal('show');
+  setTimeout( function () {$("#feedback").modal('hide');}, 2500);
+} );
+
 
 //+++ START Chat functions +++//
 
@@ -334,7 +364,7 @@ function enableDisableInput (checkbox, enableElement, disableElement, enableElem
   }
 }
 
-// jQuery-ui sortable
+// jQuery-ui sortable Kanban boards
 $( function() {
   $(".sortable").sortable({
     stop: function( event, ui ) {},
@@ -365,6 +395,7 @@ $(".sortable").on("sortstop", function(event, ui) {
   $("#feedback").modal('show');
   setTimeout( function () {$("#feedback").modal('hide');}, 2500);
 } );
+
 
 
 // Filter activities

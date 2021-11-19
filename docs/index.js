@@ -11,8 +11,9 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
-const { getDocsObj, updateDoc, addNewTopic, createDoc } = require('./models/model-docs');
+const { getDocsObj, getDocs, updateDoc, addNewTopic, createDoc, deleteDocs, reorderDocs } = require('./models/model-docs');
 const docsView = require('./views/docs-view');
+const docsSettingsView = require('./views/docs-settings-view');
 
 
 function docsController (request, response, wss, wsport, user) {
@@ -22,7 +23,7 @@ function docsController (request, response, wss, wsport, user) {
   if (route.includes('update')) {
     getFormObj(request).then(
       data => {
-        console.log(data.fields);
+        //console.log(data.fields);
         updateDoc(data.fields, user);
         uniSend(new SendObj(200, [], 'text/html; charset=UTF-8', '/', 'Ok'), response);
       }
@@ -34,7 +35,7 @@ function docsController (request, response, wss, wsport, user) {
   } else if (route.startsWith('docs/addtopic')) {
     getFormObj(request).then(
       data => {
-        console.log(data.fields);
+        //console.log(data.fields);
         addNewTopic(data.fields, user);
         uniSend(new SendObj(302, [], '', '/docs'), response);
       }
@@ -46,7 +47,7 @@ function docsController (request, response, wss, wsport, user) {
   } else if (route.startsWith('docs/create')) {
     getFormObj(request).then(
       data => {
-        console.log(data.fields);
+        //console.log(data.fields);
         uniSend(new SendObj(302, [], '', '/docs/view/'+createDoc(data.fields, user).id), response);
       }
     ).catch(
@@ -57,9 +58,38 @@ function docsController (request, response, wss, wsport, user) {
   } else if (route.startsWith('docs/view')) {
     uniSend(view(wsport, naviObj, docsView(getDocsObj(route.split('/')[2]))), response);
   } else if (route === 'docs/settings') {
-    uniSend(view(wsport, naviObj, 'coming sooon...'), response);
+    uniSend(view(wsport, naviObj, docsSettingsView()), response);
+  } else if (route.startsWith('docs/settings')) {
+    getFormObj(request).then(
+      data => {
+        //console.log(data.fields);
+        if (route === 'docs/settings/delete') {
+          // Delete topic/doc
+          deleteDocs(data.fields);
+          uniSend(new SendObj(302, [], '', '/docs/settings'), response);
+        } else if (route === 'docs/settings/sortdocs') {
+          reorderDocs(data.fields);
+          uniSend(new SendObj(200, [], 'text/plain', '/', 'ok'), response);
+        } else {
+          if (data.fields.topicObjId && data.fields.id) {
+            if (data.fields.topicObjId === data.fields.id) {
+              // Update topic
+              addNewTopic(data.fields, user);
+            } else {
+              // Update docs title
+              createDoc(data.fields, user);
+            }
+          }
+          uniSend(new SendObj(302, [], '', '/docs/settings'), response);
+        }
+      }
+    ).catch(
+      error => {
+        console.log('ERROR can\'t update docs settings: '+error.message);
+        uniSend(new SendObj(302, [], '', '/'), response);
+    });
   } else {
-    uniSend(view(wsport, naviObj, docsView(getDocsObj('93667ae6-50ed-4ddc-873f-4935f56422c8'))), response);
+    uniSend(view(wsport, naviObj, docsView(getDocsObj(getDocs()[0].docs[0].id))), response);
   }
 }
 

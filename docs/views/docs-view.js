@@ -55,8 +55,9 @@ function docsView (docsObj) {
         </div>
       </div>
     </div>
-    ${addModal('Add a new topic','/docs/addtopic','topic')}
-    ${addModal('Add a new doc','/docs/create','doc')}
+    ${addModal('Add a new topic','/docs/addtopic','topic','Add')}
+    ${addModal('Add a new doc','/docs/create','doc','Add')}
+    ${addModal('Edit doc','/docs/create','editdoc','Update')}
   `;
 }
 

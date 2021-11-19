@@ -15,10 +15,14 @@ const sani = require('../../utils/sanitizer');
 const uuidv4 = require('uuid').v4;
 const { newDate } = require('../../lib/dateJuggler');
 const { addActivity } = require('../../main/models/model-activity');
+const sortItemsByDate = require('../../utils/sort-items-by-date');
 
 
 function getDocs () {
   let docs = loadFile(path.join(__dirname, '../../data/docs.json'));
+  for (let i=0; i<docs.length; i++) {
+    docs[i].docs = docs[i].docs.sort((a,b) => sortItemsByDate(a,b,'position'));
+  }
   return docs;
 }
 
@@ -44,8 +48,10 @@ function createDoc (fields, user) {
     addActivity('updated doc name: "'+myDocObj.name+'"', user.id, 'docs', myDocObj.id);
   } else {
     // Add
+    let myDocs = docs.filter(item => item.id === fields.topicObjId)[0]
     myDocObj = {
       id: uuidv4(),
+      position: Math.max(...myDocs.docs.map( item => item.position)) + 1,
       name: sani(fields.name),
       content: '<h1>'+sani(fields.name)+'</h1>',
       timeStamp: newDate()
@@ -70,16 +76,49 @@ function updateDoc (fields, user) {
 
 function addNewTopic (fields, user) {
   let docs = getDocs();
-  let newTopic = {
-    id: uuidv4(),
-    name: sani(fields.name),
-    order: Math.max(...docs.map( item => item.order)) + 1,
-    docs: []
+  if (docs.filter(item => item.id === fields.topicObjId).length > 0) {
+    // Update
+    docs.filter(item => item.id === fields.topicObjId)[0].name = sani(fields.name);
+    addActivity('update docs topic: "'+sani(fields.name)+'"', user.id, 'docs', fields.topicObjId);
+  } else {
+    // Add
+    let newTopic = {
+      id: uuidv4(),
+      name: sani(fields.name),
+      order: Math.max(...docs.map( item => item.order)) + 1,
+      docs: []
+    }
+    docs.push(newTopic);
+    addActivity('added new topic to docs: "'+newTopic.name+'"', user.id, 'docs', newTopic.id);
   }
-  docs.push(newTopic);
   saveFile(path.join(__dirname, '../../data'),'docs.json', docs);
-  addActivity('added new topic to docs: "'+newTopic.name+'"', user.id, 'docs', newTopic.id);
+}
+
+function deleteDocs (fields) {
+  let docs = getDocs();
+  if (fields.topicObjId === fields.id) {
+    // Delete topic
+    docs = docs.filter(item => item.id !== fields.id);
+    console.log('- Deleted topic ID: '+fields.id);
+  } else {
+    // Delete doc
+    let myDocs = docs.filter(item => item.id === fields.topicObjId)[0].docs;
+    myDocs = myDocs.filter(item => item.id !== fields.id);
+    // TODO: delete file
+    console.log('- Deleted doc ID: '+fields.id);
+  }
+  saveFile(path.join(__dirname, '../../data'),'docs.json', docs);
+}
+
+function reorderDocs (fields) {
+  let docs = getDocs();
+  let myDocs = docs.filter(item => item.id === fields.topicObjId)[0];
+  fields['newOrder[]'].forEach((id, i) => {
+    myDocs.docs.filter(item => item.id === id)[0].position = i;
+  });
+  console.log('+ Changed order of '+myDocs.name);
+  saveFile(path.join(__dirname, '../../data'),'docs.json', docs);
 }
 
 
-module.exports = { getDocsObj, updateDoc, getDocs, addNewTopic, createDoc };
+module.exports = { getDocsObj, updateDoc, getDocs, addNewTopic, createDoc, deleteDocs, reorderDocs };

@@ -8,7 +8,7 @@
 'use strict';
 
 
-function addModal (headline, actionUrl, type) {
+function addModal (headline, actionUrl, type, buttonText='Add/update') {
   return `
     <!-- Add-Topic-Modal -->
     <div class="modal fade" id="add-${type}-modal" tabindex="-1" aria-labelledby="add-${type}-modal" aria-hidden="true">
@@ -25,7 +25,7 @@ function addModal (headline, actionUrl, type) {
               <input type="text" class="form-control" id="${type}-name-field" name="name" value="" required>
               <div class="d-flex justify-content-end mt-2">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-sm btn-primary ms-3">Add/update</button>
+                <button type="submit" class="btn btn-sm btn-primary ms-3">${buttonText}</button>
               </div>
             </form>
           </div>
