@@ -397,6 +397,36 @@ $(".sortable").on("sortstop", function(event, ui) {
 } );
 
 
+// jQuery-ui sortable Free boards
+$( function() {
+  $(".sortable-board").sortable({
+    update: function( event, ui ) {}
+  });
+  $(".sortable-board").sortable( "option", "cancel", "form,a,button" );
+});
+
+$(".sortable-board").on("sortupdate", function(event, ui) {
+  var myList = document.getElementsByClassName("board-frame");
+  var ordList = myList[0].getElementsByClassName("board-topic");
+  var newOrder = [];
+  for (var i=0; i<ordList.length; i++) {
+    newOrder.push(ordList[i].id.replace(/topic-/,''));
+  }
+  var curGroup = window.location.pathname.split('/')[2];
+  console.log('group: '+curGroup+', New Order: '+newOrder);
+  $.ajax({
+    url: '/board/'+curGroup+'/reorder', // url where to submit the request
+    type : "POST", // type of action POST || GET
+    dataType : 'json', // data type
+    data : {"group": curGroup, "newOrder": newOrder},
+    success : function(result) {
+        console.log(result);
+    }
+  });
+  $("#feedback .modal-content").html('Re-order was saved!<br>Class: '+curGroup+' New Order: '+newOrder);
+  $("#feedback").modal('show');
+  setTimeout( function () {$("#feedback").modal('hide');}, 2500);
+} );
 
 // Filter activities
 

@@ -24,7 +24,7 @@ function boardView (group, user) {
             <span id="clock" class="d-none d-md-block">23:11:40</span>
           </h2>
         </div>
-        <div id="board-frame" class="container px-0 pb-3 d-flex board-frame sortable ui-sortable">
+        <div id="board-frame" class="container px-0 pb-3 d-flex board-frame sortable-board ui-sortable">
           ${myBoard.topics.map( topics => boardColumn(topics, myBoard, group, user)).join('')}
           ${boardColumnForm(group)}
         </div>
