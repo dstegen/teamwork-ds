@@ -18,7 +18,7 @@ const searchView = require('./views/search-view');
 function searchController (request, response, wss, wsport, user) {
   getFormObj(request).then(
     data => {
-      uniSend(view(wsport, getNaviObj(user), searchView(search(data.fields.searchTerm))), response);
+      uniSend(view(wsport, getNaviObj(user), searchView(search(data.fields.searchTerm), data.fields.searchTerm)), response);
     }
   ).catch(
     error => {

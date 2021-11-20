@@ -15,6 +15,7 @@ const { getAllEvents } = require('../../calendar/models/model-calendar');
 const { getBoard } = require('../../board/models/model-board');
 const { getChat, getComments } = require('../../communication/models/model-chat');
 const { getUserFullName } = require('../../user/models/model-user');
+const { getDocs, getDocsObj } = require('../../docs/models/model-docs');
 
 
 function search (searchTerm) {
@@ -28,13 +29,16 @@ function search (searchTerm) {
   result = find(result, getAllEvents(),'description', 'event', '/calendar/view/', searchTerm);
   result = find(result, getBoard('', 1).cards,'title', 'board', '/board/1/', searchTerm);
   result = find(result, getBoard('', 1).cards,'description', 'board', '/board/1/', searchTerm);
+  getDocs().map(item => { return item.docs; }).forEach( allDocs => {
+    result = find(result, allDocs, 'name', 'docstitle', '/docs/view/', searchTerm);
+    result = find(result, allDocs, 'content', 'docs', '/docs/view/', searchTerm);
+  });
   getAllProjects().map(item => { return item.id }).forEach( projectId => {
     result = find(result, getChat(projectId),'chat', 'chat', '/communication', searchTerm);
   });
   getAllIssues().map(item => { return item.id }).forEach( issueId => {
     result = find(result, getComments(issueId),'chat', 'comment', '/issue/view/', searchTerm);
   });
-  //console.log(result);
   return result;
 }
 
@@ -42,12 +46,19 @@ function search (searchTerm) {
 // Additional functions
 
 function find (result, list, field, type, path, searchTerm) {
-  list.forEach( item => {
+  list.forEach( itemIn => {
+    let item = itemIn;
+    if (type === 'docs') {
+      item = getDocsObj(itemIn.id);
+    }
     if (item[field] && item[field].toUpperCase().includes(searchTerm)) {
+      let name = item[field];
       if (field === 'description' & type === 'event') {
-        field = 'title';
+        name = item.title;
       } else if (field === 'description') {
-        field = 'name';
+        name = item.name;
+      } else if (field === 'content') {
+        name = itemIn.name;
       }
       let description = item.description ? item.description : '';
       if (type === 'chat' || type === 'comment') description = getUserFullName(item.chaterId);
@@ -55,7 +66,7 @@ function find (result, list, field, type, path, searchTerm) {
       if (type === 'comment') id = item.issueId;
       result.push(
         {
-          name: item[field],
+          name: name,
           description: description,
           type: type,
           id: id,

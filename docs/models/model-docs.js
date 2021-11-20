@@ -58,7 +58,7 @@ function getDocsObj (id) {
     let timeStamp = docs.docs.filter(item => item.id === id)[0].timeStamp;
     returnObj = {
       id: id,
-      content: loadFile(path.join(__dirname, '../../data/docs', id+'.html'), false, true),
+      content: loadFile(path.join(__dirname, '../../data/docs', id+'.html'), false, true).toString(),
       timeStamp: timeStamp
     }
   }
