@@ -21,6 +21,7 @@ const meetingController = require('./meeting');
 const searchController = require('./main/search-controller');
 const todolistController = require('./todolist');
 const docsController = require('./docs');
+const timetrackingController = require('./timetracking');
 const adminController = require('./admin');
 const loginView = require('./user/views/login-view');
 
@@ -62,6 +63,8 @@ function router (request, response, wss, wsport) {
       todolistController(request, response, wss, wsport, user);
     } else if (route.startsWith('docs')) {
       docsController(request, response, wss, wsport, user);
+    } else if (route.startsWith('timetracking')) {
+      timetrackingController(request, response, wss, wsport, user);
     } else if (route.startsWith('admin') && user.admin) {
       adminController(request, response, wss, wsport, user);
     } else {

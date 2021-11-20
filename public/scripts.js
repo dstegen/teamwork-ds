@@ -29,6 +29,9 @@ $(document).ready(function () {
   if (window.location.toString().includes('docs') && window.innerWidth < 576) {
     toggleSidebar();
   }
+  if (window.location.toString().includes('timetracking')) {
+    initFlatpickrDate('date');
+  }
 });
 
 // *** Tokenfield ***//
@@ -82,6 +85,18 @@ function initTokenfield () {
 }
 
 //*** Flatpickr ***/
+
+function initFlatpickrDate (field) {
+  const pickrOptions = {
+    locale: {
+        firstDayOfWeek: 1
+    },
+    weekNumbers: true,
+    dateFormat: "Y-m-d",
+    allowInput: true
+  };
+  flatpickr($('input[name="'+field+'"]'), pickrOptions);
+}
 
 function initFlatpickr () {
   const pickrOptions = {
@@ -478,4 +493,17 @@ function toggleDone (item, state, actionPath) {
   } else if (state === true) {
     $('#item-'+listId+'-'+itemId).addClass('text-decoration-line-through text-muted');
   }
+}
+
+// Timetracking
+
+function editTimetracking (trackingObj) {
+  //console.log(trackingObj.date);
+  $('#timetrackingModal').modal('show');
+  $('#id-field').val(trackingObj.id);
+  $('#projectId-field').val(trackingObj.projectId);
+  $('#issueId-field').val(trackingObj.issueId);
+  $('#date-field').val(trackingObj.date);
+  $('#time-field').val(trackingObj.time);
+  $('#description-field').val(trackingObj.description);
 }
