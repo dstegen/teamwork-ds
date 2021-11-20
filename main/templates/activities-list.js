@@ -25,6 +25,7 @@ function activitiesList (user=undefined) {
         <a href="#" onclick="filterActivities('all')" class="text-muted">all</a>
          | <a href="#" onclick="filterActivities('issue')" class="text-muted">issues</a>
          | <a href="#" onclick="filterActivities('comment')" class="text-muted">comments</a>
+         | <a href="#" onclick="filterActivities('docs')" class="text-muted">docs</a>
          | <a href="#" onclick="filterActivities('calendar')" class="text-muted">calendar</a>
       </span>
     </div>

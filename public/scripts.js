@@ -401,8 +401,8 @@ $(".sortable").on("sortstop", function(event, ui) {
 // Filter activities
 
 function filterActivities (type) {
-  ['calendar','issue','comment'].forEach( item => {
-    if (['calendar','issue', 'comment'].includes(type)) {
+  ['calendar','issue','comment','docs'].forEach( item => {
+    if (['calendar','issue', 'comment', 'docs'].includes(type)) {
       $('.type-'+item).hide();
       $('.type-'+type).show();
     } else {
