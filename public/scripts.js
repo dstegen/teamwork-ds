@@ -29,7 +29,7 @@ $(document).ready(function () {
   if (window.location.toString().includes('docs') && window.innerWidth < 576) {
     toggleSidebar();
   }
-  if (window.location.toString().includes('timetracking')) {
+  if (window.location.toString().includes('timetracking') || window.location.toString().includes('issue')) {
     initFlatpickrDate('date');
   }
 });

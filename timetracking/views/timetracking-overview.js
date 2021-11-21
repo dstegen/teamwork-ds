@@ -23,7 +23,7 @@ function timetrackingOverview (trackingData, user=undefined) {
         ${user !== undefined ? user.fname+'s ' : ''}Timetracking overview
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#timetrackingModal"> + </button>
       </h2>
-      <div class="border p-3">
+      <div class="border p-3 table-responsive">
         <table class="table">
           <thead>
             <tr>

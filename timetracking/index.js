@@ -19,11 +19,12 @@ function timetrackingController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
   if (route.startsWith('timetracking/update')) {
+    let urlPath = request.headers.referer.split(request.headers.origin)[1];
     getFormObj(request).then(
       data => {
         console.log(data.fields);
         updateTimetracking(data.fields, user);
-        uniSend(new SendObj(302, [], '', '/timetracking'), response);
+        uniSend(new SendObj(302, [], '', urlPath), response);
         //uniSend(new SendObj(200, [], 'text/plain', '/timetracking','ok'), response);
       }
     ).catch(

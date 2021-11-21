@@ -20,24 +20,18 @@ function uploadForm (issue) {
     attachements = fs.readdirSync(path.join(__dirname, '../../data/attachements', issue.id.toString()));
   }
   return `
-  <div class="row">
-    <div class="col-12 col-lg-6">
-      ${attachements ? filesList(attachements, '/issue/view/'+issue.id, issue.id, '', true) : ''}
-    </div>
-    <div class="col-12 col-lg-6">
-      <form class="row mx-0 align-item-center" action="/fileupload" method="post" enctype="multipart/form-data">
-        <input type="text" readonly class="d-none" id="course" name="id" value="${issue.id}">
-        <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="${issue.id ? '/issue/view/'+issue.id+'/'+issue.id : '/issue'}">
-        <div class="col-sm-10">
-          <input type="file" class="form-control form-control-sm" id="filetoupload-${issue.id}" name="filetoupload">
-          <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
-        </div>
-        <div class="col-sm-2 mt-2 mt-sm-0">
-          <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.upload[config.lang]}</button>
-        </div>
-      </form>
-    </div>
-  </div>
+    ${attachements ? filesList(attachements, '/issue/view/'+issue.id, issue.id, '', true) : ''}
+    <form class="row g-0" action="/fileupload" method="post" enctype="multipart/form-data">
+      <input type="text" readonly class="d-none" id="course" name="id" value="${issue.id}">
+      <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="${issue.id ? '/issue/view/'+issue.id+'/'+issue.id : '/issue'}">
+      <div class="col-sm-10">
+        <input type="file" class="form-control form-control-sm" id="filetoupload-${issue.id}" name="filetoupload">
+        <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
+      </div>
+      <div class="col-sm-2 mt-2 mt-sm-0 d-flex justify-content-end">
+        <button type="submit" class="btn btn-sm btn-primary">${locale.buttons.upload[config.lang]}</button>
+      </div>
+    </form>
   `;
 }
 

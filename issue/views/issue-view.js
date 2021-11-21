@@ -20,10 +20,16 @@ const issueTypeIcon = require('../templates/issue-type-icon');
 const issueList2 = require('../templates/issue-list2');
 const uploadForm = require('../templates/upload-form');
 const checklist = require('../../todolist/templates/checklist');
+const timetrackingModal = require('../../timetracking/templates/timetracking-modal');
+const timetrackingMinilist = require('../../timetracking/templates/timetracking-minilist');
 
 
 function issueView (issue, user, wsport) {
   let subTaskHtml = '';
+  let trackingItem = {
+    projectId: issue.projectId,
+    issueId: issue.id
+  };
   if (issue.type !== 'SubTask') {
     subTaskHtml = `
       <div class="col-12 col-lg-6 my-3">
@@ -38,7 +44,7 @@ function issueView (issue, user, wsport) {
     `;
   }
   return `
-    <div id="issue-view" class="container py-3">
+    <div id="issue-view" class="container py-3 mb-5">
       <div class=" p-3 my-3 border">
         <small class="small text-uppercase"><a href="/project/view/${issue.projectId}">${getAllProjects().filter(item => item.id === issue['projectId'])[0].name}</a></small>
         <div class="d-md-flex justify-content-between">
@@ -68,14 +74,24 @@ function issueView (issue, user, wsport) {
           </div>
         </div>
         <hr />
-        <div class="my-3">
-          <h5>Attachements:</h5>
-          ${uploadForm(issue)}
-          <hr />
+        <div class="row">
+          <div class="col-12 col-lg-6 my-3">
+            <h5>Attachements:</h5>
+            ${uploadForm(issue)}
+          </div>
+          <div class="col-12 col-lg-6 my-3">
+            <h5 class="d-flex justify-content-between">
+              Timetracking:
+              <button type="button" class="btn btn-sm btn-primary" onclick='editTimetracking(${JSON.stringify(trackingItem)})' > + </button>
+            </h5>
+              ${timetrackingMinilist(issue.id)}
+          </div>
         </div>
+        <hr />
         ${issueComments(issue.id, user)}
       </div>
     </div>
+    ${timetrackingModal()}
     <script>
       // Websockets
       const hostname = window.location.hostname ;
