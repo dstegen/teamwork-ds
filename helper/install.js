@@ -25,9 +25,13 @@ let rl = readline.createInterface({
 if (!fs.existsSync(path.join(__dirname, '../data'))) {
   console.log('Installing necessary data structure & files...');
   createDir(path.join(__dirname, '../data'));
+  createDir(path.join(__dirname, '../data/users'));
+  createDir(path.join(__dirname, '../data/users/pics'));
+  createDir(path.join(__dirname, '../data/users/todolists'));
   createDir(path.join(__dirname, '../data/issues'));
   createDir(path.join(__dirname, '../data/attachements'));
   createDir(path.join(__dirname, '../data/boards'));
+  createDir(path.join(__dirname, '../data/docs'));
   createDir(path.join(__dirname, '../data/projects'));
   createDir(path.join(__dirname, '../data/projects/0'));
   let config = {
