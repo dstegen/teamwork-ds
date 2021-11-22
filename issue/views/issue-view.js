@@ -84,7 +84,7 @@ function issueView (issue, user, wsport) {
               Timetracking:
               <button type="button" class="btn btn-sm btn-primary" onclick='editTimetracking(${JSON.stringify(trackingItem)})' > + </button>
             </h5>
-              ${timetrackingMinilist(issue.id)}
+              ${timetrackingMinilist(issue.id, user)}
           </div>
         </div>
         <hr />

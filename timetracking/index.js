@@ -18,14 +18,17 @@ const timetrackingOverview = require('./views/timetracking-overview');
 function timetrackingController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
   let naviObj = getNaviObj(user);
-  if (route.startsWith('timetracking/update')) {
+  if (route.startsWith('timetracking/update') || route.startsWith('timetracking/delete')) {
     let urlPath = request.headers.referer.split(request.headers.origin)[1];
     getFormObj(request).then(
       data => {
         console.log(data.fields);
-        updateTimetracking(data.fields, user);
+        if (route === 'timetracking/delete') {
+          deleteTimetracking(data.fields, user);
+        } else {
+          updateTimetracking(data.fields, user);
+        }
         uniSend(new SendObj(302, [], '', urlPath), response);
-        //uniSend(new SendObj(200, [], 'text/plain', '/timetracking','ok'), response);
       }
     ).catch(
       error => {

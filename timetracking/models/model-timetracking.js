@@ -81,7 +81,10 @@ function updateTimetracking (fields, user) {
 }
 
 function deleteTimetracking (fields, user) {
-
+  let allTimetracking = getAllTimetracking();
+  allTimetracking = allTimetracking.filter(item => item.id !== fields.id);
+  console.log('- '+user.fname+' '+user.lname+' deleted timetracking ID: '+fields.id);
+  saveFile(path.join(__dirname, '../../data'), 'timetracking.json', allTimetracking);
 }
 
 
