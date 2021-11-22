@@ -12,6 +12,7 @@ const projectCard = require('../templates/project-card');
 const { getAllIssues } = require('../../issue/models/model-issue');
 const issueList2 = require('../../issue/templates/issue-list2');
 const chat = require('../../communication/templates/chat');
+const timetrackingList = require('../../timetracking/templates/timetracking-list');
 
 
 function projectView (project, user, wsport) {
@@ -21,6 +22,10 @@ function projectView (project, user, wsport) {
         <div class="col">
           ${projectCard(project)}
           ${chat([project.id], user)}
+          <div class="p-3 border">
+            <h4>Timetracking</h4>
+            ${timetrackingList(project.id)}
+          </div>
         </div>
         <div class="col">
           <div class="card mb-1">

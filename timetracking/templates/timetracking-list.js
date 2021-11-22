@@ -1,5 +1,5 @@
 /*!
- * timetracking/templates/timetracking-minilist.js
+ * timetracking/templates/timetracking-list.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -9,22 +9,23 @@
 
 // Required modules
 const { getAllTimetracking } = require('../models/model-timetracking');
+const { getIssue } = require('../../issue/models/model-issue');
 const { getUserById } = require('../../user/models/model-user');
 
 let trackingSum = 0;
 
 
-function timetrackingMinilist (issueId, user) {
+function timetrackingList (projectId) {
   trackingSum = 0;
-  let trackingData = getAllTimetracking(user).filter(item => item.issueId === issueId);
+  let trackingData = getAllTimetracking().filter(item => item.projectId === projectId);
   return `
     <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
+            <th scope="col">Issue</th>
             <th scope="col">Date</th>
-            <th scope="col">Time (hrs)</th>
-            <th scope="col">Description</th>
+            <th scope="col">Time</th>
             <th scope="col">Member</th>
           </tr>
         </thead>
@@ -33,7 +34,7 @@ function timetrackingMinilist (issueId, user) {
         </tbody>
         <tfoot>
         <tr>
-          <td></td><td colspan="3"><strong>${trackingSum}</strong> hrs</td>
+          <td colspan="2"></td><td colspan="2"><strong>${trackingSum}</strong> hrs</td>
         </tr>
         </tfoot>
       </table>
@@ -49,13 +50,13 @@ function timetrackingRow (trackingItem) {
   let curUser = getUserById(trackingItem.userId);
   return `
     <tr>
+      <td><a href="/issue/view/${trackingItem.issueId}">${getIssue(trackingItem.issueId).name}</td>
       <td>${trackingItem.date}</td>
       <td>${trackingItem.time}</td>
-      <td class="text-truncate">${trackingItem.description}</td>
       <td>${curUser.fname.split('')[0]}. ${curUser.lname}</td>
     </tr>
   `;
 }
 
 
-module.exports = timetrackingMinilist;
+module.exports = timetrackingList;

@@ -76,6 +76,12 @@ node helper/add-example-events.js
 
 ## Changelog ##
 
+#### v0.1.6 ####
+- improved & updated example
+- added basic timetracking
+- full text search in docs
+- several bugfixes and usability improvements
+
 #### v0.1.5 ####
 - added simple docs
 - added simple full text search

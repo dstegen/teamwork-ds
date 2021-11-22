@@ -10,6 +10,7 @@
 // Required modules
 const { getAllIssues } = require('../../issue/models/model-issue');
 const { humanDate } = require('../../lib/dateJuggler');
+const { getTimetrackingSum } = require('../../timetracking/models/model-timetracking');
 
 
 function projectCard (project, small=false) {
@@ -40,6 +41,7 @@ function projectCard (project, small=false) {
           <h6 class="card-subtitle mb-2 text-muted">ID: ${project.id}</h6>
           <div class="card-text">
             ${Object.entries(project).map( entry => projectDetailLine(entry, detailClass)).join('')}
+            <span class="${detailClass}">time tracked: ${getTimetrackingSum('project', project.id)} hrs</span>
           </div>
           <hr />
           <div class="fw-bold mb-2">Progress:</div>
@@ -65,9 +67,9 @@ function projectDetailLine (inArray, detailClass) {
   if (inArray[0].includes('Date')) {
     let tmpDate = '';
     if (inArray[1] !== '') tmpDate = humanDate(inArray[1]);
-    return `<span class="text-capitalize ${detailClass}">${inArray[0]}: ${tmpDate}</span><br />`;
+    return `<span class="${detailClass}">${inArray[0]}: ${tmpDate}</span><br />`;
   } else if (!['id','name'].includes(inArray[0])) {
-    return `<span class="text-capitalize ${detailClass}">${inArray[0]}: ${inArray[1]}</span><br />`;
+    return `<span class="${detailClass}">${inArray[0]}: ${inArray[1]}</span><br />`;
   } else {
     return '';
   }

@@ -28,6 +28,29 @@ function getAllTimetracking (user) {
   return allTimetracking;
 }
 
+function getTimetrackingSum (type='', id=0, startDate=undefined, endDate=undefined) {
+  let trackingData = getAllTimetracking();
+  switch (type) {
+    case 'project':
+      trackingData = trackingData.filter(item => item.projectId === id);
+      break;
+    case 'issue':
+      trackingData = trackingData.filter(item => item.issueId === id);
+      break;
+    case 'user':
+      trackingData = trackingData.filter(item => item.userId === id);
+      break;
+  }
+
+  if (startDate !== undefined && endDate !== undefined) {
+    // TODO: filter between startDate & endDate
+  } else if (startDate !== undefined) {
+    // TODO: filter from startDate
+  }
+  let sum = trackingData.map(item => { return item.time; }).reduce((totalValue, currentValue) => Number(totalValue) + Number(currentValue), 0);
+  return sum;
+}
+
 function updateTimetracking (fields, user) {
   let allTimetracking = getAllTimetracking();
   let trackingObj = {};
@@ -62,4 +85,4 @@ function deleteTimetracking (fields, user) {
 }
 
 
-module.exports = { getAllTimetracking, updateTimetracking, deleteTimetracking };
+module.exports = { getAllTimetracking, updateTimetracking, deleteTimetracking, getTimetrackingSum };
