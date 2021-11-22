@@ -8,6 +8,7 @@
 'use strict';
 
 // Required Modules
+const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const execFileSync = require('child_process').execFileSync;
@@ -16,6 +17,7 @@ const { getAllIssues } = require('../issue/models/model-issue');
 const { newDate } = require('../lib/dateJuggler');
 const loadFile = require('../utils/load-file');
 const saveFile = require('../utils/save-file');
+const createDir = require('../utils/create-dir');
 const userImporter = require('./user-importer');
 
 let rl = readline.createInterface({
@@ -35,6 +37,12 @@ rl.question('\n--- Do you want to install example data? (Y/N) ', (answer) => {
       let namesList = loadFile(path.join(__dirname, '../helper/names_int.csv'), false, true).toString().split('\n');
       users = userImporter(namesList, users);
       saveFile(path.join(__dirname, '../data'), 'users.json', users);
+      createDir(path.join(__dirname, '../data/users/pics'));
+      users.map(item => {return item.id}).forEach( id => {
+        if (fs.existsSync(path.join(__dirname, './example_pics', id.toString()+'.jpg'))) {
+          fs.copyFileSync(path.join(__dirname, './example_pics', id.toString()+'.jpg'), path.join(__dirname, '../data/users/pics', id.toString()+'.jpg'));
+        }
+      });
       // Add Tasks to project "0"
       console.log('+++ Adding some example issues to the first project...\n');
       let issues = getAllIssues();
@@ -51,6 +59,7 @@ rl.question('\n--- Do you want to install example data? (Y/N) ', (answer) => {
         if (issue.state === 'closed') {
           issue.closeDate = newDate();
         }
+        createDir(path.join(__dirname, '../data/issues',issue.id.toString()));
       });
       issues = issues.concat(exampleIssues);
       saveFile(path.join(__dirname, '../data'), 'issues.json', issues);

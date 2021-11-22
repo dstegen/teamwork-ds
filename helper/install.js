@@ -123,9 +123,11 @@ function createPasswd (myEmail, myPassword, fname, lname) {
   tmpObj.id = 100000;
 	tmpObj.password = bcrypt.hashSync(myPassword);
   tmpObj.role = 'member';
+  tmpObj.position = 'CTO';
   tmpObj.fname = fname;
   tmpObj.lname = lname;
   tmpObj.email = myEmail;
+  tmpObj.admin = true; 
   usersList.push(tmpObj);
   saveFile(path.join(__dirname, '../data'), 'users.json', usersList);
   return true;
