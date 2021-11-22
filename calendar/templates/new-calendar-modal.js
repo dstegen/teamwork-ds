@@ -26,7 +26,7 @@ function newCalendarModal () {
             <form id="new-calendar-form" name="new-calendar-form" action="/calendar/create" method="post">
               <div class="form-group row">
                 ${formTextInput('', 'name', 'required', '', '', 'text')} <div class="col-3"></div>
-                ${formSelect(['succes','warning','info','secondary'], 'success', 'color', '', '', 'required')} <div class="col-3"></div>
+                ${formSelect(['success','warning','info','secondary'], 'success', 'color', '', '', 'required')} <div class="col-3"></div>
               </div>
               <div class="d-flex justify-content-between mt-3">
                 <button type="button" class="btn btn-sm btn-secondary me-3" data-bs-dismiss="modal">Cancel</button>

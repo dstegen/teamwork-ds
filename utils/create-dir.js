@@ -15,7 +15,7 @@ function createDir (filePath) {
   if (!fs.existsSync(filePath)) {
     console.log('* Creating directory: '+filePath);
     try {
-      fs.mkdirSync(filePath);
+      fs.mkdirSync(filePath, { recursive: true });
     } catch (e) {
       console.log('- ERROR creating directory: '+e);
     }
