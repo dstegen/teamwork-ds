@@ -80,6 +80,24 @@ function getUserFullName (id) {
   }
 }
 
+function getUserShortName (id) {
+  let user = users.filter( user => user.id === id)[0];
+  if (users.filter( user => user.id === id).length >0) {
+    return user.fname.split('')[0] + '. ' + user.lname;
+  } else {
+    return '';
+  }
+}
+
+function getUserInitials (id) {
+  let user = users.filter( user => user.id === id)[0];
+  if (users.filter( user => user.id === id).length >0) {
+    return user.fname.split('')[0] + user.lname.split('')[0];
+  } else {
+    return '';
+  }
+}
+
 
 function updateUser (fields) {
   if (fields.id !== '' && fields.userId !== '') {
@@ -135,4 +153,4 @@ function getNewId (users) {
 }
 
 
-module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, cleanLogins, getUserById, updateUser, updatePassword, getUserFullName };
+module.exports = { initUsers, getPasswdObj, getUserDetails, getAllUsers, usersOnline, cleanLogins, getUserById, updateUser, updatePassword, getUserFullName, getUserShortName, getUserInitials };

@@ -24,7 +24,7 @@ function mainController (request, response, wss, wsport, user) {
   } else if (route === 'dashboard') {
     uniSend(view(wsport, getNaviObj(user), mainView([], thisWeek(), user, wsport)), response);
   } else {
-    uniSend(view(wsport, getNaviObj(user), mydashboardView([], thisWeek(), user, wsport)), response);
+    uniSend(view(wsport, getNaviObj(user), mydashboardView(wss, wsport, user)), response);
   }
 }
 
