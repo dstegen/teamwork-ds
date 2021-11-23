@@ -8,12 +8,10 @@
 'use strict';
 
 // Required modules
-const fs = require('fs');
-const path = require('path');
 const { getAllActivties } = require('../models/model-activity');
 const { getUserFullName } = require('../../user/models/model-user');
 const { humanDate } = require('../../lib/dateJuggler');
-
+const userAvatar = require('../../user/templates/user-avatar');
 
 function activitiesList (user=undefined) {
   let allActivities = getAllActivties().slice(0,20);
@@ -40,13 +38,9 @@ function activitiesList (user=undefined) {
 
 function activityView (activity) {
   let fullName = getUserFullName(activity.member).split(' ');
-  let chatterImage = '<span class="p-2 supersmall border rounded-circle">' + fullName[0][0] + fullName[1][0] + '</span>';
-  if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', activity.member+'.jpg'))) {
-    chatterImage = `<img src="/data/users/pics/${activity.member}.jpg" height="20" width="20" class="img-fluid border rounded-circle"/>`;
-  }
   return `
   <p class="activity type-${activity.type} text-truncate">
-    ${chatterImage} ${fullName[0]} <a href="${activity.url}">${activity.text}</a>
+    ${userAvatar(activity.member, '20')} ${fullName[0]} <a href="${activity.url}">${activity.text}</a>
     <br />
     <small class="text-muted"><span style="width: 25px; display: inline-block;"></span>${getUserFullName(activity.member)}, ${humanDate(activity.timestamp)}</small>
   </p>`;

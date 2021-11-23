@@ -8,13 +8,12 @@
 'use strict';
 
 // Required modules
-const fs = require('fs');
-const path = require('path');
 const moment = require('moment');
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { getComments } = require('../../communication/models/model-chat');
-const { getUserById, getUserFullName } = require('../../user/models/model-user');
+const { getUserFullName } = require('../../user/models/model-user');
+const userAvatar = require('../../user/templates/user-avatar');
 
 
 function issueComments (issueId, user) {
@@ -53,21 +52,15 @@ function chatterEntry (issueId) {
   let returnHtml = '';
   if (getComments(issueId) && getComments(issueId).length > 0) {
     getComments(issueId).forEach( item => {
-      let chatUser = getUserById(item.chaterId);
-      let chatUserName = getUserFullName(item.chaterId);
       let cssInline = 'd-inline';
       if (item.chat.split('').length > 46) cssInline = '';
-      let chatterImage = '<span class="p-2 small border rounded-circle">' + chatUser.fname.split('')[0] + chatUser.lname.split('')[0] + '</span>';
-      if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', item.chaterId+'.jpg'))) {
-        chatterImage = `<img src="/data/users/pics/${item.chaterId}.jpg" height="40" width="40" class="border rounded-circle"/>`;
-      }
         returnHtml += `
-          <div class="d-flex justify-content-start mb-2">
+          <div class="d-flex mb-2">
             <div class="me-2">
-              ${chatterImage}
+              ${userAvatar(item.chaterId)}
             </div>
-            <div>
-              <div class="supersmall text-muted">${chatUserName} | ${moment(item.timeStamp).format('dd DD.MM.YYYY HH:MM')}</div>
+            <div style="max-width: 90%;">
+              <div class="supersmall text-muted">${getUserFullName(item.chaterId)} | ${moment(item.timeStamp).format('dd DD.MM.YYYY HH:MM')}</div>
               <div class="${cssInline} rounded text-break">${item.chat}</div>
             </div>
           </div>

@@ -8,8 +8,6 @@
 'use strict';
 
 // Required modules
-const fs = require('fs');
-const path = require('path');
 const { getUserFullName } = require('../../user/models/model-user');
 const { getAllProjects } = require('../../project/models/model-project');
 const { getAllIssues,getIssue } = require('../models/model-issue');
@@ -22,6 +20,7 @@ const uploadForm = require('../templates/upload-form');
 const checklist = require('../../todolist/templates/checklist');
 const timetrackingModal = require('../../timetracking/templates/timetracking-modal');
 const timetrackingMinilist = require('../../timetracking/templates/timetracking-minilist');
+const userAvatar = require('../../user/templates/user-avatar');
 
 
 function issueView (issue, user, wsport) {
@@ -116,11 +115,7 @@ function issueDetails (issue) {
       let value = issue[key];
       if (key === 'reporter' || key === 'assignee') {
         let fullName = getUserFullName(issue[key]);
-        let memberImage = '<span class="p-2 supersmall border rounded-circle">' + fullName[0][0] + fullName[1][0] + '</span>';
-        if (fs.existsSync(path.join(__dirname, '../../data/users/pics/', issue[key]+'.jpg'))) {
-          memberImage = `<img src="/data/users/pics/${issue[key]}.jpg" height="20" width="20" class="img-fluid border rounded-circle"/>`;
-        }
-        value = memberImage+'&nbsp;'+fullName;
+        value = userAvatar(issue[key], '20')+'&nbsp;'+fullName;
       } else if (key === 'watchers') {
         value = [];
         issue['watchers'].split(',').forEach(item => {

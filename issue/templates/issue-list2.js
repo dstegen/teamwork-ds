@@ -14,6 +14,7 @@ const { humanDate, dateIsRecent } = require('../../lib/dateJuggler');
 const issuePills = require('./issue-pills');
 const issueTypeIcon = require('./issue-type-icon');
 const sortItemsByDate = require('../../utils/sort-items-by-date');
+const userAvatar = require('../../user/templates/user-avatar');
 
 
 function issueList2 (allIssues, user, state='all') {
@@ -61,7 +62,7 @@ function issueListItem (item) {
         ${issueTypeIcon(item.type, true)}
         <strong>${item.name}</strong>
         ${dateIsRecent(item.createDate, 2) ? '<span class="fst-italic fw-bolder text-primary small align-top">new</span> ' : ''}
-        <span class="d-none d-lg-inline text-muted small"> - ${getUserFullName(item.assignee)}</span>
+        <span class="d-none d-lg-inline text-muted small"> - ${userAvatar(item.assignee, '20')} ${getUserFullName(item.assignee)}</span>
         <small class="d-block text-muted supersmall">${humanDate(item.updateDate)} [${getProjectById(item.projectId).name}]</small>
       </span>
       <span>
