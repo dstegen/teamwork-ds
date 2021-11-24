@@ -32,7 +32,7 @@ function issueComments (issueId, user) {
           <form id="classChat-form-${issueId}" action="/issue/comment" class="row mt-4" method="post">
             <input type="text" name="chatterId" class="d-none" hidden value="${user.id}" />
             <input type="text" name="issueId" class="d-none" hidden value="${issueId}" />
-            <div class="col-12 col-md-10 col-lg-10">
+            <div class="col-12 col-md-9 col-lg-9">
               <textarea class="form-control ms-md-5 w-100" id="userchat-${issueId}" name="userchat" rows="3"></textarea>
             </div>
             <div class="col-12 col-md-2 col-lg-1 ms-md-5 mt-2 mt-lg-0 d-flex ">

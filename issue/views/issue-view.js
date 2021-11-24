@@ -21,6 +21,7 @@ const checklist = require('../../todolist/templates/checklist');
 const timetrackingModal = require('../../timetracking/templates/timetracking-modal');
 const timetrackingMinilist = require('../../timetracking/templates/timetracking-minilist');
 const userAvatar = require('../../user/templates/user-avatar');
+const issueHistory = require('../templates/issue-history');
 
 
 function issueView (issue, user, wsport) {
@@ -87,7 +88,14 @@ function issueView (issue, user, wsport) {
           </div>
         </div>
         <hr />
-        ${issueComments(issue.id, user)}
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            ${issueComments(issue.id, user)}
+          </div>
+          <div class="col-12 col-lg-6">
+            ${issueHistory(issue.id)}
+          </div>
+        </div>
       </div>
     </div>
     ${timetrackingModal()}
