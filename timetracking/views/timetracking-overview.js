@@ -11,18 +11,24 @@
 const { getProjectById } = require('../../project/models/model-project');
 const { getIssue } = require('../../issue/models/model-issue');
 const timetrackingModal = require('../templates/timetracking-modal');
+const { weekDates, dateIsInWeek } = require('../../lib/dateJuggler');
 
 let trackingSum = 0;
 
 
-function timetrackingOverview (trackingData, user=undefined) {
+function timetrackingOverview (trackingData, user=undefined, curWeek=1) {
   trackingSum = 0;
+  trackingData = trackingData.filter(item => dateIsInWeek(item.date, curWeek));
   return `
     <div id="timetracking-overview" class="container py-3 mb-5">
-      <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
-        ${user !== undefined ? user.fname+'s ' : ''}Timetracking
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#timetrackingModal"> + </button>
-      </h2>
+      <div class="d-flex justify-content-between py-2 px-3 my-3 border">
+        <h2 class="m-0">${user !== undefined ? user.fname+'s ' : ''}Timetracking</h2>
+        <span>
+          <a href="/timetracking/${curWeek-1}" class="btn btn-sm btn-light"> &#171; </a>
+          <span class="mx-2 align-middle text-muted">${weekDates(curWeek)}</span>
+          <a href="/timetracking/${curWeek+1}" class="btn btn-sm btn-light"> &#187; </a>
+        </span>
+      </div>
       <div class="border p-3 table-responsive">
         <table id="timetracking-table" class="table" data-order='[[ 2, "asc" ]]'>
           <thead>
@@ -38,8 +44,15 @@ function timetrackingOverview (trackingData, user=undefined) {
           <tbody>
             ${trackingData.map(timetrackingRow).join('')}
           </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="3"></td><td colspan="3"><strong>${trackingSum}</strong> hrs</td>
+          </tr>
+          </tfoot>
         </table>
-        <p>Tracking sum: ${trackingSum} hrs.</p>
+        <div class="d-flex justify-content-end mt-2">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#timetrackingModal"> + </button>
+        </div>
       </div>
     </div>
     ${timetrackingModal()}

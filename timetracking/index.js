@@ -13,6 +13,7 @@ const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 const { getAllTimetracking, updateTimetracking, deleteTimetracking } = require('./models/model-timetracking');
 const timetrackingOverview = require('./views/timetracking-overview');
+const { thisWeek } = require('../lib/dateJuggler');
 
 
 function timetrackingController (request, response, wss, wsport, user) {
@@ -36,7 +37,9 @@ function timetrackingController (request, response, wss, wsport, user) {
         uniSend(new SendObj(302, [], '', '/'), response);
     });
   } else {
-    uniSend(view(wsport, naviObj, timetrackingOverview(getAllTimetracking(user), user)), response);
+    let curWeek = thisWeek();
+    if (route.split('/')[1] !== undefined && (1 < Number(route.split('/')[1]) < 53)) curWeek = Number(route.split('/')[1]);
+    uniSend(view(wsport, naviObj, timetrackingOverview(getAllTimetracking(user), user, curWeek)), response);
   }
 }
 

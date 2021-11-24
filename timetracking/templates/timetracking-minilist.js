@@ -34,7 +34,7 @@ function timetrackingMinilist (issueId, user) {
         </tbody>
         <tfoot>
         <tr>
-          <td></td><td colspan="3"><strong>${trackingSum}</strong> hrs</td>
+          <td></td><td colspan="4"><strong>${trackingSum}</strong> hrs</td>
         </tr>
         </tfoot>
       </table>
