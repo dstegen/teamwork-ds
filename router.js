@@ -30,7 +30,7 @@ function router (request, response, wss, wsport) {
   let route = request.url.substr(1).split('?')[0];
   if (request.url.includes('public') || request.url.includes('favicon')) {
     deliver(request, response);
-  } else if (request.url.includes('bootstrap') || request.url.includes('jquery') || request.url.includes('tokenfield') || request.url.includes('bs-custom-file') || request.url.includes('moment') || request.url.includes('flatpickr') || request.url.includes('trumbowyg')) {
+  } else if (request.url.includes('bootstrap') || request.url.includes('jquery') || request.url.includes('tokenfield') || request.url.includes('bs-custom-file') || request.url.includes('moment') || request.url.includes('flatpickr') || request.url.includes('trumbowyg')  || request.url.includes('datatables')) {
     request.url = 'node_modules/'+request.url;
     deliver(request, response);
   } else if (route === 'login') {

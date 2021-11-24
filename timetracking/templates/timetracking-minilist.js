@@ -19,11 +19,11 @@ function timetrackingMinilist (issueId, user) {
   let trackingData = getAllTimetracking().filter(item => item.issueId === issueId);
   return `
     <div class="table-responsive">
-      <table class="table">
+      <table id="timetracking-table" class="table" data-order='[[ 0, "asc" ]]'>
         <thead>
           <tr>
             <th scope="col">Date</th>
-            <th scope="col">Time (hrs)</th>
+            <th scope="col">Time</th>
             <th scope="col">Description</th>
             <th scope="col">Member</th>
             <th scope="col"></th>

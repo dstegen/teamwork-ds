@@ -24,7 +24,7 @@ function timetrackingOverview (trackingData, user=undefined) {
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#timetrackingModal"> + </button>
       </h2>
       <div class="border p-3 table-responsive">
-        <table class="table">
+        <table id="timetracking-table" class="table" data-order='[[ 2, "asc" ]]'>
           <thead>
             <tr>
               <th scope="col">Issue</th>

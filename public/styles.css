@@ -423,3 +423,7 @@ input.form-control.board-form {
   min-height: 75vH;
   border-bottom: none;
 }
+
+.dataTables_info {
+  display: none;
+}

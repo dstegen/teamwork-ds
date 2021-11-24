@@ -26,6 +26,8 @@ function header () {
             <link rel="stylesheet" type="text/css" href="/flatpickr/dist/themes/material_blue.css">
           <!-- Trumbowyg -->
             <link rel="stylesheet" href="/trumbowyg/dist/ui/trumbowyg.min.css">
+          <!-- Datatables -->
+            <link rel="stylesheet" href="/datatables.net-dt/css/jquery.dataTables.min.css">
           <!-- Css Theme -->
             <link rel="stylesheet" href="/public/styles.css">
           <!-- Favicon -->

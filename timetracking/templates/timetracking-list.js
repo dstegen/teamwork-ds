@@ -20,7 +20,7 @@ function timetrackingList (projectId) {
   let trackingData = getAllTimetracking().filter(item => item.projectId === projectId);
   return `
     <div class="table-responsive">
-      <table class="table">
+      <table id="timetracking-table" class="table" data-order='[[ 1, "asc" ]]'>
         <thead>
           <tr>
             <th scope="col">Issue</th>

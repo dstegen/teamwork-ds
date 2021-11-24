@@ -35,6 +35,8 @@ function tail () {
         <script src="/flatpickr/dist/flatpickr.min.js"></script>
       <!-- Trumbowyg -->
         <script src="/trumbowyg/dist/trumbowyg.min.js"></script>
+      <!-- Datatables -->
+        <script src="/datatables.net/js/jquery.dataTables.min.js"></script>
       <!-- Other Scripts -->
         <script src="/public/clock.js"></script>
         <script src="/public/cookie.js"></script>
