@@ -12,7 +12,7 @@ function navi (naviObj, loggedIn, history) {
   let loggedInHtml = '';
   if (loggedIn) {
     loggedInHtml += `
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
@@ -24,7 +24,7 @@ function navi (naviObj, loggedIn, history) {
     `;
   }
   let onClick = '';
-  if (naviObj.home.link.includes('#')) onClick = `data-toggle="collapse" onclick="$('${naviObj.home.link}').collapse('toggle');"`;
+  if (naviObj.home.link.includes('#')) onClick = `data-bs-toggle="collapse" onclick="$('${naviObj.home.link}').collapse('toggle');"`;
   return `
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top d-block">
