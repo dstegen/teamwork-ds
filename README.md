@@ -81,6 +81,7 @@ node helper/add-example-events.js
 - added basic timetracking
 - full text search in docs
 - added issue history ,extracted from activities
+- made activities entries for issues more specific 
 - several bugfixes and usability improvements
 
 #### v0.1.5 ####

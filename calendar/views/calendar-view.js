@@ -49,7 +49,7 @@ function calendarView (calHeadline='Calendar', user={}, project) {
             hour12: false,
             meridiem: false
           },
-          height: 600,
+          height: 650,
           editable: ${editable},
           selectable: true,
           eventContent: function(arg) {
@@ -173,7 +173,7 @@ function calendarView (calHeadline='Calendar', user={}, project) {
         <span>${calHeadline}</span>
         <span id="clock" class="d-none d-md-block">19:52:41</span>
       </h2>
-      <div class="py-2 px-3 d-flex justify-content-between mb-3 border">
+      <div class="py-2 px-3 d-flex justify-content-between mb-1 border">
         <span>
           ${calendarButtons}
         </span>
