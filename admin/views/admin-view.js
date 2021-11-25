@@ -1,5 +1,5 @@
 /*!
- * main/views/admin-view.js
+ * admin/views/admin-view.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -12,7 +12,7 @@ const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { formatDay } = require('../../lib/dateJuggler');
 const { getAllUsers, usersOnline, getUserFullName } = require('../../user/models/model-user');
-const getWelcome = require('./get-welcome');
+const getWelcome = require('../templates/get-welcome');
 
 
 function adminView (user) {

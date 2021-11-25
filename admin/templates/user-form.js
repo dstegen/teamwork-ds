@@ -1,5 +1,5 @@
 /*!
- * main/views/user-form.js
+ * admin/templates/user-form.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)

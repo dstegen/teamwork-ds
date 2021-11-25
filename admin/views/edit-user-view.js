@@ -1,5 +1,5 @@
 /*!
- * main/views/edit-user-view.js
+ * admin/views/edit-user-view.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -8,14 +8,11 @@
 'use strict';
 
 // Required modules
-const config = require('../../main/models/model-config').getConfig();
 const formSelect = require('../../main/templates/form-select');
-const userForm = require('./user-form');
+const userForm = require('../templates/user-form');
 
 
 function editUserView (allUserIds, user) {
-  let classes = Array.from(config.classes);
-  classes.unshift('');
   return `
     <div id="dashboard" class="container py-3">
       <h2 class="d-flex justify-content-between py-2 px-3 my-3 border">
@@ -34,7 +31,7 @@ function editUserView (allUserIds, user) {
           </div>
         </div>
         <div class="col-12 col-lg-6">
-          ${userForm(user, classes)}
+          ${userForm(user)}
         </div>
       </div>
     </div>

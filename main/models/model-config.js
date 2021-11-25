@@ -20,13 +20,14 @@ function getConfig () {
 }
 
 function updateSettings (fields) {
+  console.log(fields);
   Object.keys(myConfig).forEach( key => {
-    if (fields[key] && fields[key] !== '' && key !== 'classes') {
+    if (fields[key] && fields[key] !== '') {
       myConfig[key] = fields[key];
     }
   });
   saveFile(path.join(__dirname, '../../data'), 'config.json', myConfig);
-  console.log('+ Updated schools config sucessfully!');
+  console.log('+ Updated config sucessfully!');
 }
 
 

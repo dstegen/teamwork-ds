@@ -1,5 +1,5 @@
 /*!
- * main/views/get-welcome.js
+ * admin/templates/get-welcome.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)

@@ -36,8 +36,6 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
   createDir(path.join(__dirname, '../data/projects/0'));
   let config = {
     "lang": "en",
-    "classes": [
-    ],
     "courseColors": [
       "bg-green",
       "bg-blue",
@@ -127,7 +125,7 @@ function createPasswd (myEmail, myPassword, fname, lname) {
   tmpObj.fname = fname;
   tmpObj.lname = lname;
   tmpObj.email = myEmail;
-  tmpObj.admin = true; 
+  tmpObj.admin = true;
   usersList.push(tmpObj);
   saveFile(path.join(__dirname, '../data'), 'users.json', usersList);
   return true;

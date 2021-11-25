@@ -1,5 +1,5 @@
 /*!
- * main/views/settings-view.js
+ * admin/views/settings-view.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
@@ -22,7 +22,7 @@ function settingsView () {
       </h2>
       <div class="border py-2 px-3 mb-3">
         <h3>TeamWork-DS Config</h3>
-        <form action="/admin/school" method="post">
+        <form action="/admin/settings" method="post">
           <input type="text" name="action" class="d-none" hidden value="updatesettings" />
           <div class="form-group row mb-1">
             ${formSelect(['en','de'], config.lang, 'lang')}
