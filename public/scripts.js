@@ -506,7 +506,6 @@ function editTimetracking (trackingObj) {
   //console.log(trackingObj.date);
   $('#timetrackingModal').modal('show');
   $('#id-field').val(trackingObj.id);
-  $('#projectId-field').val(trackingObj.projectId);
   $('#issueId-field').val(trackingObj.issueId);
   $('#date-field').val(trackingObj.date);
   $('#time-field').val(trackingObj.time);

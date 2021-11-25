@@ -15,6 +15,7 @@ const { newDate } = require('../../lib/dateJuggler');
 const loadFile = require('../../utils/load-file');
 const saveFile = require('../../utils/save-file');
 const sani = require('../../utils/sanitizer');
+const { getAllIssues } = require('../../issue/models/model-issue');
 
 
 function getAllTimetracking (user) {
@@ -41,7 +42,6 @@ function getTimetrackingSum (type='', id=0, startDate=undefined, endDate=undefin
       trackingData = trackingData.filter(item => item.userId === id);
       break;
   }
-
   if (startDate !== undefined && endDate !== undefined) {
     // TODO: filter between startDate & endDate
   } else if (startDate !== undefined) {
@@ -54,11 +54,12 @@ function getTimetrackingSum (type='', id=0, startDate=undefined, endDate=undefin
 function updateTimetracking (fields, user) {
   let allTimetracking = getAllTimetracking();
   let trackingObj = {};
+  let projectId = getAllIssues().filter(item => item.id === Number(fields.issueId))[0].projectId;
   if (fields.id && fields.id !== '') {
     // Update
     trackingObj = allTimetracking.filter(item => item.id === fields.id)[0];
     trackingObj.description = sani(fields.description);
-    trackingObj.projectId = Number(fields.projectId);
+    trackingObj.projectId = projectId;
     trackingObj.issueId = Number(fields.issueId);
     trackingObj.date = fields.date;
     trackingObj.time = fields.time.replace(',','.');
@@ -68,7 +69,7 @@ function updateTimetracking (fields, user) {
     // Add
     trackingObj.id = uuidv4();
     trackingObj.description = sani(fields.description);
-    trackingObj.projectId = Number(fields.projectId);
+    trackingObj.projectId = projectId;
     trackingObj.issueId = Number(fields.issueId);
     trackingObj.userId = user.id;
     trackingObj.date = fields.date;

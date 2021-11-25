@@ -8,7 +8,7 @@
 'use strict';
 
 // Required modules
-const { getAllProjects, getProjectById } = require('../../project/models/model-project');
+const { getProjectById } = require('../../project/models/model-project');
 const { getAllIssues } = require('../../issue/models/model-issue');
 const formTextInput = require('../../main/templates/form-textinput');
 const formSelect = require('../../main/templates/form-select');
@@ -28,7 +28,6 @@ function timetrackingModal () {
             <form id="timetracking-form" name="new-calendar-form" action="/timetracking/update" method="post">
               <input type="text" id="id-field" name="id" class="d-none" hidden value="" />
               <div class="form-group row">
-                ${formSelect(getAllProjects().map(item => {return [item.id, item.name]}), '', 'projectId', '', '', 'required')} <div class="col-3"></div>
                 ${formSelect(getAllIssues().filter(item => item.state !== 'closed').map(item => {return [item.id, item.name+' ['+getProjectById(item.projectId).name+']']}), '', 'issueId', '', '', 'required')} <div class="col-3"></div>
                 ${formTextInput('', 'date', 'required', '', '', 'text')} <div class="col-3"></div>
                 ${formTextInput('', 'time', 'required', '', '', 'text')} <div class="col-3"></div>
