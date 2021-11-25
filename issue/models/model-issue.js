@@ -17,6 +17,8 @@ const createDir = require('../../utils/create-dir');
 const sani = require('../../utils/sanitizer');
 const { addActivity } = require('../../main/models/model-activity');
 const issuePills = require('../templates/issue-pills');
+const { getUserFullName } = require('../../user/models/model-user');
+
 
 function createIssue (user, projectId, masterId) {
   let newIssue = loadFile(path.join(__dirname, './blueprint-issue.json'));
@@ -77,6 +79,13 @@ function updateIssue (fields, user) {
   let allIssues = getAllIssues();
   if (allIssues.filter( item => item.id === issue.id).length > 0) {
     // update
+    if (allIssues.filter( item => item.id === issue.id)[0].assignee !== issue.assignee) {
+      addActivity('changed assignee of issue: "'+fields.name+'" to '+getUserFullName(issue.assignee), user.id, 'issue', fields.id);
+    } else if (allIssues.filter( item => item.id === issue.id)[0].state !== issue.state) {
+      addActivity('changed state of issue: "'+getIssue(Number(issue.id)).name+'" to '+issuePills(issue.state), user.id, 'issue', issue.id);
+    } else {
+      addActivity('updated issue: "'+fields.name+'"', user.id, 'issue', fields.id);
+    }
     Object.keys(issue).forEach( key => {
       if (key !== 'id') {
         allIssues.filter( item => item.id === issue.id)[0][key] = issue[key];
@@ -87,6 +96,7 @@ function updateIssue (fields, user) {
   } else {
     //add
     allIssues.push(issue);
+    addActivity('added issue: "'+fields.name+'"', user.id, 'issue', fields.id);
   }
   // create issue subfolder, if not exists
   if (!fs.existsSync(path.join(__dirname, '../../data/issues', (issue.id).toString()))) {
@@ -99,7 +109,6 @@ function updateIssue (fields, user) {
     createDir(path.join(__dirname, '../../data/attachements', (issue.id).toString()));
   }
   saveFile(path.join(__dirname, '../../data'), 'issues.json', allIssues);
-  addActivity('updated issue: "'+fields.name+'"', user.id, 'issue', fields.id);
   console.log('+ Issue "'+issue.name+'" updated successfully!');
 }
 
