@@ -77,11 +77,12 @@ node helper/add-example-events.js
 ## Changelog ##
 
 #### v0.1.6 ####
-- improved & updated example
 - added basic timetracking
 - full text search in docs
+- activated locale for calendar & dates
 - added issue history ,extracted from activities
-- made activities entries for issues more specific 
+- improved & updated example
+- made activities entries for issues more specific
 - several bugfixes and usability improvements
 
 #### v0.1.5 ####

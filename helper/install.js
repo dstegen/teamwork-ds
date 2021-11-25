@@ -46,6 +46,20 @@ if (!fs.existsSync(path.join(__dirname, '../data'))) {
       "bg-teal",
       "bg-purple",
       "bg-lightgrey"
+    ],
+    "tags": [
+      {
+        "id": "important",
+        "name": "important"
+      },
+      {
+        "id": "frontend",
+        "name": "frontend"
+      },
+      {
+        "id": "backend",
+        "name": "backend"
+      }
     ]
   };
   saveFile(path.join(__dirname, '../data'), 'config.json', config);

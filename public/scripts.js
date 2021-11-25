@@ -31,6 +31,7 @@ $(document).ready(function () {
   }
   if (window.location.toString().includes('timetracking') || window.location.toString().includes('issue')) {
     initFlatpickrDate('date');
+    initFlatpickrDate('dueDate');
   }
   // datatTables
   $('#timetracking-table').DataTable({
@@ -40,20 +41,6 @@ $(document).ready(function () {
 });
 
 // *** Tokenfield ***//
-var myTags = [
-  {
-    "id": "important",
-    "name": "important"
-  },
-  {
-    "id": "frontend",
-    "name": "frontend"
-  },
-  {
-    "id": "backend",
-    "name": "backend"
-  }
-]
 
 function initTokenfield () {
   // Tags

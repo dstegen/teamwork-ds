@@ -14,6 +14,8 @@ const { getAllProjects, getProjectById } = require('../../project/models/model-p
 const formTextInput = require('../../main/templates/form-textinput');
 const formTextArea = require('../../main/templates/form-textarea');
 const formSelect = require('../../main/templates/form-select');
+const config = require('../../main/models/model-config').getConfig();
+const blueprintIssue = require('../models/blueprint-issue');
 
 
 function editIssueView (issue) {
@@ -61,6 +63,7 @@ function editIssueView (issue) {
           }
         }
         if (document.getElementById("type-field").value === 'SubTask') chooseMasterId('SubTask');
+        myTags = ${JSON.stringify(config.tags)}
       </script>
     </div>
   `;
@@ -75,7 +78,7 @@ function helperIssueForm (issue) {
   let allUserList = getAllUsers().map( item => { return [item.id, item.fname+' '+item.lname]; });
   allUserList.unshift([0,'']);
   let allProjectsList = getAllProjects().map( item => { return [item.id, item.name]; });
-  Object.keys(issue).forEach( key => {
+  Object.keys(blueprintIssue).forEach( key => {
     if (!['id','checklist'].includes(key)) {
       if (key === 'projectId') {
         if (issue.projectId > -1) {
@@ -111,11 +114,13 @@ function helperIssueForm (issue) {
       } else if (key === 'reporter' || key === 'assignee') {
         returnHtml2 += formSelect (allUserList, issue[key], key, '', '', 'required') + '<div class="col-3"></div>';
       } else if (key === 'dueDate') {
-        returnHtml2 += formTextInput(issue[key], key, '', '', '', 'date') + '<div class="col-3"></div>';
+        returnHtml2 += formTextInput(issue[key], key, '', '', '', 'text') + '<div class="col-3"></div>';
       } else if (key.includes('Date')) {
         // do nothing
       } else if (key === 'tags') {
-        returnHtml1 += formTextInput(issue[key], key, '', '') + '<div class="col-3"></div>';
+        let value = '';
+        if (issue[key] && issue[key] !== undefined) value = issue[key];
+        returnHtml1 += formTextInput(value, key, '', '') + '<div class="col-3"></div>';
       } else {
         returnHtml2 += formTextInput(issue[key], key, '', '') + '<div class="col-3"></div>';
       }
