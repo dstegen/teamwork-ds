@@ -9,6 +9,7 @@
 
 // Required modules
 const { humanToday } = require('../../lib/dateJuggler');
+const config = require('../../main/models/model-config').getConfig();
 
 
 function calendarListView (events, user={}) {
@@ -24,6 +25,7 @@ function calendarListView (events, user={}) {
             center: 'title',
             right: 'timeGridWeek,listWeek'
           },
+          locale: '${config.lang}',
           firstDay: 1,
           navLinks: true,
           weekNumbers: true,

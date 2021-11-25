@@ -11,6 +11,7 @@
 const { getAllCalendars } = require('../models/model-calendar');
 const editEventModal = require('../templates/edit-event-modal');
 const newCalendarModal = require('../templates/new-calendar-modal');
+const config = require('../../main/models/model-config').getConfig();
 
 
 function calendarView (calHeadline='Calendar', user={}, project) {
@@ -40,6 +41,7 @@ function calendarView (calHeadline='Calendar', user={}, project) {
             center: 'title',
             right: 'dayGridDay,dayGridMonth,timeGridWeek,timeGridDay,listWeek'
           },
+          locale: '${config.lang}',
           firstDay: 1,
           navLinks: true,
           weekNumbers: true,

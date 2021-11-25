@@ -9,6 +9,7 @@
 
 // Required modules
 const editEventModal = require('../templates/edit-event-modal');
+const config = require('../../main/models/model-config').getConfig();
 
 
 function calendarDayView (events, user) {
@@ -26,6 +27,7 @@ function calendarDayView (events, user) {
             center: 'title',
             right: 'dayGridDay,timeGridDay'
           },
+          locale: '${config.lang}',
           firstDay: 1,
           navLinks: true,
           weekNumbers: true,
