@@ -20,7 +20,7 @@ function recentMessages (userId) {
     let allMessages = item.messages.filter( item => item.chaterId !== userId);
     let message = allMessages[allMessages.length-1];
     if (message !== undefined) {
-      itemsList.push(`<a href="/communication">${message.chat} - ${userAvatar(message.chaterId, '20')} ${getUserById(message.chaterId).fname}</a>`);
+      itemsList.push(`<a href="/communication/private/${item.id}">${message.chat} - ${userAvatar(message.chaterId, '20')} ${getUserById(message.chaterId).fname}</a>`);
     }
   });
   return simpleList('<h5 class="border p-3 mt-5">Recent private messages</h5>', itemsList);

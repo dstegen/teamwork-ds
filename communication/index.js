@@ -11,7 +11,7 @@
 const { uniSend, getFormObj, SendObj } = require('webapputils-ds');
 const { updateChat, updateComments } = require('./models/model-chat');
 const { updatePrivateMessages } = require('./models/model-messages');
-const communicationView = require('./views/communication-view');
+const communicationNewView = require('./views/communication-newview');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
 
@@ -25,8 +25,12 @@ function communicationController (request, response, wss, wsport, user) {
     updatePrivateMessagesAction(request, response, wss);
   } else if (route.startsWith('communication/chat')) {
     updateChatAction(request, response, wss);
-  } else if (route === 'communication') {
-    uniSend(view(wsport, naviObj, communicationView(user, wsport)), response);
+  } else if (route.startsWith('communication')) {
+    let type = 'project';
+    if (route.split('/')[1]) type = route.split('/')[1];
+    let chatId = '1';
+    if (route.split('/')[2]) chatId = route.split('/')[2];
+    uniSend(view(wsport, naviObj, communicationNewView(user, wsport, type, chatId)), response);
   } else {
     uniSend(new SendObj(302, [], '', '/issue'), response);
   }
