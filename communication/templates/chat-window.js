@@ -14,11 +14,15 @@ const config = require('../../main/models/model-config').getConfig();
 const { getChat } = require('../../communication/models/model-chat');
 const { getUserFullName } = require('../../user/models/model-user');
 const userAvatar = require('../../user/templates/user-avatar');
+const { getProjectById } = require('../../project/models/model-project');
 
 
 function chatWindow (myGroup, user, windowLength=400) {
   return `
-    <div class="py-2 px-3 mb-3">
+    <div class="pb-5 px-3 mb-3">
+      <div class="py-3 mb-3 border-bottom">
+        <h5><a href="/project/view/${myGroup}">${getProjectById(myGroup).name }</a> <span class="text-muted">(Project)</span> </h5>
+      </div>
       <div id="chat-window-${myGroup}" class="collapse show">
         <div id="${myGroup}" class="chat-window p-2" style="max-height: ${windowLength}px; overflow: auto;">
           ${chatterEntry(myGroup, user)}

@@ -13,7 +13,7 @@ const { humanDate } = require('../../lib/dateJuggler');
 const locale = require('../../lib/locale');
 const config = require('../../main/models/model-config').getConfig();
 const { getPrivateMessages } = require('../../communication/models/model-messages');
-const { getUserById } = require('../../user/models/model-user');
+const { getUserById, getUserFullName } = require('../../user/models/model-user');
 const userAvatar = require('../../user/templates/user-avatar');
 
 
@@ -25,7 +25,11 @@ function privateMessagesWindow (userId, chatId) {
     let chatMateId = msg.chatMates.filter( id => id !== userId)[0];
     if (chatMateId > 99999) {
       returnHtml += `
-        <div class="py-2 px-3 mb-3">
+        <div class="pb-5 px-3 mb-3">
+          <div class="py-3 mb-3 border-bottom d-flex">
+            ${userAvatar(chatMateId, 32)}
+            <h5 class="ms-3 my-auto">${getUserFullName(chatMateId)} <span class="text-muted">(private)</span></h5>
+          </div>
           <div id="chat-window-${myGroup}" class="collapse show">
             <div id="${myGroup}" class="chat-window p-2" style="max-height: 400px; overflow: auto;">
               ${chatterEntry(msg.messages, userId)}

@@ -88,7 +88,7 @@ function updateChatAction (request, response, wss) {
 function updatePrivateMessagesAction (request, response, wss) {
   getFormObj(request).then(
     data => {
-      updatePrivateMessages(data.fields);
+      let privateMessageId = updatePrivateMessages(data.fields);
       try {
         wss.clients.forEach(client => {
           setTimeout(function () {
@@ -98,7 +98,7 @@ function updatePrivateMessagesAction (request, response, wss) {
       } catch (e) {
         console.log('- ERROR while sending websocket message to all clients: '+e);
       }
-      uniSend(new SendObj(302, [], '', '/communication'), response);
+      uniSend(new SendObj(302, [], '', '/communication/private/'+privateMessageId), response);
     }
   ).catch(
     error => {

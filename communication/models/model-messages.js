@@ -20,7 +20,7 @@ const sani = require('../../utils/sanitizer');
 function getPrivateMessages (userId) {
   let messages = [];
   try {
-    messages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), true).filter( item => item.chatMates.includes(userId));
+    messages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), false).filter( item => item.chatMates.includes(userId));
     messages.sort((a, b) => reorderPrivateMessages(a, b));
     return messages;
   } catch (e) {
@@ -32,7 +32,7 @@ function getPrivateMessages (userId) {
 function getLatestMessages (userId) {
   let allMessages = [];
   try {
-    allMessages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), true).filter(
+    allMessages = getPrivateMessages(userId).filter(
       item => item.chatMates.includes(userId)
     ).filter(
         item => dateIsRecent(item.updated, 10)
@@ -48,25 +48,27 @@ function getLatestMessages (userId) {
 }
 
 function getMessagesCount () {
-  return loadFile(path.join(__dirname, '../../data', 'private-messages.json'), true).length;
+  return loadFile(path.join(__dirname, '../../data', 'private-messages.json'), false).length;
 }
 
 function updatePrivateMessages (fields) {
-  let allMessages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), true);
+  let allMessages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), false);
   if (fields.privateMessageId === '' || fields.privateMessageId === undefined) {
     if (allMessages.filter( item => item.chatMates.includes(Number(fields.chatterId)) ).filter(item => item.chatMates.includes(Number(fields.chatMate)) ).length > 0) {
       fields.privateMessageId = allMessages.filter( item => item.chatMates.includes(Number(fields.chatterId)) ).filter(item => item.chatMates.includes(Number(fields.chatMate)))[0].id;
       addPrivateMessage(allMessages, fields);
+      return fields.privateMessageId;
     } else {
-      createNewPrivateMessage(allMessages ,fields);
+      return createNewPrivateMessage(allMessages ,fields);
     }
   } else if (fields.chatterId !== '' && fields.userchat !== '' && fields.privateMessageId !== '') {
     addPrivateMessage(allMessages, fields);
+    return fields.privateMessageId;
   }
 }
 
 function cleanMessages (userId, days=15) {
-  let allMessages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), true);
+  let allMessages = loadFile(path.join(__dirname, '../../data', 'private-messages.json'), false);
   allMessages = allMessages.filter( item => dateIsRecent(item.updated, days));
   allMessages.forEach( myMessage => {
     myMessage.messages = myMessage.messages.filter( item => dateIsRecent(item.timeStamp, days));
@@ -112,6 +114,7 @@ function createNewPrivateMessage (allMessages,fields) {
   try {
     allMessages.push(newCom);
     saveFile(path.join(__dirname, '../../data'), 'private-messages.json', allMessages);
+    return newCom.id;
   } catch (e) {
     console.log('- ERROR creating new private message to disk: '+e);
   }
