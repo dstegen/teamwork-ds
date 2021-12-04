@@ -48,8 +48,14 @@ function communicationNewView (user, wsport, type='project', chatId=1) {
       <div id="docs-sidebar" class="flex-shrink-0 bg-white">
         <div class="p-3">
           <div id="all-inside">
-            <div class="d-flex align-items-center py-3 mb-3 link-dark text-decoration-none border-bottom">
+            <div class="d-flex align-items-center py-3 mb-3 link-dark text-decoration-none border-bottom d-flex justify-content-between">
               <h5>Communication</h5>
+              <button type="button" class="btn btn-sm btn-light" onclick="window.open('https://192.168.178.61:8585/communication', '', 'width=900,height=750,top=100,left=800');">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window" viewBox="0 0 16 16">
+                <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zM2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1H2z"/>
+              </svg>
+              </button>
             </div>
             <ul class="list-unstyled ps-0">
             ${menuTree.map(topicObj => menuTopic(topicObj, type, chatId, latestMsgsObj)).join('')}
@@ -60,7 +66,7 @@ function communicationNewView (user, wsport, type='project', chatId=1) {
       <div class="d-flex m-0 p-0">
         <button class="btn btn-sm btn-light m-0 p-0" onclick="toggleSidebar()">II</button>
       </div>
-      <div id="chat-window" class="w-100 py-3 px-4 mb-5 overflow-auto">
+      <div id="chat-window" class="w-100 p-1 py-lg-3 px-lg-4 mb-5 overflow-auto">
         ${type === 'project' ? classChat(chatId, user,) : privateMessages(user.id, chatId)}
       </div>
     </div>
