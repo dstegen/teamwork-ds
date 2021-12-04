@@ -17,7 +17,7 @@ const { getUserById, getUserFullName } = require('../../user/models/model-user')
 const userAvatar = require('../../user/templates/user-avatar');
 
 
-function privateMessagesWindow (userId, chatId) {
+function privateMessagesWindow (userId, chatId, windowLength=400, oneSide=true) {
   let allMessages = getPrivateMessages(userId).filter(item => item.id === chatId);
   let returnHtml = '';
   allMessages.forEach( (msg, i) => {
@@ -31,8 +31,8 @@ function privateMessagesWindow (userId, chatId) {
             <h5 class="ms-3 my-auto">${getUserFullName(chatMateId)} <span class="text-muted">(private)</span></h5>
           </div>
           <div id="chat-window-${myGroup}" class="collapse show">
-            <div id="${myGroup}" class="chat-window p-2" style="max-height: 400px; overflow: auto;">
-              ${chatterEntry(msg.messages, userId)}
+            <div id="${myGroup}" class="chat-window p-2" style="max-height: ${windowLength}px; overflow: auto;">
+              ${chatterEntry(msg.messages, userId, oneSide)}
             </div>
             <hr />
             <form id="classChat-form" action="/communication/message" class="d-flex justify-content-between" method="post">
@@ -53,18 +53,18 @@ function privateMessagesWindow (userId, chatId) {
 
 // Additional functions
 
-function chatterEntry (messages, userId) {
+function chatterEntry (messages, userId, oneSide) {
   let returnHtml = '';
   let lastMoment = moment().day();
   messages.forEach( item => {
     let cssInline = 'd-inline';
     if (item.chat.split('').length > 46) cssInline = '';
     if (moment(item.timeStamp).day() !== lastMoment) {
-      returnHtml += `<div class="w-100 small text-muted text-center py-3">- - - - - - - - - - ${humanDate(item.timeStamp)} - - - - - - - - - -</div>`
+      returnHtml += `<div class="w-100 small text-muted ${oneSide ? 'text-left' : 'text-center'} py-3">- - - - - - - - - - ${humanDate(item.timeStamp)} - - - - - - - - - -</div>`
     }
-    if (item.chaterId === userId) {
+    if (oneSide || item.chaterId === userId) {
       returnHtml += `
-        <div class="d-flex justify-content-start mb-2">
+        <div class="d-flex justify-content-start mb-3">
           <div class="me-2">
             ${userAvatar(item.chaterId)}
           </div>
@@ -74,9 +74,9 @@ function chatterEntry (messages, userId) {
           </div>
         </div>
       `;
-    } else {
+    } else if (!oneSide && item.chaterId !== userId) {
       returnHtml += `
-        <div class="d-flex justify-content-end mb-2">
+        <div class="d-flex justify-content-end mb-3">
 
           <div class="me-2">
             <div class="supersmall text-muted">${moment(item.timeStamp).format('dd DD.MM.YYYY HH:MM')}</div>

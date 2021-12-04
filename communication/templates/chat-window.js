@@ -17,7 +17,7 @@ const userAvatar = require('../../user/templates/user-avatar');
 const { getProjectById } = require('../../project/models/model-project');
 
 
-function chatWindow (myGroup, user, windowLength=400) {
+function chatWindow (myGroup, user, windowLength=400, oneSide=true) {
   return `
     <div class="pb-5 px-3 mb-3">
       <div class="py-3 mb-3 border-bottom">
@@ -25,7 +25,7 @@ function chatWindow (myGroup, user, windowLength=400) {
       </div>
       <div id="chat-window-${myGroup}" class="collapse show">
         <div id="${myGroup}" class="chat-window p-2" style="max-height: ${windowLength}px; overflow: auto;">
-          ${chatterEntry(myGroup, user)}
+          ${chatterEntry(myGroup, user, oneSide)}
         </div>
         <hr />
         <form id="classChat-form-${myGroup}" action="/communication/chat" class="d-flex justify-content-between" method="post">
@@ -48,14 +48,14 @@ function chatWindow (myGroup, user, windowLength=400) {
 
 // Additional functions
 
-function chatterEntry (myGroup, user) {
+function chatterEntry (myGroup, user, oneSide) {
   let returnHtml = '';
   getChat(myGroup).forEach( item => {
     let cssInline = 'd-inline';
     if (item.chat.split('').length > 46) cssInline = '';
-    if (item.chaterId === user.id) {
+    if (oneSide || item.chaterId === user.id) {
       returnHtml += `
-        <div class="d-flex justify-content-start mb-2">
+        <div class="d-flex justify-content-start mb-3">
           <div class="me-2">
             ${userAvatar(item.chaterId)}
           </div>
@@ -65,9 +65,9 @@ function chatterEntry (myGroup, user) {
           </div>
         </div>
       `;
-    } else {
+    } else if (!oneSide && item.chaterId !== user.id) {
       returnHtml += `
-        <div class="d-flex justify-content-end mb-2">
+        <div class="d-flex justify-content-end mb-3">
 
           <div class="me-2">
             <div class="supersmall text-muted">${getUserFullName(item.chaterId)} | ${moment(item.timeStamp).format('dd DD.MM.YYYY HH:MM')}</div>

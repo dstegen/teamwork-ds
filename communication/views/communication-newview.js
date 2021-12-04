@@ -1,5 +1,5 @@
 /*!
- * communication/views/communication-view.js
+ * communication/views/communication-newview.js
  * teamwork-ds (https://github.com/dstegen/teamwork-ds)
  * Copyright 2021 Daniel Stegen <info@danielstegen.de>
  * Licensed under MIT (https://github.com/dstegen/teamwork-ds/blob/master/LICENSE)
