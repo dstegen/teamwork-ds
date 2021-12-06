@@ -14,6 +14,8 @@ const { updatePrivateMessages } = require('./models/model-messages');
 const communicationNewView = require('./views/communication-newview');
 const getNaviObj = require('../lib/getNaviObj');
 const view = require('../main/views/base-view');
+const { sendWsMessage } = require('../lib/websockets');
+const sani = require('../utils/sanitizer');
 
 
 function communicationController (request, response, wss, wsport, user) {
@@ -46,7 +48,7 @@ function updateCommentAction (request, response, wss, user) {
       try {
         wss.clients.forEach(client => {
           setTimeout(function () {
-            client.send('chatUpdate')
+            client.send('New comment: '+sani(data.fields.userchat))
           }, 100);
         });
       } catch (e) {
@@ -89,15 +91,9 @@ function updatePrivateMessagesAction (request, response, wss) {
   getFormObj(request).then(
     data => {
       let privateMessageId = updatePrivateMessages(data.fields);
-      try {
-        wss.clients.forEach(client => {
-          setTimeout(function () {
-            client.send('chatUpdate')
-          }, 100);
-        });
-      } catch (e) {
-        console.log('- ERROR while sending websocket message to all clients: '+e);
-      }
+      console.log(data.fields);
+      // TODO: this should only notify the chatMate!!!
+      sendWsMessage(wss, Number(data.fields.chatMate), 'chatUpdate');
       uniSend(new SendObj(302, [], '', '/communication/private/'+privateMessageId), response);
     }
   ).catch(

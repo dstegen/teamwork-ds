@@ -24,7 +24,7 @@ const userAvatar = require('../../user/templates/user-avatar');
 const issueHistory = require('../templates/issue-history');
 
 
-function issueView (issue, user, wsport) {
+function issueView (issue, user) {
   let subTaskHtml = '';
   let trackingItem = {
     projectId: issue.projectId,
@@ -99,16 +99,6 @@ function issueView (issue, user, wsport) {
       </div>
     </div>
     ${timetrackingModal()}
-    <script>
-      // Websockets
-      const hostname = window.location.hostname ;
-      const wsProtocol = location.protocol.replace('http','ws');
-      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
-      socket.onmessage = function (msg) {
-        location.reload();
-        console.log(msg.data);
-      };
-    </script>
   `;
 }
 

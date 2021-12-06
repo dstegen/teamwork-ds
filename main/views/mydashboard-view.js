@@ -40,16 +40,6 @@ function mydashboardView (wss, wsport, user) {
         </div>
       </div>
     </div>
-    <script>
-      // Websockets
-      const hostname = window.location.hostname ;
-      const wsProtocol = location.protocol.replace('http','ws');
-      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
-      socket.onmessage = function (msg) {
-        location.reload();
-        console.log(msg.data);
-      };
-    </script>
   `;
 }
 

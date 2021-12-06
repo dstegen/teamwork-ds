@@ -16,7 +16,7 @@ const calendarListView = require('../../calendar/views/calendar-list-view');
 const activitiesList = require('../templates/activities-list');
 
 
-function mainView (lessonsTodayList, curWeek, user, wsport) {
+function mainView (lessonsTodayList, curWeek, user) {
   let allProjectsIds = getAllProjects().filter(item => item.state !== 'finished').map(item => {return item.id});
   return `
     <div id="dashboard" class="container py-3 mb-5" style="min-height: 500px;">
@@ -37,16 +37,6 @@ function mainView (lessonsTodayList, curWeek, user, wsport) {
         </div>
       </div>
     </div>
-    <script>
-      // Websockets
-      const hostname = window.location.hostname ;
-      const wsProtocol = location.protocol.replace('http','ws');
-      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
-      socket.onmessage = function (msg) {
-        location.reload();
-        console.log(msg.data);
-      };
-    </script>
   `;
 }
 

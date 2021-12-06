@@ -15,10 +15,13 @@ const mainView = require('./views/main-view');
 const mydashboardView = require('./views/mydashboard-view');
 const view = require('../main/views/base-view');
 const resourcesView = require('./views/resources-view');
+const { registerWs } = require('../lib/websockets');
 
 
 function mainController (request, response, wss, wsport, user) {
   let route = request.url.substr(1).split('?')[0];
+  let key = 1001;
+  registerWs(wss, key, user.id);
   if (route === 'resource') {
     uniSend(view(wsport, getNaviObj(user), resourcesView()), response);
   } else if (route === 'dashboard') {

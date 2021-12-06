@@ -11,7 +11,7 @@
 const myPackage = require('../../package');
 
 
-function tail () {
+function tail (wsport) {
   return `
         </div>
         <!-- Footer -->
@@ -41,6 +41,23 @@ function tail () {
         <script src="/public/clock.js"></script>
         <script src="/public/cookie.js"></script>
         <script src="/public/scripts.js"></script>
+      <!-- WebSockets -->
+      <script>
+        const hostnameTail = window.location.hostname ;
+        const wsProtocolTail = location.protocol.replace('http','ws');
+        const socketTail = new WebSocket(wsProtocolTail+'//'+hostnameTail+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
+        socketTail.onmessage = function (msg) {
+          //console.log(msg.data);
+          if (msg.data === 'chatUpdate') {
+            notifyMe('New message');
+          } else {
+            notifyMe(msg.data.toString());
+          }
+          if (window.location.pathname.includes('communication') || window.location.pathname.includes('project') || window.location.pathname.includes('issue')) {
+            setTimeout(function(){ location.reload(); }, 1500);
+          }
+        };
+      </script>
     </body>
   </html>`;
 }

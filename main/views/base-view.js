@@ -18,7 +18,7 @@ function baseView (wsport, naviObj, body, history={}) {
   sendObj.data += header();
   sendObj.data += navi(naviObj, naviObj.loggedin, history);
   sendObj.data += body;
-  sendObj.data += tail();
+  sendObj.data += tail(wsport);
   return sendObj;
 }
 

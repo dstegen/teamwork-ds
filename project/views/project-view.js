@@ -15,7 +15,7 @@ const chat = require('../../communication/templates/chat');
 const timetrackingList = require('../../timetracking/templates/timetracking-list');
 
 
-function projectView (project, user, wsport) {
+function projectView (project, user) {
   return `
     <div id="project-list-view" class="container py-3 mb-5">
       <div class="row row-cols-1 row-cols-lg-2 gx-4 gy-1 py-3">
@@ -42,16 +42,6 @@ function projectView (project, user, wsport) {
         </div>
       </div>
     </div>
-    <script>
-      // Websockets
-      const hostname = window.location.hostname ;
-      const wsProtocol = location.protocol.replace('http','ws');
-      const socket = new WebSocket(wsProtocol+'//'+hostname+':${wsport}/', 'protocolOne', { perMessageDeflate: false });
-      socket.onmessage = function (msg) {
-        location.reload();
-        console.log(msg.data);
-      };
-    </script>
   `;
 }
 
