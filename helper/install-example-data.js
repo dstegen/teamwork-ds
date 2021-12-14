@@ -60,6 +60,7 @@ rl.question('\n--- Do you want to install example data? (Y/N) ', (answer) => {
           issue.closeDate = newDate();
         }
         createDir(path.join(__dirname, '../data/issues',issue.id.toString()));
+        saveFile(path.join(__dirname, '../data/issues', issue.id.toString()), 'comments.json', []);
       });
       issues = issues.concat(exampleIssues);
       saveFile(path.join(__dirname, '../data'), 'issues.json', issues);
