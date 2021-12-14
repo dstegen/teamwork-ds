@@ -22,8 +22,8 @@ function uploadForm (issue) {
   return `
     ${attachements ? filesList(attachements, '/issue/view/'+issue.id, issue.id, '', true) : ''}
     <form class="row g-0" action="/fileupload" method="post" enctype="multipart/form-data">
-      <input type="text" readonly class="d-none" id="course" name="id" value="${issue.id}">
-      <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="${issue.id ? '/issue/view/'+issue.id+'/'+issue.id : '/issue'}">
+      <input type="text" readonly class="d-none" id="issueId" name="id" value="${issue.id}">
+      <input type="text" readonly class="d-none" id="urlPath" name="urlPath" value="/issue/view/${issue.id}">
       <div class="col-sm-10">
         <input type="file" class="form-control form-control-sm" id="filetoupload-${issue.id}" name="filetoupload">
         <div class="invalid-feedback">${locale.placeholder.invalid_feedback[config.lang]}</div>
