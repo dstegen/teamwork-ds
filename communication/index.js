@@ -30,7 +30,7 @@ function communicationController (request, response, wss, wsport, user) {
   } else if (route.startsWith('communication')) {
     let type = 'project';
     if (route.split('/')[1]) type = route.split('/')[1];
-    let chatId = '1';
+    let chatId = '0';
     if (route.split('/')[2]) chatId = route.split('/')[2];
     uniSend(view(wsport, naviObj, communicationNewView(user, wsport, type, chatId)), response);
   } else {
