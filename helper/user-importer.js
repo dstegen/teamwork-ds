@@ -7,6 +7,9 @@
 
 'use strict';
 
+// Required modules
+const uuidv4 = require('uuid').v4;
+
 let startId = 100100;
 
 
@@ -16,7 +19,7 @@ function userImporter(namesList, users=[]) {
       let tmpObj = {};
       tmpObj.userId = name.split(',').slice(0,2).toString().toLowerCase().replace(',','.')+'@me.com';
       tmpObj.id = getNextUserId(users);
-      tmpObj.password = '$2a$10$Lcj1Cq9ldWV4bKrnxzVHqe1uDQwvleEQi1V5pHBcWJqRQDulOFtFa';
+      tmpObj.password = uuidv4().toString();
       tmpObj.role = 'member';
       tmpObj.fname = name.split(',')[0];
       tmpObj.lname = name.split(',')[1];
