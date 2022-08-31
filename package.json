@@ -24,8 +24,8 @@
     "flatpickr": "^4.6.9",
     "jquery": "^3.6.0",
     "jquery-ui-dist": "^1.12.1",
-    "moment": "^2.29.2",
-    "moment-timezone": "^0.5.33",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.37",
     "tokenfield": "^1.4.6",
     "trumbowyg": "^2.25.1",
     "webapputils-ds": "^0.5.1"
